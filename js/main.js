@@ -13,7 +13,7 @@ Array(sectionsQty)
     .forEach(() => {
         sectionStick.innerHTML = sectionStick.innerHTML + '<div class="stick"></div>'
     })
-console.log('SLIDE', qty)
+// console.log('SLIDE', qty)
 // Listening to scroll event
 window.onscroll = () => {
     if (startFlag) {
@@ -39,7 +39,7 @@ window.onscroll = () => {
             const active = document.querySelector('.section-stick .stick.active')
             active.style.top = (62 + 30) * (qty - 1) + 'px'
         }
-        console.log('SLIDE', qty)
+        // console.log('SLIDE', qty)
         // Wait for the scrolling to finish to reset the values
         setTimeout(() => {
             initialScroll = this.scrollY
@@ -51,3 +51,9 @@ window.onscroll = () => {
     // Keep scrollbar in the middle of the viewport
     window.scroll(0, window.screen.height)
 }
+
+//reading csv file
+d3.csv("data/Market_Divers.csv", d => {
+    console.log(d);
+    return d;
+});
