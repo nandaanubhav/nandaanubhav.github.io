@@ -1,4 +1,4 @@
-index,Job Title,Rating,Name,City,State,Headquarters,Size,Calculated Size ,Founded,Type of ownership,Industry,Sector,Revenue,Lower Salary,Upper Salary,Avg Salary(K),company_txt,Python,spark,aws,excel,sql,sas,keras,pytorch,scikit,tensor,hadoop,tableau,bi,flink,mongo,google_an,job_title_sim,seniority_by_title,Degree
+index,Job Title,Rating,Name,City,State,Headquarters,Size,Calculated Size ,Founded,Type of ownership,Industry,Sector,Revenue,Lower_Salary,Upper_Salary,Avg_Salary,company_txt,Python,spark,aws,excel,sql,sas,keras,pytorch,scikit,tensor,hadoop,tableau,bi,flink,mongo,google_an,job_title_sim,seniority_by_title,Degree
 0,Data Scientist,3.8,"Tecolote Research
 3.8",Albuquerque,NM,"Goleta, CA",501 - 1000 ,Medium,1973,Company - Private,Aerospace & Defense,Aerospace & Defense,$50 to $100 million (USD),53,91,72,Tecolote Research,1,0,0,1,0,1,0,0,0,0,0,1,1,0,0,0,Data Scientist,na,M
 1,Healthcare Data Scientist,3.4,"University of Maryland Medical System
