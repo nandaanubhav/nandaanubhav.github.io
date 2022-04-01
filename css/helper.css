@@ -1,0 +1,203 @@
+/** Code By Webdevtrick ( https://webdevtrick.com ) **/
+@import url(https://fonts.googleapis.com/css?family=Alegreya+Sans:300,400,700);
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Alegreya Sans', Arial, sans-serif;
+    text-transform: uppercase;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    color: black;
+    letter-spacing: .18em;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+ul, li {
+    list-style-type: none;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.l-left {
+    float: left;
+}
+
+.l-right {
+    float: right;
+}
+
+.end {
+    margin-top: 30px;
+    font-size: 3em;
+    font-weight: bold;
+    opacity: 0;
+    -webkit-transform: translateY(300px);
+    transform: translateY(300px);
+    transition: opacity, -webkit-transform 1s;
+    transition: opacity, transform 1s;
+    transition: opacity, transform 1s, -webkit-transform 1s;
+    transition-delay: 1s;
+}
+
+.header-top {
+    background: rgba(0, 47, 77, .3);
+    height: 70px;
+    padding: 0 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 12;
+    box-sizing: border-box;
+}
+
+h1 {
+    line-height: 70px;
+    height: 70px;
+}
+
+h1 a {
+    display: block;
+    padding: 0 10px;
+}
+
+.toggle-menu {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    position: relative;
+    top: 10px;
+}
+
+.toggle-menu i {
+    position: absolute;
+    display: block;
+    height: 2px;
+    background: white;
+    width: 30px;
+    left: 10px;
+    transition: all .3s;
+}
+
+.toggle-menu i:nth-child(1) {
+    top: 16px;
+}
+
+.toggle-menu i:nth-child(2) {
+    top: 24px;
+}
+
+.toggle-menu i:nth-child(3) {
+    top: 32px;
+}
+
+.open-menu i:nth-child(1) {
+    top: 25px;
+    -webkit-transform: rotateZ(45deg);
+    transform: rotateZ(45deg);
+}
+
+.open-menu i:nth-child(2) {
+    background: transparent;
+}
+
+.open-menu i:nth-child(3) {
+    top: 25px;
+    -webkit-transform: rotateZ(-45deg);
+    transform: rotateZ(-45deg);
+}
+
+nav {
+    height: 0;
+    opacity: 0;
+    box-sizing: border-box;
+    background: rgba(0, 47, 77, .25);
+    position: fixed;
+    top: 70px;
+    width: 100%;
+    transition: all 1s;
+}
+
+.open-menu ~ nav {
+    opacity: 1;
+    padding: 80px 0;
+    z-index: 15;
+    height: calc(90vh - 70px);
+}
+
+nav ul {
+    padding: 0 10px;
+    display: flex;
+}
+
+nav li {
+    flex: 1;
+}
+
+nav li a {
+    font-size: 2em;
+    display: block;
+    padding: 30px;
+    text-align: center;
+    transition: background .3s;
+}
+
+nav li a {
+    background: #ff4b4b;
+    margin-left: 20px;
+}
+
+nav li a:hover {
+    background: #212121;
+}
+
+section {
+    text-align: center;
+}
+
+h2 {
+    font-size: 4em;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-weight: 300;
+    font-size: 2.8em;
+}
+
+#fp-nav ul li a span,
+.fp-slidesNav ul li a span {
+    background: white;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+}
+
+#fp-nav ul li a.active span,
+.fp-slidesNav ul li a.active span,
+#fp-nav ul li:hover a.active span,
+.fp-slidesNav ul li:hover a.active span {
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    background: transparent;
+    box-sizing: border-box;
+    border: 2px solid #212121;
+}
