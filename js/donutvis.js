@@ -33,37 +33,87 @@ class DonutVis {
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append("g")
             .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
-        vis.radius = Math.min(vis.width, vis.height) / 2 - vis.margin.right-vis.margin.left;
+        vis.radius = Math.min(vis.width, vis.height) / 2 - vis.margin.right - vis.margin.left;
 
-        // vis.data = {a: 9, b: 20, c:30, d:8, e:12};
-        console.log(vis.data);
+        vis.data = {a: 9, b: 20, c: 30, d: 8, e: 12};
+        //console.log(Object.entries(vis.data).map(function(value,index) {return value[0]; }));
+        // vis.color = d3.scaleOrdinal()
+        //     .domain(Object.entries(vis.data).map(function(value,index) {return value[0]; }))
+        //     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56","#98abc5", "#8a89a6", "#7b6888"]);
+
         vis.color = d3.scaleOrdinal()
-            .domain(vis.data.map(d=>d.job_title_sim))
-            .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56","#98abc5", "#8a89a6", "#7b6888"]);
+            .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#98abc5", "#8a89a6", "#7b6888"]);
+
+        console.log(1);
+
+        var totals = [{
+            title: "Soft-serve",
+            value: 286,
+            all: 1098
+        },
+            {
+                title: "Scooped",
+                value: 472,
+                all: 1098
+            },
+            {
+                title: "No Preference",
+                value: 318,
+                all: 1098
+            },
+            {
+                title: "Not Sure",
+                value: 22,
+                all: 1098
+            }
+        ];
+
+        vis.radius = Math.min(vis.width, vis.height) / 2;
+        vis.donutWidth = 75; //This is the size of the hole in the middle
+
+        vis.arc = d3.arc()
+            .innerRadius(vis.radius - vis.donutWidth)
+            .outerRadius(vis.radius);
 
         vis.pie = d3.pie()
-            .value(function(d) {return d.value; });
-        // vis.data_ready = vis.pie(d3.entries(vis.data));
+            .value(function (d) {
+                console.log(d);
+                return d.value;
+            })
+            .sort(null);
 
-// Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-        vis.svg
-            .selectAll('whatever')
-            .data(vis.data,d=>d.job_title_sim)
+        vis.path = vis.svg.selectAll('path')
+            .data(vis.pie(totals))
             .enter()
             .append('path')
-            .attr('d', function(d) {
-                console.log(d);
-                return d3.arc()
-                    .innerRadius(100)         // This is the size of the donut hole
-                    .outerRadius(200);
+            .attr('d', vis.arc)
+            .attr('fill', function (d, i) {
+                return vis.color(d.data.title);
             })
-            .attr('fill', function(d){ return(vis.color(d.job_title_sim)) })
-            .attr("stroke", "black")
-            .style("stroke-width", "2px")
-            .style("opacity", 0.7);
+            .attr('transform', 'translate(200, 200)');
 
-
-
+        // vis.pie = d3.pie()
+        //     .value(function(d) {console.log(d); Object.entries(vis.data).map(function(value,index) {return value[1]; })});
+        // // vis.data_ready = vis.pie(d3.entries(vis.data));
+        //
+        // // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+        // vis.svg
+        //     .selectAll('whatever')
+        //     .data(vis.data,d=>d.job_title_sim)
+        //     .enter()
+        //     .append('path')
+        //     .attr('d', function(d) {
+        //         console.log(d);
+        //         return d3.arc()
+        //             .innerRadius(100)         // This is the size of the donut hole
+        //             .outerRadius(200);
+        //     })
+        //     .attr('fill', function(d){ return(vis.color(d.job_title_sim)) })
+        //     .attr("stroke", "black")
+        //     .style("stroke-width", "2px")
+        //     .style("opacity", 0.7);
+        //
+        //
 
         // Scales and axes
         // vis.x = d3.scaleLinear()
