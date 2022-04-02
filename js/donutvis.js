@@ -26,6 +26,15 @@ class DonutVis {
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right,
             vis.height = 500 - vis.margin.top - vis.margin.bottom;
+        // console.log(vis.data);
+        // var arr=d3.rollup(vis.data, v => v.length, d => d.job_title_sim);
+        // console.log(arr);
+        let c=Array.from(d3.rollup(vis.data, v => v.length, d => d.job_title_sim), ([key, value]) => ({key, value}))
+        // c.sort((a,b)=>b.value-a.value);
+        console.log(c);
+        // console.log(c.map(d=>d.key));
+        // console.log(c.map(d=>d.value));
+        vis.displayData=c;
 
         // SVG drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -40,14 +49,15 @@ class DonutVis {
         // vis.color = d3.scaleOrdinal()
         //     .domain(Object.entries(vis.data).map(function(value,index) {return value[0]; }))
         //     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56","#98abc5", "#8a89a6", "#7b6888"]);
+        // console.log("domain"+(vis.displayData).map(d=>d.key));
+        // console.log("d"+Object.entries(vis.data).map(function(value,index) {return value[0]; }));
+        vis.color = d3.scaleOrdinal(d3.schemeBlues[7])
+            .domain(vis.displayData.map(d=>d.key));
 
-        vis.color = d3.scaleOrdinal()
-            .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#98abc5", "#8a89a6", "#7b6888"]);
-
-        console.log(1);
+        // console.log(1);
 
         vis.radius = Math.min(vis.width, vis.height) / 2;
-        vis.donutWidth = 75; //This is the size of the hole in the middle
+        vis.donutWidth = 60; //This is the size of the hole in the middle
 
         vis.arc = d3.arc()
             .innerRadius(vis.radius - vis.donutWidth)
@@ -55,59 +65,21 @@ class DonutVis {
 
         vis.pie = d3.pie()
             .value(function (d) {
-                console.log(d[1]);
+                // console.log(d[1]);
                 return d[1];
             })
             .sort(null);
-
+        // console.log(vis.displayData.map(Object.values));
         vis.path = vis.svg.selectAll('path')
-            .data(vis.pie(Object.entries(vis.data)))
+            .data(vis.pie(vis.displayData.map(Object.values)))
             .enter()
             .append('path')
             .attr('d', vis.arc)
             .attr('fill', function (d, i) {
-                console.log(d.data[0]);
+                 // console.log(d.data[0]);
                 return vis.color(d.data[0]);
             })
             .attr('transform', 'translate(200, 200)');
-
-        // vis.pie = d3.pie()
-        //     .value(function(d) {console.log(d); Object.entries(vis.data).map(function(value,index) {return value[1]; })});
-        // // vis.data_ready = vis.pie(d3.entries(vis.data));
-        //
-        // // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-        // vis.svg
-        //     .selectAll('whatever')
-        //     .data(vis.data,d=>d.job_title_sim)
-        //     .enter()
-        //     .append('path')
-        //     .attr('d', function(d) {
-        //         console.log(d);
-        //         return d3.arc()
-        //             .innerRadius(100)         // This is the size of the donut hole
-        //             .outerRadius(200);
-        //     })
-        //     .attr('fill', function(d){ return(vis.color(d.job_title_sim)) })
-        //     .attr("stroke", "black")
-        //     .style("stroke-width", "2px")
-        //     .style("opacity", 0.7);
-        //
-        //
-
-        // Scales and axes
-        // vis.x = d3.scaleLinear()
-        //     .range([0, vis.width])
-        //     .domain([0, 99]);
-        //
-        // vis.y = d3.scaleLinear()
-        //     .range([vis.height, 0]);
-        //
-        // vis.xAxis = d3.axisBottom()
-        //     .scale(vis.x);
-        //
-        // vis.yAxis = d3.axisLeft()
-        //     .scale(vis.y);
-
 
 
         // (Filter, aggregate, modify data)
