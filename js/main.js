@@ -1,3 +1,4 @@
+
 loadData();
 
 //reading csv file
@@ -27,8 +28,12 @@ function loadData() {
             d.mongo = +d.mongo;
             d.google_an = +d.google_an;
         });
+
         // console.log(csv);
-        let donutVis=new DonutVis("donutvis",csv);
+
+        let donutVis = new DonutVis("donutvis", csv);
+        let boxPlotVis = new BoxPlotVis("boxplotvis", csv);
+
     });
 };
 // console.log(data);
