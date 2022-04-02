@@ -1,3 +1,7 @@
+// init global variables & switches
+let barchart
+let parseDate = d3.timeParse("%m/%d/%Y");
+
 //reading csv file
 d3.csv("data/Market_Divers.csv").then(csv => {
     csv.forEach(function (d) {
@@ -24,5 +28,11 @@ d3.csv("data/Market_Divers.csv").then(csv => {
         d.mongo = +d.mongo;
         d.google_an = +d.google_an;
     });
-    console.log(csv);
+    // console.log(csv);
+    mainPage(csv)
 });
+
+function mainPage(data) {
+    console.log(data)
+    barchart = new BarChart("barchart-div", data);
+}

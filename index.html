@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Full Page Scrolling | Webdevtrick.com</title>
@@ -17,8 +17,25 @@
         <h3>This is the first section</h3>
     </section>
     <section class="vertical-scrolling">
-        <h2>#2</h2>
-        <h3>This is the second section</h3>
+        <div class="container-fluid" style="height: 100vh; ">
+            <div class="row">
+                <!-- HEADING -->
+                <div class="row d-flex justify-content-center" style="background: #bdbdbd;">
+                    <div class="align-self-center">
+                        <h1>Intro</h1>
+                    </div>
+                </div>
+
+                <!-- CONTENT -->
+                <div class="row" style="height: 70vh; padding: 0;">
+                    <div id="barchart-div"
+                         style="height: 100%; width:100%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </section>
     <section class="vertical-scrolling">
         <h2>#3</h2>
@@ -45,5 +62,6 @@
 <!-- OWN JS -->
 <script src="js/helper.js"></script>
 <script src="js/main.js"></script>
+<script src="js/BarChart.js"></script>
 </body>
 </html>
