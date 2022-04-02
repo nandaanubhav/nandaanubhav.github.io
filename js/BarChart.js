@@ -98,11 +98,11 @@ class BarChart {
 
         // Sort the array based on the second element
         items.sort(function (first, second) {
-            return first[1] - second[1];
+            return second[1] - first[1];
         });
 
         // Create a new array with only the first 10 items
-        vis.displayData = items.slice(0, 10);
+        vis.displayData = items.slice(0, 10).reverse();
 
         vis.y.domain(vis.displayData.map(function (d) {
             return d[0];
