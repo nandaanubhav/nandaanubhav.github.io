@@ -10,7 +10,7 @@ class BarChart {
         let vis = this;
 
         // set width and height
-        vis.margin = {top: 60, right: 60, bottom: 20, left: 120};
+        vis.margin = {top: 60, right: 30, bottom: 30, left: 200};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
@@ -21,13 +21,13 @@ class BarChart {
             .append('g')
             .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
 
-        // add title
-        vis.svg.append('g')
-            .attr('class', 'title bar-title')
-            .append('text')
-            .text("Skills in Demand")
-            .attr('transform', `translate(${vis.width / 2}, 0)`)
-            .attr('text-anchor', 'middle');
+        // // add title
+        // vis.svg.append('g')
+        //     .attr('class', 'title bar-title')
+        //     .append('text')
+        //     .text("Skills in Demand")
+        //     .attr('transform', `translate(${vis.width / 2}, 0)`)
+        //     .attr('text-anchor', 'middle');
 
         // tooltip
         vis.tooltip = d3.select("body").append('div')
@@ -89,7 +89,6 @@ class BarChart {
                 }
             }
         })
-
 
         // Create items array
         var items = Object.keys(dict).map(function (key) {
