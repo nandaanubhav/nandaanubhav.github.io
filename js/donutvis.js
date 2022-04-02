@@ -46,28 +46,6 @@ class DonutVis {
 
         console.log(1);
 
-        var totals = [{
-            title: "Soft-serve",
-            value: 286,
-            all: 1098
-        },
-            {
-                title: "Scooped",
-                value: 472,
-                all: 1098
-            },
-            {
-                title: "No Preference",
-                value: 318,
-                all: 1098
-            },
-            {
-                title: "Not Sure",
-                value: 22,
-                all: 1098
-            }
-        ];
-
         vis.radius = Math.min(vis.width, vis.height) / 2;
         vis.donutWidth = 75; //This is the size of the hole in the middle
 
@@ -77,18 +55,19 @@ class DonutVis {
 
         vis.pie = d3.pie()
             .value(function (d) {
-                console.log(d);
-                return d.value;
+                console.log(d[1]);
+                return d[1];
             })
             .sort(null);
 
         vis.path = vis.svg.selectAll('path')
-            .data(vis.pie(totals))
+            .data(vis.pie(Object.entries(vis.data)))
             .enter()
             .append('path')
             .attr('d', vis.arc)
             .attr('fill', function (d, i) {
-                return vis.color(d.data.title);
+                console.log(d.data[0]);
+                return vis.color(d.data[0]);
             })
             .attr('transform', 'translate(200, 200)');
 
