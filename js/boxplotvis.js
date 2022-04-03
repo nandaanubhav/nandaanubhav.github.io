@@ -19,7 +19,7 @@ class BoxPlotVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 20, right: 20, bottom: 150, left: 60};
+        vis.margin = {top: 20, right: 20, bottom: 170, left: 70};
         vis.barWidth = 20;
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
@@ -57,9 +57,9 @@ class BoxPlotVis {
         // vis.xAxisGroup = vis.svg.append("g").attr("transform", "translate(35,"+vis.height+")");
         vis.svg.append("g")
             .attr("class", "x-axis axis")
-            .attr("transform", "translate(35," + vis.height + ")");
+            .attr("transform", "translate(0," + vis.height + ")");
 
-        vis.yAxisGroup = vis.svg.append("g").attr("transform", "translate(35,0)");
+        vis.yAxisGroup = vis.svg.append("g").attr("transform", "translate(0,0)");
         ;
 
 
@@ -116,11 +116,20 @@ class BoxPlotVis {
             boxPlotData.push(record);
         }
 
-        boxPlotData.sort((a, b) => {
+        if (boxPlotData.length > 8) {
+            vis.displayData = boxPlotData.filter(obj => {
+                // console.log(obj.counts.length);
+                return obj.counts.length > 5;
+            });
+        } else {
+            vis.displayData = boxPlotData;
+        }
+
+        vis.displayData.sort((a, b) => {
             return b["quartile"][1] - a["quartile"][1]
         });
-        // console.log(boxPlotData);
-        vis.displayData = boxPlotData;
+        // console.log(vis.displayData);
+        // vis.displayData = boxPlotData;
 
         vis.updateVis();
     }
@@ -136,21 +145,17 @@ class BoxPlotVis {
         vis.colorScale.domain(vis.displayData.map(d => d.key));
         vis.x.domain(vis.displayData.map(d => d.key));
 
-        // Setup the group the box plot elements will render in
-        var g = vis.svg.append("g")
-            .attr("transform", "translate(20,0)");
-
         // Draw the box plot vertical lines
-        let verticalLines = g.selectAll(".verticalLines")
+        let verticalLines = vis.svg.selectAll(".verticalLines")
             .data(vis.displayData);
-
 
         verticalLines
             .enter()
             .append("line")
+            .attr("class", "verticalLines")
             .merge(verticalLines)
             .attr("x1", function (datum) {
-                    return vis.x(datum.key) + vis.barWidth / 2;
+                return vis.x(datum.key);
                 }
             )
             .attr("y1", function (datum) {
@@ -159,7 +164,7 @@ class BoxPlotVis {
                 }
             )
             .attr("x2", function (datum) {
-                    return vis.x(datum.key) + vis.barWidth / 2;
+                return vis.x(datum.key);
                 }
             )
             .attr("y2", function (datum) {
@@ -173,105 +178,163 @@ class BoxPlotVis {
 
         verticalLines.exit().remove();
 
-        // // Draw the boxes of the box plot, filled in white and on top of vertical lines
-        // vis.rects = g.selectAll("rect")
-        //     .data(vis.displayData);
-        //
-        // vis.rects
-        //     .enter()
-        //     .append("rect")
-        //     .merge(vis.rects)
-        //     .attr("width", vis.barWidth)
-        //     .attr("height", function(datum) {
-        //             var quartiles = datum.quartile;
-        //             var height = vis.y(quartiles[0]) - vis.y(quartiles[2]);
-        //             // console.log(height);
-        //             return height;
-        //         }
-        //     )
-        //     .attr("x", function(datum) {
-        //         return vis.x(datum.key);
-        //     })
-        //     .attr("y", function(datum) {
-        //         return vis.y(datum.quartile[2]);
-        //     })
-        //     .attr("fill", function(datum) {
-        //             return datum.color;
-        //         }
-        //     )
-        //     .attr("stroke", "#000")
-        //     .attr("stroke-width", 1)
-        //     .on('mouseover', function(event, d){
-        //         console.log(d);
-        //         vis.tooltip
-        //             .style("opacity", 1)
-        //             .style("left", event.pageX + 20 + "px")
-        //             .style("top", event.pageY + "px")
-        //             .html(` <table style="margin-top: 2.5px;">
-        //                     <tr><td>Max: </td><td style="text-align: right">${d3.format(".2f")(d.whiskers[1])}</td></tr>
-        //                     <tr><td>Q3: </td><td style="text-align: right">${d3.format(".2f")(d.quartile[2])}</td></tr>
-        //                     <tr><td>Median: </td><td style="text-align: right">${d3.format(".2f")(d.quartile[1])}</td></tr>
-        //                     <tr><td>Q1: </td><td style="text-align: right">${d3.format(".2f")(d.quartile[0])}</td></tr>
-        //                     <tr><td>Min: </td><td style="text-align: right">${d3.format(".2f")(d.whiskers[0])}</td></tr>
-        //                     </table>`
-        //             );
-        //     })
-        //     .on('mouseout', function(event, d) {
-        //         vis.tooltip
-        //             .style("opacity", 0)
-        //             .style("left", 0)
-        //             .style("top", 0)
-        //             .html(``);
-        //     });
-        //
-        // vis.rects.exit().remove();
-        //
-        // // Now render all the horizontal lines at once - the whiskers and the median
-        // var horizontalLineConfigs = [
-        //     // Top whisker
-        //     {
-        //         x1: function(datum) { return vis.x(datum.key) },
-        //         y1: function(datum) { return vis.y(datum.whiskers[0]) },
-        //         x2: function(datum) { return vis.x(datum.key) + vis.barWidth },
-        //         y2: function(datum) { return vis.y(datum.whiskers[0]) }
-        //     },
-        //     // Median line
-        //     {
-        //         x1: function(datum) { return vis.x(datum.key) },
-        //         y1: function(datum) { return vis.y(datum.quartile[1]) },
-        //         x2: function(datum) { return vis.x(datum.key) + vis.barWidth },
-        //         y2: function(datum) { return vis.y(datum.quartile[1]) }
-        //     },
-        //     // Bottom whisker
-        //     {
-        //         x1: function(datum) { return vis.x(datum.key) },
-        //         y1: function(datum) { return vis.y(datum.whiskers[1]) },
-        //         x2: function(datum) { return vis.x(datum.key) + vis.barWidth },
-        //         y2: function(datum) { return vis.y(datum.whiskers[1]) }
-        //     }
-        // ];
-        //
-        // for(var i=0; i < horizontalLineConfigs.length; i++) {
-        //     var lineConfig = horizontalLineConfigs[i];
-        //
-        //     // Draw the whiskers at the min for this series
-        //     vis.horizontalLine = g.selectAll(".whiskers")
-        //         .data(vis.displayData);
-        //
-        //     vis.horizontalLine
-        //         .enter()
-        //         .append("line")
-        //         .merge(vis.horizontalLine)
-        //         .attr("x1", lineConfig.x1)
-        //         .attr("y1", lineConfig.y1)
-        //         .attr("x2", lineConfig.x2)
-        //         .attr("y2", lineConfig.y2)
-        //         .attr("stroke", "#000")
-        //         .attr("stroke-width", 1)
-        //         .attr("fill", "none");
-        //
-        //     vis.horizontalLine.exit().remove();
-        // };
+        // Draw the boxes of the box plot, filled in white and on top of vertical lines
+        let rects = vis.svg.selectAll("rect")
+            .data(vis.displayData);
+
+        rects
+            .enter()
+            .append("rect")
+            .merge(rects)
+            .attr("width", vis.barWidth)
+            .attr("height", function (datum) {
+                    var quartiles = datum.quartile;
+                    var height = vis.y(quartiles[0]) - vis.y(quartiles[2]);
+                    // console.log(height);
+                    return height;
+                }
+            )
+            .attr("x", function (datum) {
+                return vis.x(datum.key) - vis.barWidth / 2;
+            })
+            .attr("y", function (datum) {
+                return vis.y(datum.quartile[2]);
+            })
+            .attr("fill", function (datum) {
+                    return datum.color;
+                }
+            )
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .on('mouseover', function (event, d) {
+                console.log(d);
+                vis.tooltip
+                    .style("opacity", 1)
+                    .style("left", event.pageX + 20 + "px")
+                    .style("top", event.pageY + "px")
+                    .html(` <table style="margin-top: 2.5px;">
+                            <tr><td>Max: </td><td style="text-align: right">${d3.format(".2f")(d.whiskers[1])}</td></tr>
+                            <tr><td>Q3: </td><td style="text-align: right">${d3.format(".2f")(d.quartile[2])}</td></tr>
+                            <tr><td>Median: </td><td style="text-align: right">${d3.format(".2f")(d.quartile[1])}</td></tr>
+                            <tr><td>Q1: </td><td style="text-align: right">${d3.format(".2f")(d.quartile[0])}</td></tr>
+                            <tr><td>Min: </td><td style="text-align: right">${d3.format(".2f")(d.whiskers[0])}</td></tr>
+                            </table>`
+                    );
+            })
+            .on('mouseout', function (event, d) {
+                vis.tooltip
+                    .style("opacity", 0)
+                    .style("left", 0)
+                    .style("top", 0)
+                    .html(``);
+            });
+
+        rects.exit().remove();
+
+        // Now render all the horizontal lines at once - the whiskers and the median
+        var horizontalLineConfigs = [
+            // Top whisker
+            {
+                x1: function (datum) {
+                    return vis.x(datum.key) - vis.barWidth / 2
+                },
+                y1: function (datum) {
+                    return vis.y(datum.whiskers[0])
+                },
+                x2: function (datum) {
+                    return vis.x(datum.key) + vis.barWidth / 2
+                },
+                y2: function (datum) {
+                    return vis.y(datum.whiskers[0])
+                }
+            },
+            // Median line
+            {
+                x1: function (datum) {
+                    return vis.x(datum.key) - vis.barWidth / 2
+                },
+                y1: function (datum) {
+                    return vis.y(datum.quartile[1])
+                },
+                x2: function (datum) {
+                    return vis.x(datum.key) + vis.barWidth / 2
+                },
+                y2: function (datum) {
+                    return vis.y(datum.quartile[1])
+                }
+            },
+            // Bottom whisker
+            {
+                x1: function (datum) {
+                    return vis.x(datum.key) - vis.barWidth / 2
+                },
+                y1: function (datum) {
+                    return vis.y(datum.whiskers[1])
+                },
+                x2: function (datum) {
+                    return vis.x(datum.key) + vis.barWidth / 2
+                },
+                y2: function (datum) {
+                    return vis.y(datum.whiskers[1])
+                }
+            }
+        ];
+
+        // console.log(horizontalLineConfigs);
+
+        // Draw the whiskers at the min for this series
+        let topWhisker = vis.svg.selectAll(".top-whisker")
+            .data(vis.displayData);
+
+        topWhisker
+            .enter()
+            .append("line")
+            .attr("class", "top-whisker")
+            .merge(topWhisker)
+            .attr("x1", horizontalLineConfigs[0].x1)
+            .attr("y1", horizontalLineConfigs[0].y1)
+            .attr("x2", horizontalLineConfigs[0].x2)
+            .attr("y2", horizontalLineConfigs[0].y2)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "none");
+
+        let medianLine = vis.svg.selectAll(".median-line")
+            .data(vis.displayData);
+
+        medianLine
+            .enter()
+            .append("line")
+            .attr("class", "median-line")
+            .merge(medianLine)
+            .attr("x1", horizontalLineConfigs[1].x1)
+            .attr("y1", horizontalLineConfigs[1].y1)
+            .attr("x2", horizontalLineConfigs[1].x2)
+            .attr("y2", horizontalLineConfigs[1].y2)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "none");
+
+
+        let bottomWhisker = vis.svg.selectAll(".bottom-whisker")
+            .data(vis.displayData);
+
+        bottomWhisker
+            .enter()
+            .append("line")
+            .attr("class", "bottom-whisker")
+            .merge(bottomWhisker)
+            .attr("x1", horizontalLineConfigs[2].x1)
+            .attr("y1", horizontalLineConfigs[2].y1)
+            .attr("x2", horizontalLineConfigs[2].x2)
+            .attr("y2", horizontalLineConfigs[2].y2)
+            .attr("stroke", "#000")
+            .attr("stroke-width", 1)
+            .attr("fill", "none");
+
+        topWhisker.exit().remove();
+        medianLine.exit().remove();
+        bottomWhisker.exit().remove();
 
         // Setup a scale on the left
         vis.svg.select(".x-axis").call(vis.xAxis)
@@ -282,9 +345,7 @@ class BoxPlotVis {
             .attr("transform", function (d) {
                 return "rotate(-45)"
             });
-        ;
 
-       
         // Setup a series axis on the top
 
         vis.yAxisGroup.append("g")
