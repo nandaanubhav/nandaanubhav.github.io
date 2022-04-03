@@ -78,51 +78,6 @@ h1 a {
     padding: 0 10px;
 }
 
-.toggle-menu {
-    width: 50px;
-    height: 50px;
-    display: inline-block;
-    position: relative;
-    top: 10px;
-}
-
-.toggle-menu i {
-    position: absolute;
-    display: block;
-    height: 2px;
-    background: white;
-    width: 30px;
-    left: 10px;
-    transition: all .3s;
-}
-
-.toggle-menu i:nth-child(1) {
-    top: 16px;
-}
-
-.toggle-menu i:nth-child(2) {
-    top: 24px;
-}
-
-.toggle-menu i:nth-child(3) {
-    top: 32px;
-}
-
-.open-menu i:nth-child(1) {
-    top: 25px;
-    -webkit-transform: rotateZ(45deg);
-    transform: rotateZ(45deg);
-}
-
-.open-menu i:nth-child(2) {
-    background: transparent;
-}
-
-.open-menu i:nth-child(3) {
-    top: 25px;
-    -webkit-transform: rotateZ(-45deg);
-    transform: rotateZ(-45deg);
-}
 
 nav {
     height: 0;
