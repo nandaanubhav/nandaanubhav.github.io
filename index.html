@@ -19,7 +19,11 @@
                     some text
                 </div>
                 <div class="col-md-8">
-                    <div id="donutvis">donut chart comes here</div>
+                    <input type="radio" id="sector" name="donutCheck" value="Sector" onclick="switchView()">
+                    <label for="sector">By Sector</label><br>
+                    <input type="radio" id="job_title" name="donutCheck" checked="checked" value="job_title_sim" onclick="switchView()">
+                    <label for="job_title">By Job Title</label><br>
+                    <div id="donutvis"></div>
                 </div>
             </div>
         </div>
@@ -27,7 +31,7 @@
     </section>
     <section class="vertical-scrolling">
         <h2>#2</h2>
-        <h3>This is the second section</h3>
+        <div id="parallelvis"></div>
     </section>
     <section class="vertical-scrolling">
         <h2>#3</h2>
@@ -53,6 +57,7 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <!-- OWN JS -->
 <script src="js/helper.js"></script>
+<script src="js/parallervis.js"></script>
 <script src="js/donutvis.js"></script>
 <script src="js/main.js"></script>
 

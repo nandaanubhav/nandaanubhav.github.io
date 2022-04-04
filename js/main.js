@@ -1,6 +1,7 @@
-loadData();
 
+let donutVis;
 //reading csv file
+loadData();
 function loadData() {
     d3.csv("data/Market_Divers.csv").then(csv => {
         csv.forEach(function (d) {
@@ -27,13 +28,11 @@ function loadData() {
             d.mongo = +d.mongo;
             d.google_an = +d.google_an;
         });
-        // console.log(csv);
-        let donutVis=new DonutVis("donutvis",csv);
+        donutVis=new DonutVis("donutvis",csv);
     });
 };
-// console.log(data);
-// function createVis(){
-//     let data = loadData();
-//     console.log(data);
-//
-// };
+
+function switchView() {
+    donutVis.wrangleData();
+    }
+
