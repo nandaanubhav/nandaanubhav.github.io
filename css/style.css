@@ -1,0 +1,7 @@
+.axis {
+    opacity: 0.4;
+}
+
+.axis:hover {
+    opacity: 1;
+}
