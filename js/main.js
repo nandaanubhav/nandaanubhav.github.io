@@ -1,4 +1,4 @@
-let boxPlotVis;
+let boxPlotVis, circularVis;
 loadData();
 
 //reading csv file
@@ -31,8 +31,9 @@ function loadData() {
 
         // console.log(csv);
 
-        let donutVis = new DonutVis("donutvis", csv);
-        boxPlotVis = new BoxPlotVis("boxplotvis", csv);
+        // let donutVis = new DonutVis("donutvis", csv);
+        // boxPlotVis = new BoxPlotVis("boxplotvis", csv);
+        circularVis = new CircularVis("circularvis", csv);
 
     });
 };
