@@ -17,3 +17,9 @@
 .tooltip h4 {
     font: 14px sans-serif;
 }
+
+.box {
+    inline-size: 150px;
+    overflow-wrap: break-word;
+    hyphens: manual;
+}
