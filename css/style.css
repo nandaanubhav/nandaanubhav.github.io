@@ -1,0 +1,6 @@
+.tooltip-text {
+    background-color: grey;
+    word-wrap: break-word;
+    inline-size: 5px;
+    overflow-wrap: normal;
+}
