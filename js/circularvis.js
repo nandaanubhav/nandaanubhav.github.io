@@ -40,15 +40,6 @@ class CircularVis {
             rad = Math.PI / 180,
             interval = 360 / data.length;
 
-        var month = {
-            "January": 1,
-            "February": 2,
-            "March": 3,
-            "April": 4
-        };
-
-        // Calling the d3.keys() function
-        console.log(d3.keys(month));
 
         vis.svg.selectAll('g')
             .data(data)
