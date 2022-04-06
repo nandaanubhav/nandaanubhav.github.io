@@ -21,22 +21,21 @@ class DonutVis {
 
     initVis() {
         let vis = this;
-        vis.margin = { top: 20, right: 20, bottom: 220, left: 60 };
+        vis.margin = { top: 40, right: 20, bottom: 180, left: 60 };
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = 500 - vis.margin.top - vis.margin.bottom;
+        vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height  - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + vis.width * 3/10 + "," + vis.margin.top + ")");
-        // vis.radius = Math.min(vis.width, vis.height) / 2 - vis.margin.right - vis.margin.left;
+            .append("g");
+
         vis.color = d3.scaleOrdinal(d3.schemeBlues[9]);
-        // vis.radius = Math.min(vis.width/2 - vis.margin.left, vis.height/2 - vis.margin.top);
-        vis.radius = vis.width/5;
-        vis.donutWidth = 40; //This is the size of the hole in the middle
+        vis.radius = Math.min(vis.width/2 , vis.height/2);
+        console.log(vis.radius);
+        vis.donutWidth = vis.radius/3; //This is the size of the hole in the middle
 
         vis.arc = d3.arc()
             .innerRadius(vis.radius - vis.donutWidth)
@@ -47,18 +46,16 @@ class DonutVis {
                 return d[1];
             });
 
-        vis.tooltip = d3.select("body").append('div')
-            .attr('class', "tooltip-text")
-            .attr('id', 'barTooltip');
+        vis.tooltip=vis.svg.append("text")
+            .attr("x",(vis.width+vis.margin.left+vis.margin.right)/2-vis.radius/9)
+            .attr("y",(vis.height+vis.margin.top)/2-vis.radius/8)
+            .attr("class", "tooltip-text");
 
-        console.log(vis.radius);
-
-        // vis.tooltip=vis.svg.append("text")
-        //     .attr("x", vis.width/2-vis.radius/2)
-        //     .attr("y", vis.height/2+vis.radius/2)
-        //     .attr("class", "tooltip-text")
-        //     .style("text-align","center");
-
+        vis.tooltipPercent=vis.svg.append("text")
+            .attr("x",(vis.width+vis.margin.left+vis.margin.right)/2-vis.radius/5)
+            .attr("y",(vis.height+vis.margin.top)/2+vis.radius/8)
+            .attr("class", "tooltip-text")
+            .style("text-align","center");
 
         vis.wrangleData();
     }
@@ -88,6 +85,7 @@ class DonutVis {
             jobCount.push({key:"Other",value: otherCount});
 
         }
+        jobCount.sort(function(a,b){return b["value"]-a["value"]});
 
         console.log(jobCount);
         // console.log(c);
@@ -99,7 +97,7 @@ class DonutVis {
     updateVis() {
         let vis = this;
 
-        vis.color.domain(vis.displayData.map(d=>d.key));
+        vis.color.domain(vis.displayData.reverse().map(d=>d.key));
 
         vis.path = vis.svg.selectAll('path')
             .data(vis.pie(vis.displayData.map(Object.values)));
@@ -110,58 +108,23 @@ class DonutVis {
             .attr('fill', function (d, i) {
                 return vis.color(d.data[0]);
             })
-            .attr("x","400")
-            .attr('transform', 'translate(200, 200)')
+            .attr("transform", "translate("+(vis.width+vis.margin.left+vis.margin.right)/2 +"," +(vis.height+vis.margin.top)/2 + ")")
             .on('mouseover', function (event, d) {
-                vis.tooltip
-                    .style("opacity", 1)
-                    .style("left", event.pageX + 20 + "px")
-                    .style("top", event.pageY + "px")
-                    .html(`<table style="margin-top: 2.5px;">
-                        <tr><td>Max: </td><td style="text-align: right">${d.data[1]}</td></tr>
-                    </table>`);
+
+                vis.tooltip.text(d.data[1]);
+                vis.tooltipPercent.text((d.data[1]*100/732).toFixed(2)+"%");
+
             })
-            // d.data[0]+" "+d.data[1]+" "+(d.data[1]*100/732).toFixed(2)+"%");
             .on('mouseout', function (event, d) {
-                vis.tooltip
-                    .style("opacity",0)
-                    .style("left",0)
-                    .style("top",0)
-                    .html(``);
+                vis.tooltip.text("");
+                vis.tooltipPercent.text("");
+
             });
 
-        // console.log(vis.path.centroid(d));
         vis.path.exit().remove();
 
-        // again rebind for legend
-        // vis.legendG = vis.svg.selectAll(".legend")
-        //     .data(vis.pie(vis.displayData.map(Object.values)))
-        //     .enter().append("g")
-        //     .attr("transform", function(d,i){
-        //         return "translate(" + (vis.width - 250) + "," + (i * 15 + 350) + ")"; // place each legend on the right and bump each one down 15 pixels
-        //     })
-        //     .attr("class", "legend");
-        //
-        // vis.legendG.append("rect") // make a matching color rect
-        //     .attr("width", 10)
-        //     .attr("height", 10)
-        //     .attr("fill", function(d, i) {
-        //         return vis.color(i);
-        //     });
-        //
-        // vis.legendG.append("text")
-        //     .merge(vis.legendG)
-        //     .text(function(d){
-        //         return d.data[0];
-        //     })
-        //     .style("font-size", 12)
-        //     .attr("y", 10)
-        //     .attr("x", 11);
-        //
-        // vis.legendG.exit().remove();
-
         vis.legendG = vis.svg.selectAll(".legend")
-            .data(vis.pie(vis.displayData.map(Object.values)));
+            .data(vis.pie(vis.displayData.reverse().map(Object.values)));
 
 
         vis.legendG.enter().append("text")
@@ -170,7 +133,7 @@ class DonutVis {
                 return d.data[0];
             })
             .attr("transform", function(d,i){
-                return "translate(" + (vis.width - (3.5 * vis.radius)) + "," + (i * 15 + vis.radius*2.5+vis.margin.top) + ")"; // place each legend on the right and bump each one down 15 pixels
+                return "translate(" + (vis.width+vis.margin.left+vis.margin.right-vis.radius/2)/2 + "," + (i * 15 + (vis.height+vis.margin.top+vis.donutWidth)/2+vis.radius) + ")"; // place each legend on the right and bump each one down 15 pixels
             })
             .attr("class", "legend")
             .style("font-size", 12)
@@ -191,28 +154,12 @@ class DonutVis {
                 return vis.color(d.data[0]);
             })
             .attr("transform", function(d,i){
-                return "translate(" + (vis.width/2) + "," + (i * 15 + vis.radius*2.5+vis.margin.top) + ")"; // place each legend on the right and bump each one down 15 pixels
+                return "translate(" + (vis.width+vis.margin.left+vis.margin.right-vis.radius/2)/2 + "," + (i * 15 + (vis.height+vis.margin.top+vis.donutWidth)/2+vis.radius) + ")"; // place each legend on the right and bump each one down 15 pixels
             });
 
-        // .attr("transform", function(d,i){
-            //             return "translate(" + (vis.width - 250) + "," + (i * 15 + 350) + ")"; // place each legend on the right and bump each one down 15 pixels
-            //         });
-
-        // vis.legendG.;
-
-        // x.
-        //     .style("font-size", 12)
-        //     .attr("y", 10)
-        //     .attr("x", 11);
 
         vis.legendG.exit().remove();
         vis.legendRect.exit().remove();
-
-
-
-
-
     }
-
 
 }
