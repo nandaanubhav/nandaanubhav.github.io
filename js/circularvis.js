@@ -32,22 +32,78 @@ class CircularVis {
             .append("g")
             .attr('transform', 'translate(' + 200 + ',' + 200 + ')');
 
-        var data = [1, 2, 3, 4, 5, 6, 7];
+        // (Filter, aggregate, modify data)
+        vis.wrangleData();
+    }
+
+    /*
+     * Data wrangling
+     */
+    wrangleData() {
+        let vis = this;
+
+        let jobCountbySector = Array.from(d3.rollup(vis.data, v => v.length, d => d["job_title_sim"]), ([key, value]) => ({
+            key,
+            value
+        }))
+        jobCountbySector.sort(function (a, b) {
+            return b["value"] - a["value"]
+        });
+        // if(jobCountbySector.length>9)
+        // {
+        //     let otherCount=0;
+        //     jobCountbySector.slice(9).forEach(d=>
+        //     {
+        //         otherCount+=d.value;
+        //     })
+        //     jobCountbySector.splice(8);
+        //     // console.log(jobCount);
+        //     jobCountbySector.push({key:"Other",value: otherCount});
+        // }
+        //
+        // jobCountbySector.sort(function(a,b){return b["value"]-a["value"]});
+        console.log(jobCountbySector);
+        vis.displayData = jobCountbySector;
+
+        // Here you want to aggregate the data by age, not by day (as it is given)!
+
+        vis.updateVis();
+    }
+
+    /*
+     * The drawing function
+     */
+    updateVis() {
+        let vis = this;
 
         var r = 200,
-            w = r * 3,
+            w = r * 3.5,
             h = w,
             rad = Math.PI / 180,
-            interval = 360 / data.length;
+            interval = 360 / vis.displayData.length;
 
+        let radiusScale = d3.scaleSqrt()
+            .domain(d3.extent(vis.displayData, d => d.value))
+            .range([10, 40]);
+
+        // (radiusScale(vis.stateInfo[index][selectedCategory]));
 
         vis.svg.selectAll('g')
-            .data(data)
+            .data(vis.displayData)
             .enter()
             .append('circle')
             .attr('fill', 'steelblue')
-            .attr('r', w / interval)
+            .transition()
+            .delay(function (d, i) {
+                console.log(i);
+                return i * 400;
+            })
+            .attr('r', function (d) {
+                console.log(radiusScale(d.value));
+                return radiusScale(d.value);
+            })
             .attr('transform', function (d, i) {
+
                 return "translate(" + ((w / 2 - r) * Math.cos((interval * i) * Math.PI / 180)) + "," + ((w / 2 - r) * Math.sin((interval * i) * Math.PI / 180)) + ")";
             })
             .on('click', function (d, i) {
@@ -70,27 +126,6 @@ class CircularVis {
                     });
             });
 
-
-        // (Filter, aggregate, modify data)
-        vis.wrangleData();
-    }
-
-    /*
-     * Data wrangling
-     */
-    wrangleData() {
-        let vis = this;
-
-        // Here you want to aggregate the data by age, not by day (as it is given)!
-
-        vis.updateVis();
-    }
-
-    /*
-     * The drawing function
-     */
-    updateVis() {
-        let vis = this;
     }
 
 }
