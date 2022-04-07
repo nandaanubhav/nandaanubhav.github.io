@@ -14,31 +14,38 @@ var svg = d3.select("#parallelvis")
         "translate(" + margin.left + "," + margin.top + ")");
 
 // Parse the Data
-d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/iris.csv").then(data => {
+d3.csv("data/Market_Divers.csv").then(data => {
+    data.forEach(function (d) {
+        d["Founded"]=2022-(+d["Founded"]);
+    });
+
 
     // console.log(data);
     // Extract the list of dimensions we want to keep in the plot. Here I keep all except the column called Species
     // dimensions = Object.keys(data).filter(function(d) { return d != "Species" });
-    dimensions = data.columns.filter(function (d) {
-        return d != "Species"
-    });
-    // console.log(dimensions);
+
+    dimensions=["Calculated Size ","Founded","job_title_sim","Avg_Salary"]
+    console.log(dimensions);
     // For each dimension, I build a linear scale. I store all in a y object
     var y = {}
-    for (i in dimensions) {
-        name = dimensions[i];
-        // console.log(d3.extent(Object.values(data).slice(0,4)));
-        y[name] = d3.scaleLinear()
+    y["Calculated Size "]=d3.scalePoint().domain(data.map(function(d){if(d["Calculated Size "]=="")return "Small"; return d["Calculated Size "]})).rangeRound([height,0]);
+
+    // console.log(y);
+    y["job_title_sim"]=d3.scalePoint().domain(data.map(d=>d["job_title_sim"])).rangeRound([height,0]);
+    y["Founded"]=d3.scaleLinear()
             .domain(d3.extent(data, function (d) {
-                return +d[name];
+                return +d["Founded"];
             }))
             .range([height, 0]);
-        // .domain( [0,8] ) // --> Same axis range for each group
-        // // --> different axis range for each group --> .domain( [d3.extent(data, function(d) { return +d[name]; })] )
-        // .range([height, 0])
-    }
-    ;
-    // console.log(y);
+    y["Avg_Salary"]=d3.scaleLinear()
+        .domain(d3.extent(data, function (d) {
+            return +d["Avg_Salary"];
+        }))
+        .range([height, 0]);
+
+    var color = d3.scaleOrdinal()
+        .domain(["Small", "Medium", "Large","Enterprise" ])
+        .range([ "#440154ff", "#21908dff", "#21908dff","#21908dff"])
 
     // Build the X scale -> it find the best position for each Y axis
     x = d3.scalePoint()
@@ -93,7 +100,8 @@ d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/ir
         .enter().append("path")
         .attr("d", path)
         .style("fill", "none")
-        .style("stroke", "#69b3a2")
+        // .style("stroke", "#69b3a2")
+        .style("stroke", function(d){ return( color(d.Species))} )
         .style("opacity", 0.5);
     // .attr("class", function (d) { return "line " + d.Species } ) // 2 class for each line: 'line' and the group name
     // .attr("d",  path)
