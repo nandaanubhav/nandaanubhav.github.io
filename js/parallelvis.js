@@ -24,20 +24,27 @@ d3.csv("data/Market_Divers.csv").then(data => {
     // Extract the list of dimensions we want to keep in the plot. Here I keep all except the column called Species
     // dimensions = Object.keys(data).filter(function(d) { return d != "Species" });
 
-    dimensions=["Calculated Size ","Founded","job_title_sim","Avg_Salary"]
+    dimensions = ["Calculated Size", "Founded", "Calculated_Revenue", "Avg_Salary"]
     console.log(dimensions);
     // For each dimension, I build a linear scale. I store all in a y object
     var y = {}
-    y["Calculated Size "]=d3.scalePoint().domain(data.map(function(d){if(d["Calculated Size "]=="")return "Small"; return d["Calculated Size "]})).rangeRound([height,0]);
+    y["Calculated Size"] = d3.scalePoint().domain(data.map(function (d) {
+        if (d["Calculated Size"] == "") return "Small";
+        return d["Calculated Size"]
+    })).rangeRound([height, 0]);
 
     // console.log(y);
-    y["job_title_sim"]=d3.scalePoint().domain(data.map(d=>d["job_title_sim"])).rangeRound([height,0]);
-    y["Founded"]=d3.scaleLinear()
-            .domain(d3.extent(data, function (d) {
-                return +d["Founded"];
-            }))
-            .range([height, 0]);
-    y["Avg_Salary"]=d3.scaleLinear()
+    y["Calculated_Revenue"] = d3.scalePoint().domain(data.map(function (d) {
+        return d["Calculated_Revenue"]
+    })).rangeRound([height, 0]);
+
+    // y["job_title_sim"]=d3.scalePoint().domain(data.map(d=>d["job_title_sim"])).rangeRound([height,0]);
+    y["Founded"] = d3.scaleLinear()
+        .domain(d3.extent(data, function (d) {
+            return +d["Founded"];
+        }))
+        .range([height, 0]);
+    y["Avg_Salary"] = d3.scaleLinear()
         .domain(d3.extent(data, function (d) {
             return +d["Avg_Salary"];
         }))
