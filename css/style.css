@@ -23,3 +23,8 @@
     overflow-wrap: break-word;
     hyphens: manual;
 }
+
+.bar-chart-container {
+    height: 25vh;
+    width: 100%;
+}

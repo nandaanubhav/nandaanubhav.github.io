@@ -31,9 +31,10 @@ function loadData() {
 
         // console.log(csv);
 
-        let donutVis = new DonutVis("donutvis", csv);
+        // let donutVis = new DonutVis("donutvis", csv);
         boxPlotVis = new BoxPlotVis("boxplotvis", csv);
         circularVis = new CircularVis("circularvis", csv);
+        // let barVis = new BarVis("bar-chart-1", csv , "Data Scientist", "Business Services");
 
     });
 };

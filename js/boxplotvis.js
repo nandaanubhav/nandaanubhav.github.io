@@ -207,7 +207,7 @@ class BoxPlotVis {
             .attr("stroke", "#000")
             .attr("stroke-width", 1)
             .on('mouseover', function (event, d) {
-                console.log(d);
+                // console.log(d);
                 vis.tooltip
                     .style("opacity", 1)
                     .style("left", event.pageX + 20 + "px")
