@@ -15,35 +15,105 @@
     <section class="vertical-scrolling">
         <div class="container">
             <div class="row">
+                <div>
+                    <h1>Market Divers</h1>
+                </div>
+                <div>
+                    <img src="https://miro.medium.com/max/1400/1*QGWyxDaFhavZa495eJBO9Q.jpeg" height="80%" width="80%">
+                </div>
+                <div>
+                    <h1>Introductory Text</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="vertical-scrolling">
+        <div class="container">
+            <div class="row">
                 <div class="col-md-4 text-style">
                     some text
                 </div>
                 <div class="col-md-8">
-                    <input type="radio" id="sector" name="donutCheck" value="Sector" onclick="switchView()">
+                    <input type="radio" id="sectorBox" name="donutCheck" value="Sector" onclick="switchView()">
                     <label for="sector">By Sector</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="radio" id="job_title" name="donutCheck" checked="checked" value="job_title_sim" onclick="switchView()">
+                    <input type="radio" id="job_titleBox" name="donutCheck" checked="checked" value="job_title_sim" onclick="switchView()">
                     <label for="job_title">By Job Title</label><br>
                     <div id="donutvis"></div>
                 </div>
             </div>
         </div>
-
     </section>
     <section class="vertical-scrolling">
-        <h2>#2</h2>
-        <div id="parallelvis"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                </div>
+                <div class="col">
+                    <input type="radio" id="job_title" name="boxPlotCategorySelector" checked="checked"
+                           value="job_title_sim" onclick="boxPlotCategoryChange()"> Job Title
+                    <input type="radio" id="sector" name="boxPlotCategorySelector" value="Sector"
+                           onclick="boxPlotCategoryChange()"> Sector
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        some text
+                    </div>
+                    <div class="col-md-8">
+                        <div id="boxplotvis"></div>
+                    </div>
+                </div>
+            </div>
     </section>
     <section class="vertical-scrolling">
-        <h2>#3</h2>
-        <h3>This is the third section</h3>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    some text
+                </div>
+                <div class="col-md-8">
+                    <div id="parallelvis"></div>
+                </div>
+            </div>
+        </div>
     </section>
     <section class="vertical-scrolling">
-        <h2>#4</h2>
-        <h3>This is the fourth section</h3>
+        <div class="row">
+            <div class="col-md-4">
+                some text
+            </div>
+            <div class="col-md-8">
+                Fouth Visualization Comes Here
+            </div>
+        </div>
     </section>
     <section class="vertical-scrolling">
-        <h2>#5</h2>
-        <h3>This is the fourth section</h3>
+        <div class="row">
+            <div class="col-md-4">
+                some text
+            </div>
+            <div class="col-md-8">
+                Fifth Visualization Comes Here
+            </div>
+        </div>
+    </section>
+    <section class="vertical-scrolling">
+        <div class="row">
+            <div class="col-md-4">
+                some text
+            </div>
+            <div class="col-md-8">
+                Sixth Visualization Comes Here
+            </div>
+        </div>
+    </section>
+    <section class="vertical-scrolling">
+        <div class="container">
+            <div class="row">
+                <div>
+                    Concluding Slide
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 
@@ -57,8 +127,9 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <!-- OWN JS -->
 <script src="js/helper.js"></script>
-<script src="js/parallelvis.js"></script>
 <script src="js/donutvis.js"></script>
+<script src="js/parallelvis.js"></script>
+<script src="js/boxplotvis.js"></script>
 <script src="js/main.js"></script>
 
 </body>
