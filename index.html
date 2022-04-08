@@ -31,48 +31,44 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 text-style">
-                    some text
+                    <p>
+                        There are various opportunities available in market which relate to data science. You could
+                        explore the distribution of jobs by various job titles and sectors alongside.
+                        <br/><br/>
+                        It is worth noticing that 42% of job openings need <strong>“Data Scientists”</strong>
+                        <br/><br/>
+                        <strong>INFORMATION TECHNOLOGY</strong> and <strong>BIOTECH & PHARMACEUTICALS</strong> are the
+                        two sectors which have highest opportunities for roles in data science.
+                    </p>
                 </div>
                 <div class="col-md-8">
-                    <input type="radio" id="sectorBox" name="donutCheck" value="Sector" onclick="switchView()">
-                    <label for="sector">By Sector</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="radio" id="job_titleBox" name="donutCheck" checked="checked" value="job_title_sim" onclick="switchView()">
-                    <label for="job_title">By Job Title</label><br>
+                    <input type="radio" id="sector_donut" name="donutCheck" value="Sector" onclick="switchView()">
+                    <label for="sector_donut">By Sector</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" id="job_title_donut" name="donutCheck" checked="checked" value="job_title_sim"
+                           onclick="switchView()">
+                    <label for="job_title_donut">By Job Title</label><br>
                     <div id="donutvis"></div>
                 </div>
             </div>
         </div>
     </section>
     <section class="vertical-scrolling">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                </div>
-                <div class="col">
-                    <input type="radio" id="job_title" name="boxPlotCategorySelector" checked="checked"
-                           value="job_title_sim" onclick="boxPlotCategoryChange()"> Job Title
-                    <input type="radio" id="sector" name="boxPlotCategorySelector" value="Sector"
-                           onclick="boxPlotCategoryChange()"> Sector
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        some text
-                    </div>
-                    <div class="col-md-8">
-                        <div id="boxplotvis"></div>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-4">
+                some text
             </div>
+            <div class="col-md-8">
+                Second Visualization Comes Here
+            </div>
+        </div>
     </section>
     <section class="vertical-scrolling">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    some text
-                </div>
-                <div class="col-md-8">
-                    <div id="parallelvis"></div>
-                </div>
+        <div class="row">
+            <div class="col-md-4">
+                some text
+            </div>
+            <div class="col-md-8">
+                Third Visualization Comes Here
             </div>
         </div>
     </section>
@@ -87,22 +83,36 @@
         </div>
     </section>
     <section class="vertical-scrolling">
-        <div class="row">
-            <div class="col-md-4">
-                some text
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10">
+                </div>
+                <div class="col">
+                    <input type="radio" id="job_title" name="boxPlotCategorySelector" checked="checked"
+                           value="job_title_sim" onclick="boxPlotCategoryChange()"> Job Title
+                    <input type="radio" id="sector" name="boxPlotCategorySelector" value="Sector"
+                           onclick="boxPlotCategoryChange()"> Sector
+                </div>
             </div>
-            <div class="col-md-8">
-                Fifth Visualization Comes Here
+            <div class="row">
+                <div class="col-md-4">
+                    some text
+                </div>
+                <div class="col-md-8">
+                    <div id="boxplotvis"></div>
+                </div>
             </div>
         </div>
     </section>
     <section class="vertical-scrolling">
-        <div class="row">
-            <div class="col-md-4">
-                some text
-            </div>
-            <div class="col-md-8">
-                Sixth Visualization Comes Here
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    some text
+                </div>
+                <div class="col-md-8">
+                    <div id="parallelvis"></div>
+                </div>
             </div>
         </div>
     </section>

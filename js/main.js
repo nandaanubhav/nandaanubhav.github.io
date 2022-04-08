@@ -1,5 +1,5 @@
 
-let donutVis;
+let donutVis, boxPlotVis;
 //reading csv file
 loadData();
 function loadData() {
@@ -28,11 +28,15 @@ function loadData() {
             d.mongo = +d.mongo;
             d.google_an = +d.google_an;
         });
-        donutVis=new DonutVis("donutvis",csv);
+        donutVis = new DonutVis("donutvis", csv);
+        boxPlotVis = new BoxPlotVis("boxplotvis", csv);
     });
 };
 
 function switchView() {
     donutVis.wrangleData();
-    }
+}
 
+function boxPlotCategoryChange() {
+    boxPlotVis.wrangleData();
+};
