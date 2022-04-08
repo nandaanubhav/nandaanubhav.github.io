@@ -20,14 +20,6 @@
     /*  pointer-events: none;	This line needs to be removed */
 }
 
-.tooltip h3, h4 {
-    text-align: left;
-}
-
-.tooltip h4 {
-    font: 14px sans-serif;
-}
-
 .axis {
     font: 10px sans-serif;
     fill: #333;
@@ -48,9 +40,14 @@
     padding-top: 15%;
 }
 
-.axis { font-size: 12pt}
+/*.axis { font-size: 12pt}*/
 
 .bar-title {
     font-size: 18pt;
     font-family: "American Typewriter";
 }
+
+/*.vertical-scrolling {*/
+/*    border: 5pt solid green;*/
+/*    border-right: 30pt solid green;*/
+/*}*/

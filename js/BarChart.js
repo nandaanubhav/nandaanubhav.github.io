@@ -117,18 +117,18 @@ class BarChart {
             return d[1];
         });
 
-        vis.linearColor = d3.scaleSequential(d3.interpolateOrRd).domain([minVal,maxVal])
+        vis.linearColor = d3.scaleSequential(d3.interpolateBlues).domain([minVal, maxVal])
 
         vis.displayData = [];
 
         items.forEach(d => {
-            console.log("--------------------")
+            // console.log("--------------------")
 
 
             if ((vis.y(d[0]) > vis.selectionRange[0])&&(vis.y(d[0]) < vis.selectionRange[1])) {
                 vis.displayData.push(d);
             }
-            console.log("END--------------------")
+            // console.log("END--------------------")
         })
 
 
@@ -144,7 +144,7 @@ class BarChart {
 
     updateVis() {
         let vis = this;
-console.log(vis.displayData)
+        // console.log(vis.displayData)
         // select all bars
         let bars = vis.svg.selectAll("." + vis.parentElement + "Rect")
             .data(vis.displayData);
@@ -172,15 +172,15 @@ console.log(vis.displayData)
         vis.svg.selectAll("." + vis.parentElement + "Rect").on('mouseover', function (event, d) {
             d3.select(this)
                 .transition()
-                .style('fill', 'green');
+                .style('fill', '#800000');
             vis.tooltip
                 .style("opacity", 1)
                 .style("left", event.pageX + 5 + "px")
                 .style("top", event.pageY + "px")
                 .html(`
-                         <div style="border: thin solid red; border-radius: 5px; background: wheat; padding: 15px">
-                             <h3> ${d[0]}</h3>
-                             <h4> Total Listings: ${d[1].toLocaleString("en-US")}</h4>                          
+                         <div>
+                             <h4> ${d[0]}</h4><br/>
+                             <h5> Total Listings: ${d[1].toLocaleString("en-US")}</h5>                          
                          </div>`);
         })
             .on('mouseout', function (event, d) {

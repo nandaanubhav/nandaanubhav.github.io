@@ -120,7 +120,7 @@ class MiniBarChart {
             return d[1];
         });
 
-        vis.linearColor = d3.scaleSequential(d3.interpolateOrRd).domain([minVal,maxVal])
+        vis.linearColor = d3.scaleSequential(d3.interpolateBlues).domain([minVal, maxVal])
 
         this.updateVis()
     }

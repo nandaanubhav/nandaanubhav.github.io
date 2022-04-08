@@ -24,7 +24,7 @@ d3.csv("data/Market_Divers.csv").then(data => {
 
 
     dimensions=["Calculated_Size","Founded","Calculated_Revenue","Avg_Salary"]
-    console.log(dimensions);
+    // console.log(dimensions);
     // For each dimension, I build a linear scale. I store all in a y object
     var y = {}
     y["Calculated_Size"]=d3.scalePoint().domain(data.map(d=>d["Calculated_Size"])).rangeRound([height,0]);
