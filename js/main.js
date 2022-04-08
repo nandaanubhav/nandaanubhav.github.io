@@ -1,5 +1,7 @@
 
-let donutVis, boxPlotVis;
+let donutVis, boxPlotVis, barchart, miniBarChart
+let parseDate = d3.timeParse("%m/%d/%Y");
+let selectedRange = [];
 //reading csv file
 loadData();
 function loadData() {
@@ -30,6 +32,9 @@ function loadData() {
         });
         donutVis = new DonutVis("donutvis", csv);
         boxPlotVis = new BoxPlotVis("boxplotvis", csv);
+        barchart = new BarChart("barchart-div", data);
+        miniBarChart = new MiniBarChart("mini-barchart-div", data);
+        selectedRange = [5, miniBarChart.height/3];
     });
 };
 
@@ -40,3 +45,15 @@ function switchView() {
 function boxPlotCategoryChange() {
     boxPlotVis.wrangleData();
 };
+
+// React to 'brushed' event and update all bar charts
+function brushed() {
+    let selectionRange = d3.brushSelection(d3.select(".brush").node());
+    selectedRange = selectionRange;
+    barchart.selectionRange = selectionRange;
+    barchart.wrangleData()
+    if ((selectedRange[0] != 5)&&(selectedRange[1] != miniBarChart.height/3)) {
+        miniBarChart.selectionRange = selectionRange;
+        miniBarChart.wrangleData()
+    }
+}
