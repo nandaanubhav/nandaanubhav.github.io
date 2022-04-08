@@ -24,14 +24,14 @@ d3.csv("data/Market_Divers.csv").then(data => {
     // Extract the list of dimensions we want to keep in the plot. Here I keep all except the column called Species
     // dimensions = Object.keys(data).filter(function(d) { return d != "Species" });
 
-    dimensions=["Calculated Size ","Founded","job_title_sim","Avg_Salary"]
+    dimensions=["Calculated Size","Founded","Calculated_Revenue","Avg_Salary"]
     console.log(dimensions);
     // For each dimension, I build a linear scale. I store all in a y object
     var y = {}
-    y["Calculated Size "]=d3.scalePoint().domain(data.map(function(d){if(d["Calculated Size "]=="")return "Small"; return d["Calculated Size "]})).rangeRound([height,0]);
+    y["Calculated Size"]=d3.scalePoint().domain(data.map(function(d){if(d["Calculated Size"]=="")return "Small"; return d["Calculated Size"]})).rangeRound([height,0]);
 
     // console.log(y);
-    y["job_title_sim"]=d3.scalePoint().domain(data.map(d=>d["job_title_sim"])).rangeRound([height,0]);
+    y["Calculated_Revenue"]=d3.scalePoint().domain(data.map(d=>d["Calculated_Revenue"])).rangeRound([height,0]);
     y["Founded"]=d3.scaleLinear()
             .domain(d3.extent(data, function (d) {
                 return +d["Founded"];
@@ -45,7 +45,7 @@ d3.csv("data/Market_Divers.csv").then(data => {
 
     var color = d3.scaleOrdinal()
         .domain(["Small", "Medium", "Large","Enterprise" ])
-        .range([ "#440154ff", "#21908dff", "#21908dff","#21908dff"])
+        .range([ "grey","grey","grey","#440154ff"])
 
     // Build the X scale -> it find the best position for each Y axis
     x = d3.scalePoint()
@@ -101,7 +101,7 @@ d3.csv("data/Market_Divers.csv").then(data => {
         .attr("d", path)
         .style("fill", "none")
         // .style("stroke", "#69b3a2")
-        .style("stroke", function(d){ return( color(d.Species))} )
+        .style("stroke", function(d){ return( color(d["Calculated Size"]))} )
         .style("opacity", 0.5);
     // .attr("class", function (d) { return "line " + d.Species } ) // 2 class for each line: 'line' and the group name
     // .attr("d",  path)
