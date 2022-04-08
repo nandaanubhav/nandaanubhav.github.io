@@ -109,6 +109,16 @@ class BarChart {
             return d[0];
         }));
 
+        let maxVal = d3.max(vis.displayData, function(d) {
+            return d[1];
+        });
+
+        let minVal = d3.min(vis.displayData, function(d) {
+            return d[1];
+        });
+
+        vis.linearColor = d3.scaleSequential(d3.interpolateOrRd).domain([minVal,maxVal])
+
         vis.displayData = [];
 
         items.forEach(d => {
@@ -128,16 +138,6 @@ class BarChart {
         vis.x.domain([0, d3.max(vis.displayData, function (d) {
             return d[1];
         })])
-
-        let maxVal = d3.max(vis.displayData, function(d) {
-            return d[1];
-        });
-
-        let minVal = d3.min(vis.displayData, function(d) {
-            return d[1];
-        });
-
-        vis.linearColor = d3.scaleSequential(d3.interpolateOrRd).domain([minVal,maxVal])
 
         this.updateVis()
     }

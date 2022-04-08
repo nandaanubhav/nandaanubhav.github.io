@@ -1,6 +1,7 @@
 // init global variables & switches
 let barchart, miniBarChart
 let parseDate = d3.timeParse("%m/%d/%Y");
+let selectedRange = [];
 
 //reading csv file
 d3.csv("data/Market_Divers.csv").then(csv => {
@@ -36,25 +37,20 @@ function mainPage(data) {
     console.log(data)
     barchart = new BarChart("barchart-div", data);
     miniBarChart = new MiniBarChart("mini-barchart-div", data);
+    selectedRange = [5, miniBarChart.height/3];
 }
+
+
 
 // React to 'brushed' event and update all bar charts
 function brushed() {
     let selectionRange = d3.brushSelection(d3.select(".brush").node());
-    console.log(selectionRange)
+    selectedRange = selectionRange;
     barchart.selectionRange = selectionRange;
     barchart.wrangleData()
-
-    // if (!event.sourceEvent) return;
-    // const d0 = event.selection.map(barchart.y.invert);
-    // const d1 = d0.map(interval.round);
-    //
-    // // If empty when rounded, use floor instead.
-    // if (d1[0] >= d1[1]) {
-    //     d1[0] = interval.floor(d0[0]);
-    //     d1[1] = interval.offset(d1[0]);
-    // }
-    //
-    // d3.select(this).call(brush.move, d1.map(x));
+    if ((selectedRange[0] != 5)&&(selectedRange[1] != miniBarChart.height/3)) {
+        miniBarChart.selectionRange = selectionRange;
+        miniBarChart.wrangleData()
+    }
 }
 

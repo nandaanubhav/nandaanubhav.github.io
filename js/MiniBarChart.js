@@ -14,6 +14,7 @@ class MiniBarChart {
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
+
         // init drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
@@ -39,17 +40,14 @@ class MiniBarChart {
         vis.y = d3.scaleBand().rangeRound([vis.height, 0]).padding(0.2);
 
 
-        let brush = d3.brushY()
+        vis.brush = d3.brushY()
             .extent([[0, 0], [vis.width, vis.height]])
-            .on("brush", brushed);
+            .on("brush", brushed)
 
         vis.svg.append("g")
             .attr("class", "brush")
-            .call(brush)
-            .call(brush.move, [5, 128])
-            .selectAll("rect")
-            .attr("y", -6)
-            .attr("height", 128 + 7);
+            .call(vis.brush)
+            .call(vis.brush.move, [5, ((vis.height+vis.margin.top+vis.margin.bottom)/16-5)*6])
 
         vis.svg.append("defs").append("clipPath")
             .attr("id", "clip")
@@ -57,38 +55,10 @@ class MiniBarChart {
             .attr("width", vis.width)
             .attr("height", vis.height);
 
-        // var verticalRectangle = d3.select("#clip")
-        //     .attr("width", 100)
-        //     .attr("height", 500)
-        //     .append("g")
-
-        // var yBrush = d3.brushY()
-        //     .extent([[0,0], [100,500]]) //Area you want your brush to be movable in
-        //     .on("brush", brushed);
-
-        // verticalRectangle.append("g")
-        //     .attr("class", "brush")
-        //     .call(yBrush)
-        //     .call(yBrush.move, [5, 100]);
-
-        // Append x and y axis
-        // vis.yAxis = d3.axisLeft()
-        //     .scale(vis.y);
-        //
-        // vis.svg.append("g")
-        //     .attr("class", "y-axis axis")
-        //     .call(vis.yAxis);
-        //
-        // vis.xAxis = d3.axisBottom()
-        //     .scale(vis.x);
-        //
-        // vis.svg.append("g")
-        //     .attr("class", "x-axis2 axis")
-        //     .attr("transform", "translate(0," + vis.height + ")")
-        //     .call(vis.xAxis);
-
         this.wrangleData();
     }
+
+
 
     wrangleData() {
         let vis = this;
@@ -168,12 +138,13 @@ class MiniBarChart {
             .merge(bars)
             // .transition(500)
             .style("fill", function (d) {
+                if ((vis.y(d[0])>selectedRange[0])&&(vis.y(d[0])<selectedRange[1]))
+                    return vis.linearColor(d[1]);
+
                 return 'grey';
-                // return vis.linearColor(d[1]);
             })
             .attr("x", 1)
             .attr("y", function (d) {
-                console.log(vis.y(d[0]))
                 return vis.y(d[0]);
             })
             .attr("width", function (d) {
