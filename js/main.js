@@ -32,8 +32,8 @@ function loadData() {
         });
         donutVis = new DonutVis("donutvis", csv);
         boxPlotVis = new BoxPlotVis("boxplotvis", csv);
-        barchart = new BarChart("barchart-div", data);
-        miniBarChart = new MiniBarChart("mini-barchart-div", data);
+        barchart = new BarChart("barchart-div", csv);
+        miniBarChart = new MiniBarChart("mini-barchart-div", csv);
         selectedRange = [5, miniBarChart.height/3];
     });
 };
