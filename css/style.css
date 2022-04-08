@@ -47,3 +47,10 @@
     font-size: 16px;
     padding-top: 15%;
 }
+
+.axis { font-size: 12pt}
+
+.bar-title {
+    font-size: 18pt;
+    font-family: "American Typewriter";
+}
