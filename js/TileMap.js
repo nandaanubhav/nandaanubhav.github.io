@@ -11,8 +11,22 @@ class TileMap {
         this.mapData = mapData;
         this.displayData = [];
         this.highlight = ["#ffd700", "#9eebcf", "#96ccff", "#ff725c", "#ffa3d7"];
-
+        this.navBarSvg = new NavBarVis("miniBar-div", data);
+        // TODO Create Class for nav bar svg
         this.initVis()
+    }
+
+    openNav(someText) {
+        document.getElementById("mySidebar").style.width = (document.getElementById(this.parentElement).getBoundingClientRect().left - (document.getElementById("mySidebar").getBoundingClientRect().left)) + "px";
+        document.getElementById("main").style.display = "none"
+        this.navBarSvg.updateCountry(someText)
+        this.navBarSvg.wrangleData();
+    }
+
+    closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        // document.getElementById("main").style.marginLeft = "0";
+        document.getElementById("main").style.display = "block"
     }
 
     initVis() {
@@ -23,8 +37,6 @@ class TileMap {
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         let columns = 13, rows = 8;
-        // calculate cellSize based on dimensions of svg
-        // vis.cellSize;
         var colWidth = Math.floor(vis.width / columns);
         var rowWidth = Math.floor(vis.height / rows);
 
@@ -43,14 +55,6 @@ class TileMap {
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom);
 
-
-        // vis.svg2 = d3.select("#mySidebar")
-        //     .append("svg")
-        //     .attr("width", "200px")
-        //     .attr("height", "200px");
-
-
-
         // draw gridlines
         var grid = vis.svg.append("g")
             .attr("class", "gridlines")
@@ -65,8 +69,6 @@ class TileMap {
         vis.gridMap = vis.svg.append("g")
             .attr("class", "gridmap")
             .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
-
-
 
         vis.wrangleData()
     }
@@ -130,12 +132,20 @@ vis.mydict2 = dict
             return d[1];
         });
 
+        //for axis below legend
+        vis.axisScale = d3.scaleSequential()
+            .domain([0, maxVal])
+            .range([0, vis.width/6]);
+
+        vis.xAxis = d3.axisBottom(vis.axisScale).tickValues([0, maxVal]);
+
         // console.log(maxVal)
         // console.log(minVal)
         vis.linearColor = d3.scaleSequential(d3.interpolateBlues).domain([0, maxVal])
 
         vis.updateVis()
     }
+
 
 
     updateVis() {
@@ -161,45 +171,35 @@ vis.mydict2 = dict
                 if (vis.mydict2[d.code]==0){
                     return 0.2
                 } else {
-                    return 0.6
+                    return 1
                 }
             })
         // keep track of whether square is clicked through toggling class
         // cycle through five colours each time square is made active
         .on("click", function(d) {
             var square = d3.select(this);
+            // console.log(square["_groups"][0][0]["__data__"])
+            // console.log(square["_groups"])
+            vis.openNav(square["_groups"][0][0]["__data__"].state);
+
             square.classed("active", !square.classed("active"));
             if (square.classed("active")) {
-                square.style("opacity", 1);
-                colIndex++;
-                switch(colIndex%5) {
-                    case 0:
-                        square.style("fill", vis.highlight[0])
-                        break;
-                    case 1:
-                        square.style("fill", vis.highlight[1])
-                        break;
-                    case 2:
-                        square.style("fill", vis.highlight[2])
-                        break;
-                    case 3:
-                        square.style("fill", vis.highlight[3])
-                        break;
-                    case 4:
-                        square.style("fill", vis.highlight[4])
-                        break;
-                }
+                // square.style("opacity", 1);
+                // square.style("fill", vis.highlight[0])
             } else {
-                square.style("fill", function (d) {
-                    return vis.linearColor(vis.mydict2[d.code])
-                }).style("opacity", function (d) {
-                    if (vis.mydict2[d.code]==0){
-                        return 0.2
-                    } else {
-                        return 0.6
-                    }
-                });
+                // vis.closeNav();
+                // square.style("fill", function (d) {
+                //     return vis.linearColor(vis.mydict2[d.code])
+                // }).style("opacity", function (d) {
+                //     if (vis.mydict2[d.code]==0){
+                //         return 0.2
+                //     } else {
+                //         return 1
+                //     }
+                // });
             }
+
+
         })
         ;
 
@@ -301,6 +301,40 @@ vis.mydict2 = dict
         //     vis.labels.exit()
         //         .style("opacity", 0);
         // }
+
+        var defs = vis.svg.append("defs");
+
+        //Append a linearGradient element to the defs and give it a unique id
+        var linearGradient = defs.append("linearGradient")
+            .attr("id", "linear-gradient");
+
+        //Set the color for the start (0%)
+        linearGradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", d3.interpolateBlues(0)); //light blue
+
+        //Set the color for the end (100%)
+        linearGradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", d3.interpolateBlues(1)); //dark blue
+
+        //Draw the rectangle and fill with gradient
+        vis.svg.append("rect")
+            .attr("width", vis.width/6)
+            .attr("x", function(d) {
+                // return document.getElementById(vis.parentElement).getBoundingClientRect().right - (vis.width/6)
+                return 0.8*vis.width
+            })
+            .attr("y",5*vis.height/6)
+            .attr("height", 15)
+            .style("fill", "url(#linear-gradient)")
+            .style("opacity", 1);
+        //group the axis for legend
+        vis.axisGroup = vis.svg.append("g")
+            .attr('transform', `translate(${vis.width *0.8}, ${5*vis.height/6+15})`)
+            .attr('class',"x-axis");
+
+        vis.svg.select(".x-axis").call(vis.xAxis);
     }
 }
 

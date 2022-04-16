@@ -41,35 +41,6 @@ function loadData() {
     });
 };
 
-function sleep(milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-        currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
-}
-
-/* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
-function openNav() {
-    // console.log( document.getElementById("tilemap-div").getBoundingClientRect().width)
-    document.getElementById("mySidebar").style.width = (document.getElementById("blabla").getBoundingClientRect().width) + "px";
-    // sleep(2000);
-sdanl()
-
-    // document.getElementById("main").style.marginLeft = "250px";
-}
-
-function sdanl() {
-    let myBar = new BoxPlotVis("mySidebar", mainData);
-}
-
-
-/* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
-function closeNav() {
-    document.getElementById("mySidebar").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-}
-
 function loadTileMap() {
     d3.csv("data/publication-grids.csv").then(csv => {
         tileMap = new TileMap("tilemap-div", mainData, csv);

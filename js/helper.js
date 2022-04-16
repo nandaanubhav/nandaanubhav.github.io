@@ -6,12 +6,12 @@ $header_top.find('a').on('click', function () {
 });
 
 $('#fullpage').fullpage({
-    sectionsColor: ['#DDFFDC', '#DDFFDC', '#DDFFDC', '#DDFFDC', '#DDFFDC', '#DDFFDC', '#DDFFDC', '#DDFFDC'],
+    sectionsColor: ['#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D'],
     sectionSelector: '.vertical-scrolling',
     navigation: true,
     slidesNavigation: true,
     controlArrows: false,
-    anchors: ['firstSection', 'secondSection', 'thirdSection', 'fourthSection', 'fifthSection', 'sixthSection', 'seventhSection', 'eighthSection'],
+    anchors: ['firstSection', 'secondSection', 'thirdSection', 'fourthSection', 'fifthSection', 'sixthSection', 'seventhSection', 'eighthSection', 'ninthSection'],
     menu: '#menu',
 
     afterLoad: function (anchorLink, index) {
@@ -30,3 +30,9 @@ $('#fullpage').fullpage({
 
 
 });
+
+function closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+    // document.getElementById("main").style.marginLeft = "0";
+    document.getElementById("main").style.display = "block"
+}
