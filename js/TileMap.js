@@ -10,8 +10,9 @@ class TileMap {
         this.data = data;
         this.mapData = mapData;
         this.displayData = [];
-        this.highlight = ["#ffd700", "#9eebcf", "#96ccff", "#ff725c", "#ffa3d7"];
+        this.highlight = "#ffa3d7";
         this.navBarSvg = new NavBarVis("miniBar-div", data);
+        this.activeSquares = [];
         // TODO Create Class for nav bar svg
         this.initVis()
     }
@@ -84,59 +85,29 @@ class TileMap {
     wrangleData() {
         let vis = this;
 
-        let dict =
-            {
-                // Python: 0,
-                // spark: 0,
-                // aws: 0,
-                // excel: 0,
-                // sql: 0,
-                // sas: 0,
-                // keras: 0,
-                // pytorch: 0,
-                // scikit: 0,
-                // tensor: 0,
-                // hadoop: 0,
-                // tableau: 0,
-                // bi: 0,
-                // flink: 0,
-                // mongo: 0,
-                // google_an: 0
-            }
+        let dict = {}
 
         const unique = [...new Set(vis.mapData.map(item => item.code))];
-            // console.log(unique)
 
         unique.forEach(row => {
             dict[row] = 0;
         })
 
-        // console.log(dict)
 
         vis.data.forEach(row => {
             dict[row.State] += 1
-            // for (var key in dict) {
-            //     if (row[key] == 1) {
-            //         dict[key] += 1
-            //     }
-            // }
         })
-vis.mydict2 = dict
-        // console.log(dict)
+
+        vis.mydict2 = dict
+
         // // Create items array
-        var items = Object.keys(dict).map(function (key) {
+        vis.displayData = Object.keys(dict).map(function (key) {
             return [key, dict[key]];
         });
 
-            // console.log(items)
-
-        vis.displayData = items
+        // vis.displayData = items
 
         let maxVal = d3.max(vis.displayData, function(d) {
-            return d[1];
-        });
-
-        let minVal = d3.min(vis.displayData, function(d) {
             return d[1];
         });
 
@@ -146,9 +117,6 @@ vis.mydict2 = dict
             .range([0, vis.width/6]);
 
         vis.xAxis = d3.axisBottom(vis.axisScale).tickValues([0, maxVal]);
-
-        // console.log(maxVal)
-        // console.log(minVal)
         vis.linearColor = d3.scaleSequential(d3.interpolateBlues).domain([0, maxVal])
 
         vis.updateVis()
@@ -172,7 +140,6 @@ vis.mydict2 = dict
             .attr("width", vis.cellSize)
             .attr("height", vis.cellSize)
             .style("fill", function (d) {
-                // console.log(d.code + ": " + vis.mydict2)
                 return vis.linearColor(vis.mydict2[d.code])
             })
             .style("opacity", function (d) {
@@ -182,32 +149,54 @@ vis.mydict2 = dict
                     return 1
                 }
             })
-        // keep track of whether square is clicked through toggling class
+
+            // keep track of whether square is clicked through toggling class
         // cycle through five colours each time square is made active
         .on("click", function(d) {
             var square = d3.select(this);
             // console.log(square["_groups"][0][0]["__data__"])
+
+            if (vis.mydict2[square["_groups"][0][0]["__data__"].code]==0)
+                return;
             // console.log(square["_groups"])
+
             vis.openNav(square["_groups"][0][0]["__data__"].state, square["_groups"][0][0]["__data__"].code);
 
             square.classed("active", !square.classed("active"));
             if (square.classed("active")) {
-                // square.style("opacity", 1);
-                // square.style("fill", vis.highlight[0])
+                //check if square array is empty, if not empty and change active
+                //push to a square array
+
+                vis.activeSquares.forEach(sq => {
+                    sq.style("fill", function (d) {
+                        return vis.linearColor(vis.mydict2[d.code])
+                    }).style("opacity", function (d) {
+                        if (vis.mydict2[d.code]==0){
+                            return 0.2
+                        } else {
+                            return 1
+                        }
+                    });
+                    sq.classed("active", !sq.classed("active"));
+                })
+                vis.activeSquares = [];
+                square.style("opacity", 1);
+                square.style("fill", vis.highlight)
+                vis.activeSquares.push(square);
             } else {
-                // vis.closeNav();
-                // square.style("fill", function (d) {
-                //     return vis.linearColor(vis.mydict2[d.code])
-                // }).style("opacity", function (d) {
-                //     if (vis.mydict2[d.code]==0){
-                //         return 0.2
-                //     } else {
-                //         return 1
-                //     }
-                // });
+                //remove from square array
+                vis.activeSquares = [];
+                vis.closeNav();
+                square.style("fill", function (d) {
+                    return vis.linearColor(vis.mydict2[d.code])
+                }).style("opacity", function (d) {
+                    if (vis.mydict2[d.code]==0){
+                        return 0.2
+                    } else {
+                        return 1
+                    }
+                });
             }
-
-
         })
         ;
 
