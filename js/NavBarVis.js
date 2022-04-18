@@ -132,7 +132,7 @@ class NavBarVis {
         rect.enter()
             .append("rect")
             .attr("class", vis.parentElement + "Rect")
-            .merge(rect)
+            .merge(rect).transition().duration(500)
             .attr('x', function (d) {
                 return d.x0;
             })
