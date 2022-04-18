@@ -47,6 +47,11 @@
     font-family: "American Typewriter";
 }
 
+.bar-title2 {
+    font-size: 12pt;
+    font-family: "American Typewriter";
+}
+
 /*.vertical-scrolling {*/
 /*    border: 5pt solid green;*/
 /*    border-right: 30pt solid green;*/
@@ -177,9 +182,10 @@
 .sidebar .closebtn {
     /*position: absolute;*/
     top: 0;
-    right: 25px;
+    /*right: 25px;*/
     font-size: 36px;
-    margin-left: 50px;
+    color: red;
+    /*margin-left: 50px;*/
 }
 
 /* The button used to open the sidebar */

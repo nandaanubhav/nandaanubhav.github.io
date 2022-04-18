@@ -16,10 +16,10 @@ class TileMap {
         this.initVis()
     }
 
-    openNav(someText) {
+    openNav(stateName, state) {
         document.getElementById("mySidebar").style.width = (document.getElementById(this.parentElement).getBoundingClientRect().left - (document.getElementById("mySidebar").getBoundingClientRect().left)) + "px";
         document.getElementById("main").style.display = "none"
-        this.navBarSvg.updateCountry(someText)
+        this.navBarSvg.updateCountry(stateName, state)
         this.navBarSvg.wrangleData();
     }
 
@@ -32,7 +32,7 @@ class TileMap {
     initVis() {
         let vis = this;
 
-        vis.margin = {top:0, right:0, bottom:20, left:0}
+        vis.margin = {top:0, right:0, bottom:0, left:0}
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
@@ -54,6 +54,14 @@ class TileMap {
             .append("svg")
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom);
+
+        // add title
+        vis.svg.append('g')
+            .attr('class', 'title bar-title2')
+            .append('text')
+            .text("Industry Sectors to lookout for")
+            .attr('transform', `translate(0, -5)`)
+            .attr('text-anchor', 'middle');
 
         // draw gridlines
         var grid = vis.svg.append("g")
@@ -164,7 +172,7 @@ vis.mydict2 = dict
             .attr("width", vis.cellSize)
             .attr("height", vis.cellSize)
             .style("fill", function (d) {
-                // console.log(d.code + ": " + vis.mydict2[d.code])
+                // console.log(d.code + ": " + vis.mydict2)
                 return vis.linearColor(vis.mydict2[d.code])
             })
             .style("opacity", function (d) {
@@ -180,7 +188,7 @@ vis.mydict2 = dict
             var square = d3.select(this);
             // console.log(square["_groups"][0][0]["__data__"])
             // console.log(square["_groups"])
-            vis.openNav(square["_groups"][0][0]["__data__"].state);
+            vis.openNav(square["_groups"][0][0]["__data__"].state, square["_groups"][0][0]["__data__"].code);
 
             square.classed("active", !square.classed("active"));
             if (square.classed("active")) {
