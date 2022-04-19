@@ -6,7 +6,7 @@ $header_top.find('a').on('click', function () {
 });
 
 $('#fullpage').fullpage({
-    sectionsColor: ['#DDFFDC', '#DDFFDC', '#DDFFDC', '#DDFFDC', '#DDFFDC', '#DDFFDC', '#DDFFDC', '#DDFFDC'],
+    sectionsColor: ['#ffc14d', '#ffc14d', '#ffc14d', '#ffc14d', '#ffc14d', '#ffc14d', '#ffc14d', '#ffc14d'],
     sectionSelector: '.vertical-scrolling',
     navigation: true,
     slidesNavigation: true,
