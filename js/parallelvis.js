@@ -1,96 +1,177 @@
-// set the dimensions and margins of the graph
-let csv;
-var margin = {top: 30, right: 10, bottom: 10, left: 0},
-    width = 500 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+var margin = {top: 30, right: 10, bottom: 10, left: 10},
+    width = 760 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
-var svg = d3.select("#parallelvis")
-    .append("svg")
+var x = d3.scalePoint().range([0, width]),
+// var x = d3.scaleOrdinal().rangePoints([0, width], 1),
+    y = {},
+    dragging = {};
+
+var line = d3.line(),
+    axis = d3.axisLeft(),
+    background,
+    foreground,
+    csv;
+
+var svg = d3.select("#parallelvis").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
-    .attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// Parse the Data
 d3.csv("data/Market_Divers.csv").then(data => {
+
     data.forEach(function (d) {
-        d["Founded"]=2022-(+d["Founded"]);
+        d["Founded"] = 2022 - (+d["Founded"]);
+        d["Avg_Salary"] = +d["Avg_Salary"];
     });
 
+    csv = data;
+    // console.log(Object.keys(cars[0]));
 
-    // console.log(data);
-
-
-    dimensions=["Calculated_Size","Founded","Calculated_Revenue","Avg_Salary"]
+    dimensions = ["Calculated_Size", "Founded", "Calculated_Revenue", "Avg_Salary"]
     // console.log(dimensions);
     // For each dimension, I build a linear scale. I store all in a y object
-    var y = {}
-    y["Calculated_Size"]=d3.scalePoint().domain(data.map(d=>d["Calculated_Size"])).rangeRound([height,0]);
+    y["Calculated_Size"] = d3.scalePoint().domain(data.map(d => d["Calculated_Size"])).rangeRound([height, 0]);
+    y["Calculated_Revenue"] = d3.scalePoint().domain(data.map(d => d["Calculated_Revenue"])).rangeRound([height, 0]);
+    y["Founded"] = d3.scaleLinear().domain(d3.extent(data, function (d) {
+        return +d["Founded"];
+    })).range([height, 0]);
+    y["Avg_Salary"] = d3.scaleLinear().domain(d3.extent(data, function (d) {
+        return +d["Avg_Salary"];
+    })).range([height, 0]);
+    dimensions.forEach(d => {
+        y[d].brush = d3.brushY()
+            .extent([[-8, y[d].range()[1]], [8, y[d].range()[0]]])
+            .on('brush', brush);
+    });
 
-    // console.log(y);
-    y["Calculated_Revenue"]=d3.scalePoint().domain(data.map(d=>d["Calculated_Revenue"])).rangeRound([height,0]);
-    y["Founded"]=d3.scaleLinear()
-            .domain(d3.extent(data, function (d) {
-                return +d["Founded"];
-            }))
-            .range([height, 0]);
-    y["Avg_Salary"]=d3.scaleLinear()
-        .domain(d3.extent(data, function (d) {
-            return +d["Avg_Salary"];
-        }))
-        .range([height, 0]);
+    x.domain(dimensions);
+    // Extract the list of dimensions and create a scale for each.
+    // console.log(y["Calculated_Size"]);
 
-    var color = d3.scaleOrdinal()
-        .domain(["Small", "Medium", "Large","Enterprise" ])
-        .range(["grey","grey","grey","black"])
-
-    // Build the X scale -> it find the best position for each Y axis
-    x = d3.scalePoint()
-        .range([0, width])
-        .padding(1)
-        .domain(dimensions);
-
-
-    // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
-    function path(d) {
-        return d3.line()(dimensions.map(function (p) {
-            return [x(p), y[p](d[p])];
-        }));
-    };
-
-    // Draw the lines
-    svg
-        .selectAll("myPath")
+    // Add grey background lines for context.
+    background = svg.append("g")
+        .attr("class", "background")
+        .selectAll("path")
         .data(data)
         .enter().append("path")
-        .attr("d", path)
-        .style("fill", "none")
-        .style("stroke", "blue")
-        // .style("stroke", function(d){ return( color(d["Calculated_Size"]))} )
-        .style("opacity", 0.5);
+        .attr("d", path);
 
+    // Add blue foreground lines for focus.
+    foreground = svg.append("g")
+        .attr("class", "foreground")
+        .selectAll("path")
+        .data(data)
+        .enter().append("path")
+        .attr("d", path);
 
-    // Draw the axis:
-    svg.selectAll("myAxis")
-        .data(dimensions).enter()
+    //// ==== Draw Axis START ==== ////
+    var g = svg.selectAll(".dimension")
+        .data(dimensions).enter() // g's data is the dimensions
         .append("g")
+        .attr("class", "dimension")
+        // Give the axis it's propper x pos
         .attr("transform", function (d) {
             return "translate(" + x(d) + ")";
-        })
-
+        });
+    g.append("g") // The Axis
+        .attr("class", "axis")
         .each(function (d) {
-            d3.select(this).call(d3.axisLeft().scale(y[d]));
-        })
-        // Add axis title
-        .append("text")
+            d3.select(this).call(axis.scale(y[d]));
+        });
+    g.append("text") // Axis Label
+        .attr("class", "title")
         .style("text-anchor", "middle")
-        .attr("y", -9)
+        .attr("y", -10)
+        .attr("font-size", 15)
         .text(function (d) {
             return d;
+        });
+    //// ==== Draw Axis END ==== ////
+
+    g.append('g')
+        .attr('class', 'brush')
+        .each(function (d) {
+            d3.select(this).call(y[d].brush);
         })
-        .style("fill", "black")
+        .selectAll('rect')
+        .attr('x', -8)
+        .attr('width', 16);
 
 });
 
+function position(d) {
+    var v = dragging[d];
+    return v == null ? x(d) : v;
+}
+
+function transition(g) {
+    return g.transition().duration(500);
+}
+
+// Returns the path for a given data point.
+function path(d) {
+    return line(dimensions.map(function (p) {
+        return [position(p), y[p](d[p])];
+    }));
+}
+
+//
+function brushstart(event, d) {
+    event.sourceEvent.stopPropagation();
+}
+
+// Handles a brush event, toggling the display of foreground lines.
+// function brush() {
+//     console.log("Brushing");
+//     var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
+//         extents = actives.map(function(p) { return y[p].brush.extent(); });
+//     foreground.style("display", function(d) {
+//         return actives.every(function(p, i) {
+//             return extents[i][0] <= d[p] && d[p] <= extents[i][1];
+//         }) ? null : "none";
+//     });
+// }
+
+function brush() {
+    var actives = [];
+    //filter brushed extents
+    svg.selectAll(".brush")
+        .filter(function (d) {
+            return d3.brushSelection(this);
+        })
+        .each(function (d) {
+            actives.push({
+                dimension: d,
+                extent: d3.brushSelection(this)
+            });
+        });
+
+
+    // console.log(csv);
+    var selected = csv.filter(function (d) {
+        if (actives.every(function (active) {
+            var dim = active.dimension;
+            // test if point is within extents for each active brush
+            return active.extent[0] <= y[dim](d[dim]) && y[dim](d[dim]) <= active.extent[1];
+        })) {
+            return true;
+        }
+    });
+
+    console.log(selected);
+    document.getElementById("salary").innerHTML = selected.reduce((r, c) => r + c.Avg_Salary, 0) / selected.length;
+
+    // console.log(actives);
+    //set un-brushed foreground line disappear
+    foreground.classed("fade", function (d, i) {
+
+        return !actives.every(function (active) {
+            var dim = active.dimension;
+            // console.log(y[dim](d[dim]));
+            return active.extent[0] <= y[dim](d[dim]) && y[dim](d[dim]) <= active.extent[1];
+        });
+    });
+
+}
