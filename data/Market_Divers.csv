@@ -1,4 +1,4 @@
-index,Job Title,Rating,Name,City,State,Headquarters,Size,Calculated Size,Founded,Type of ownership,Industry,Sector,Revenue,Calculated_Revenue,Lower_Salary,Upper_Salary,Avg_Salary,company_txt,Python,spark,aws,excel,sql,sas,keras,pytorch,scikit,tensor,hadoop,tableau,bi,flink,mongo,google_an,job_title_sim,seniority_by_title,Degree
+index,Job Title,Rating,Name,City,State,Headquarters,Size,Calculated_Size,Founded,Type of ownership,Industry,Sector,Revenue,Calculated_Revenue,Lower_Salary,Upper_Salary,Avg_Salary,company_txt,Python,spark,aws,excel,sql,sas,keras,pytorch,scikit,tensor,hadoop,tableau,bi,flink,mongo,google_an,job_title_sim,seniority_by_title,Degree
 9,Data Scientist,4.6,"<intent>
 4.6",New York,NY,"New York, NY",51 - 200 ,Small,2009,Company - Private,Internet,Information Technology,$100 to $500 million (USD),$100-$500 million,53,91,72,Tecolote Research,1,0,0,1,0,1,0,0,0,0,0,1,1,0,0,0,Data Scientist,na,M
 127,Data Scientist,4.6,"<intent>
@@ -178,9 +178,9 @@ index,Job Title,Rating,Name,City,State,Headquarters,Size,Calculated Size,Founded
 306,Research Scientist,3.8,"Boys Town
 3.8",Omaha,NE,"Omaha, NE",1001 - 5000 ,Large,1917,Nonprofit Organization,Social Assistance,Non-Profit,Unknown / Non-Applicable,$100-$500 million,31,65,48,NMR Consulting,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,Data Engineer,na,na
 48,Data Scientist,5,"BPA Services
-5.0",Washington,DC,"Alexandria, VA",unknown,,2008,Company - Private,Enterprise Software & Network Solutions,Information Technology,Unknown / Non-Applicable,< $25 million,34,62,48,iSeatz,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,Analyst,na,na
+5.0",Washington,DC,"Alexandria, VA",11-50,Small,2008,Company - Private,Enterprise Software & Network Solutions,Information Technology,Unknown / Non-Applicable,< $25 million,34,62,48,iSeatz,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,Analyst,na,na
 477,Data Scientist,5,"BPA Services
-5.0",Washington,DC,"Alexandria, VA",unknown,,2008,Company - Private,Enterprise Software & Network Solutions,Information Technology,Unknown / Non-Applicable,< $25 million,117,231,174,Nektar Therapeutics,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,Other Scientist,sr,M
+5.0",Washington,DC,"Alexandria, VA",11-50,Small,2008,Company - Private,Enterprise Software & Network Solutions,Information Technology,Unknown / Non-Applicable,< $25 million,117,231,174,Nektar Therapeutics,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,Other Scientist,sr,M
 827,Sr. Data Engineer | Big Data SaaS Pipeline,2.7,"Bridg
 2.7",Los Angeles,CA,"Los Angeles, CA",Jan-50,Small,2011,Company - Private,Enterprise Software & Network Solutions,Information Technology,Unknown / Non-Applicable,$100-$500 million,64,106,85,TransUnion,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,Data Scientist,na,na
 403,Senior Data Scientist,3.5,"Brighthouse Financial

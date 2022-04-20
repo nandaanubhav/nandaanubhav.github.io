@@ -34,7 +34,7 @@ class DonutVis {
 
         vis.color = d3.scaleOrdinal(d3.schemeBlues[9]);
         vis.radius = Math.min(vis.width/2 , vis.height/2);
-        console.log(vis.radius);
+        // console.log(vis.radius);
         vis.donutWidth = vis.radius/3; //This is the size of the hole in the middle
 
         vis.arc = d3.arc()
@@ -70,7 +70,7 @@ class DonutVis {
 
         let vis = this;
         vis.selectedCategory = document.querySelector('input[name="donutCheck"]:checked').value;
-        console.log(vis.selectedCategory);
+        // console.log(vis.selectedCategory);
         let jobCount=Array.from(d3.rollup(vis.data, v => v.length, d => d[vis.selectedCategory]), ([key, value]) => ({key, value}))
         jobCount.sort(function(a,b){return b["value"]-a["value"]});
         if(jobCount.length>9)
@@ -87,7 +87,7 @@ class DonutVis {
         }
         jobCount.sort(function(a,b){return b["value"]-a["value"]});
 
-        console.log(jobCount);
+        // console.log(jobCount);
         // console.log(c);
         vis.displayData=jobCount;
         vis.updateVis();
