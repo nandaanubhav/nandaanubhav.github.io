@@ -34,7 +34,8 @@ function loadData() {
         // let donutVis = new DonutVis("donutvis", csv);
         boxPlotVis = new BoxPlotVis("boxplotvis", csv);
         circularVis = new CircularVis("circularvis", csv);
-        // let barVis = new BarVis("bar-chart-1", csv , "Data Scientist", "Business Services");
+        // let barVis = new BarVis("bar-chart", csv , "Data Scientist", "Business Services", "Health Care");
+        // let wordCloudVis = new WordCloudVis("word-cloud", csv , "Data Scientist", "Business Services", "Health Care");
 
     });
 };

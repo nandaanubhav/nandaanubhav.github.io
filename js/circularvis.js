@@ -1,5 +1,5 @@
 /*
- * BoxPlotVis - Object constructor function
+ * CircularVis - Object constructor function
  * @param _parentElement 	-- the HTML element in which to draw the visualization
  * @param _data						-- the actual data
  */
@@ -10,6 +10,7 @@ class CircularVis {
         this.parentElement = _parentElement;
         this.data = _data;
         this.barCharts = [];
+        this.wordCloud = [];
         this.initVis();
 
     }
@@ -101,6 +102,7 @@ class CircularVis {
                     r[a.Sector] = (r[a.Sector] || 0) + 1;
                     return r;
                 }, {});
+                // console.log(overallSectorCount);
                 let topSector = Object.keys(overallSectorCount).sort(function (a, b) {
                     return overallSectorCount[b] - overallSectorCount[a]
                 });
@@ -109,9 +111,13 @@ class CircularVis {
 
                 if (vis.barCharts.length != 0) {
                     vis.barCharts[0].wrangleData(i.key, topSector[0], topSector[1]);
-                    vis.barCharts[1].wrangleData(i.key, topSector[1], topSector[0]);
                 } else {
                     vis.barCharts.push(new BarVis("bar-chart", vis.data, i.key, topSector[0], topSector[1]));
+                }
+                if (vis.wordCloud.length != 0) {
+                    vis.wordCloud[0].wrangleData(i.key, topSector[0], topSector[1]);
+                } else {
+                    vis.wordCloud.push(new WordCloudVis("word-cloud", vis.data, i.key, topSector[0], topSector[1]));
                 }
 
                 vis.svg.append('circle')
@@ -124,7 +130,7 @@ class CircularVis {
                     .on('click', function () {
                         // console.log(vis.barCharts);
                         vis.barCharts[0].deleteVis();
-                        vis.barCharts[1].deleteVis();
+                        vis.wordCloud[0].deleteVis();
                         // vis.barCharts = [];
                         // console.log(vis.barCharts);
                         vis.svg.selectAll(".delete").remove();
@@ -153,7 +159,7 @@ class CircularVis {
             // Add your code below this line
             .attr("x", "-15")
             .attr("y", function (d) {
-                console.log(d.value)
+                // console.log(d.value)
                 return -(radiusScale(d.value) + 10);
             })
             .text((d) => d.key)

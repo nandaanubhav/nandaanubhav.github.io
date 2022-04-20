@@ -28,3 +28,7 @@
     height: 25vh;
     width: 100%;
 }
+
+.small {
+    font: italic 43px sans-serif;
+}
