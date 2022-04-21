@@ -1,177 +1,222 @@
-var margin = {top: 30, right: 10, bottom: 10, left: 10},
-    width = 760 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+class ParallelVis {
 
-var x = d3.scalePoint().range([0, width]),
-// var x = d3.scaleOrdinal().rangePoints([0, width], 1),
-    y = {},
-    dragging = {};
+    constructor(_parentElement, _data) {
+        this.parentElement = _parentElement;
+        this.data = _data;
+        this.initVis();
 
-var line = d3.line(),
-    axis = d3.axisLeft(),
-    background,
-    foreground,
-    csv;
+    }
 
-var svg = d3.select("#parallelvis").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("data/Market_Divers.csv").then(data => {
+    /*
+     * Initialize visualization (static content, e.g. SVG area or axes)
+     */
 
-    data.forEach(function (d) {
-        d["Founded"] = 2022 - (+d["Founded"]);
-        d["Avg_Salary"] = +d["Avg_Salary"];
-    });
+    initVis() {
+        let vis = this;
+        vis.margin = {top: 30, right: 50, bottom: 10, left: 80};
 
-    csv = data;
-    // console.log(Object.keys(cars[0]));
+        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
+        vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
-    dimensions = ["Calculated_Size", "Founded", "Calculated_Revenue", "Avg_Salary"]
-    // console.log(dimensions);
-    // For each dimension, I build a linear scale. I store all in a y object
-    y["Calculated_Size"] = d3.scalePoint().domain(data.map(d => d["Calculated_Size"])).rangeRound([height, 0]);
-    y["Calculated_Revenue"] = d3.scalePoint().domain(data.map(d => d["Calculated_Revenue"])).rangeRound([height, 0]);
-    y["Founded"] = d3.scaleLinear().domain(d3.extent(data, function (d) {
-        return +d["Founded"];
-    })).range([height, 0]);
-    y["Avg_Salary"] = d3.scaleLinear().domain(d3.extent(data, function (d) {
-        return +d["Avg_Salary"];
-    })).range([height, 0]);
-    dimensions.forEach(d => {
-        y[d].brush = d3.brushY()
-            .extent([[-8, y[d].range()[1]], [8, y[d].range()[0]]])
-            .on('brush', brush);
-    });
+        vis.x = d3.scalePoint().range([0, vis.width]);
+        vis.y = {};
+        vis.dragging = {};
 
-    x.domain(dimensions);
-    // Extract the list of dimensions and create a scale for each.
-    // console.log(y["Calculated_Size"]);
+        vis.line = d3.line();
+        vis.axis = d3.axisLeft();
+        vis.background, vis.foreground, vis.csv;
 
-    // Add grey background lines for context.
-    background = svg.append("g")
-        .attr("class", "background")
-        .selectAll("path")
-        .data(data)
-        .enter().append("path")
-        .attr("d", path);
+        vis.svg = d3.select("#" + vis.parentElement).append("svg")
+            .attr("width", vis.width + vis.margin.left + vis.margin.right)
+            .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
-    // Add blue foreground lines for focus.
-    foreground = svg.append("g")
-        .attr("class", "foreground")
-        .selectAll("path")
-        .data(data)
-        .enter().append("path")
-        .attr("d", path);
+        vis.wrangleData();
+    }
 
-    //// ==== Draw Axis START ==== ////
-    var g = svg.selectAll(".dimension")
-        .data(dimensions).enter() // g's data is the dimensions
-        .append("g")
-        .attr("class", "dimension")
-        // Give the axis it's propper x pos
-        .attr("transform", function (d) {
-            return "translate(" + x(d) + ")";
+    wrangleData() {
+
+        let vis = this;
+
+        vis.dimensions = ["Size", "Founded", "Revenue", "Avg_Salary"]
+
+        // For each dimension, I build a linear scale. I store all in a y object
+        vis.y["Size"] = d3.scalePoint().domain(vis.data.map(d => d["Size"])).rangeRound([vis.height, 0]);
+        vis.y["Revenue"] = d3.scalePoint().domain(vis.data.map(d => d["Revenue"])).rangeRound([vis.height, 0]);
+        vis.y["Founded"] = d3.scaleLinear().domain(d3.extent(vis.data, function (d) {
+            return +d["Founded"];
+        })).range([vis.height, 0]);
+        vis.y["Avg_Salary"] = d3.scaleLinear().domain(d3.extent(vis.data, function (d) {
+            return +d["Avg_Salary"];
+        })).range([vis.height, 0]);
+
+        vis.brush=function () {
+
+            var actives = [];
+            //filter brushed extents
+            vis.svg.selectAll(".brush")
+                .filter(function (d) {
+                    return d3.brushSelection(this);
+                })
+                .each(function (d) {
+                    actives.push({
+                        dimension: d,
+                        extent: d3.brushSelection(this)
+                    });
+                });
+
+
+            // console.log(csv);
+            var selected = vis.data.filter(function (d) {
+                if (actives.every(function (active) {
+                    var dim = active.dimension;
+                    // test if point is within extents for each active brush
+                    return active.extent[0] <= vis.y[dim](d[dim]) && vis.y[dim](d[dim]) <= active.extent[1];
+                })) {
+                    return true;
+                }
+            });
+            console.log(selected);
+            if (selected.length != 0)
+                document.getElementById("salary").innerHTML = "Average Salary of selection :" + selected.reduce((r, c) => r + c.Avg_Salary, 0) / selected.length;
+            else
+                document.getElementById("salary").innerHTML = "  ";
+
+            //set un-brushed foreground line disappear
+            vis.foreground.classed("fade", function (d, i) {
+
+                return !actives.every(function (active) {
+                    var dim = active.dimension;
+                    // console.log(y[dim](d[dim]));
+                    return active.extent[0] <= vis.y[dim](d[dim]) && vis.y[dim](d[dim]) <= active.extent[1];
+                });
+            });
+
+        }
+        vis.dimensions.forEach(d => {
+            vis.y[d].brush = d3.brushY()
+                .extent([[-8, vis.y[d].range()[1]], [8, vis.y[d].range()[0]]])
+                .on('brush', vis.brush);
         });
-    g.append("g") // The Axis
-        .attr("class", "axis")
-        .each(function (d) {
-            d3.select(this).call(axis.scale(y[d]));
-        });
-    g.append("text") // Axis Label
-        .attr("class", "title")
-        .style("text-anchor", "middle")
-        .attr("y", -10)
-        .attr("font-size", 15)
-        .text(function (d) {
-            return d;
-        });
-    //// ==== Draw Axis END ==== ////
 
-    g.append('g')
-        .attr('class', 'brush')
-        .each(function (d) {
-            d3.select(this).call(y[d].brush);
-        })
-        .selectAll('rect')
-        .attr('x', -8)
-        .attr('width', 16);
+        vis.x.domain(vis.dimensions);
+        // Extract the list of dimensions and create a scale for each.
 
-});
 
-function position(d) {
-    var v = dragging[d];
-    return v == null ? x(d) : v;
-}
+        vis.updateVis();
+    }
 
-function transition(g) {
-    return g.transition().duration(500);
-}
+    updateVis() {
+        let vis = this;
+        // Add grey background lines for context.
+        vis.background = vis.svg.append("g")
+            .attr("class", "background")
+            .selectAll("path")
+            .data(vis.data)
+            .enter().append("path")
+            .attr("d", path);
+
+        // Add blue foreground lines for focus.
+        vis.foreground = vis.svg.append("g")
+            .attr("class", "foreground")
+            .selectAll("path")
+            .data(vis.data)
+            .enter().append("path")
+            .attr("d", path);
+
+        //// ==== Draw Axis START ==== ////
+        vis.g = vis.svg.selectAll(".dimension")
+            .data(vis.dimensions).enter() // g's data is the dimensions
+            .append("g")
+            .attr("class", "dimension")
+            // Give the axis it's propper x pos
+            .attr("transform", function (d) {
+                return "translate(" + vis.x(d) + ")";
+            });
+        vis.g.append("g") // The Axis
+            .attr("class", "axis")
+            .each(function (d) {
+                d3.select(this).call(vis.axis.scale(vis.y[d]));
+            });
+        vis.g.append("text") // Axis Label
+            .attr("class", "title")
+            .style("text-anchor", "middle")
+            .attr("y", -10)
+            .attr("font-size", 15)
+            .text(function (d) {
+                return d;
+            });
+        //// ==== Draw Axis END ==== ////
+
+        vis.g.append('g')
+            .attr('class', 'brush')
+            .each(function (d) {
+                d3.select(this).call(vis.y[d].brush);
+            })
+            .selectAll('rect')
+            .attr('x', -8)
+            .attr('width', 16);
+
+
+        function position(d) {
+            var v = vis.dragging[d];
+            return v == null ? vis.x(d) : v;
+        }
+
 
 // Returns the path for a given data point.
-function path(d) {
-    return line(dimensions.map(function (p) {
-        return [position(p), y[p](d[p])];
-    }));
-}
-
-//
-function brushstart(event, d) {
-    event.sourceEvent.stopPropagation();
-}
-
-// Handles a brush event, toggling the display of foreground lines.
-// function brush() {
-//     console.log("Brushing");
-//     var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
-//         extents = actives.map(function(p) { return y[p].brush.extent(); });
-//     foreground.style("display", function(d) {
-//         return actives.every(function(p, i) {
-//             return extents[i][0] <= d[p] && d[p] <= extents[i][1];
-//         }) ? null : "none";
-//     });
-// }
-
-function brush() {
-    var actives = [];
-    //filter brushed extents
-    svg.selectAll(".brush")
-        .filter(function (d) {
-            return d3.brushSelection(this);
-        })
-        .each(function (d) {
-            actives.push({
-                dimension: d,
-                extent: d3.brushSelection(this)
-            });
-        });
-
-
-    // console.log(csv);
-    var selected = csv.filter(function (d) {
-        if (actives.every(function (active) {
-            var dim = active.dimension;
-            // test if point is within extents for each active brush
-            return active.extent[0] <= y[dim](d[dim]) && y[dim](d[dim]) <= active.extent[1];
-        })) {
-            return true;
+        function path(d) {
+            return vis.line(vis.dimensions.map(function (p) {
+                return [position(p), vis.y[p](d[p])];
+            }));
         }
-    });
 
-    console.log(selected);
-    document.getElementById("salary").innerHTML = selected.reduce((r, c) => r + c.Avg_Salary, 0) / selected.length;
 
-    // console.log(actives);
-    //set un-brushed foreground line disappear
-    foreground.classed("fade", function (d, i) {
+        // vis.brush=function() {
+        //     function brush(){
+        //     var actives = [];
+        //     //filter brushed extents
+        //     vis.svg.selectAll(".brush")
+        //         .filter(function (d) {
+        //             return d3.brushSelection(this);
+        //         })
+        //         .each(function (d) {
+        //             actives.push({
+        //                 dimension: d,
+        //                 extent: d3.brushSelection(this)
+        //             });
+        //         });
+        //
+        //
+        //     // console.log(csv);
+        //     var selected = vis.data.filter(function (d) {
+        //         if (actives.every(function (active) {
+        //             var dim = active.dimension;
+        //             // test if point is within extents for each active brush
+        //             return active.extent[0] <= vis.y[dim](d[dim]) && vis.y[dim](d[dim]) <= active.extent[1];
+        //         })) {
+        //             return true;
+        //         }
+        //     });
+        //     if(selected!=null)
+        //         document.getElementById("salary").innerHTML = "Average Salary of selection :"+selected.reduce((r, c) => r + c.Avg_Salary, 0) / selected.length;
+        //
+        //     //set un-brushed foreground line disappear
+        //     vis.foreground.classed("fade", function (d, i) {
+        //
+        //         return !actives.every(function (active) {
+        //             var dim = active.dimension;
+        //             // console.log(y[dim](d[dim]));
+        //             return active.extent[0] <= vis.y[dim](d[dim]) && vis.y[dim](d[dim]) <= active.extent[1];
+        //         });
+        //     });
+        //
+        // }
+    }
 
-        return !actives.every(function (active) {
-            var dim = active.dimension;
-            // console.log(y[dim](d[dim]));
-            return active.extent[0] <= y[dim](d[dim]) && y[dim](d[dim]) <= active.extent[1];
-        });
-    });
+
+
 
 }

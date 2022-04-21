@@ -13,6 +13,9 @@
 #donutvis {
     height: 90vh;
 }
+#parallelvis {
+    height: 80vh;
+}
 
 .tooltip {
     position: absolute;
@@ -160,17 +163,6 @@ svg {
     shape-rendering: crispEdges;
 }
 
-.axis line,
-.axis path {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-}
-
-.axis text {
-    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
-    cursor: move;
-}
 
 .foreground path {
     fill: none;
