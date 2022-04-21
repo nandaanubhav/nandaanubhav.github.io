@@ -1,11 +1,11 @@
 /* * * * * * * * * * * * * *
-*      class BarVis        *
+*      class LollipopVis   *
 * * * * * * * * * * * * * */
 
 
-class BarVis {
+class LollipopVis {
 
-    // constructor method to initialize BarVis object
+    // constructor method to initialize LollipopVis object
     constructor(parentElement, data, jobTitle, sector, otherSector) {
         this.parentElement = parentElement;
         this.data = data;
@@ -22,10 +22,10 @@ class BarVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 20, right: 0, bottom: 20, left: 60};
-        vis.marginSecond = {top: 20, right: 60, bottom: 20, left: 0};
-        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width / 3 - vis.margin.left - vis.margin.right;
-        vis.widthSecond = document.getElementById(vis.parentElement).getBoundingClientRect().width / 3 - vis.marginSecond.left - vis.marginSecond.right;
+        vis.margin = {top: 40, right: 0, bottom: 50, left: 25};
+        vis.marginSecond = {top: 40, right: 25, bottom: 50, left: 0};
+        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 - vis.margin.left - vis.margin.right;
+        vis.widthSecond = document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 - vis.marginSecond.left - vis.marginSecond.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         // init drawing area
@@ -48,34 +48,36 @@ class BarVis {
         //     .attr("width", vis.width)
         //     .attr("height", vis.height);
 
-
-        // tooltip
-        vis.tooltip = d3.select("body").append('div')
-            .attr('class', "tooltip")
-            .attr('id', 'barTooltip');
-
-        // add title
-        vis.svg.append('g')
-            .attr('class', 'title bar-title')
+        vis.title = vis.svg.append('g')
+            .attr('class', 'title lollipop-title')
             .append('text')
-            .attr('transform', `translate(${vis.width / 4}, 10)`)
+            .attr('transform', `translate(${vis.width / 2}, -10)`)
+            .attr('text-anchor', 'middle');
+
+        vis.titleSecond = vis.svgSecond.append('g')
+            .attr('class', 'title lollipop-title')
+            .append('text')
+            .attr('transform', `translate(${vis.width / 2}, -10)`)
             .attr('text-anchor', 'middle');
 
         // Scales
         vis.x = d3.scaleBand()
             .rangeRound([0, vis.width])
-            .paddingInner(0.1);
+            .padding(1.2);
 
         vis.y = d3.scaleLinear()
             .range([vis.height, 0]);
 
         vis.xAxis = d3.axisBottom(vis.x);
 
+        vis.yAxisTicks = [];
+
         vis.yAxis = d3.axisLeft(vis.y);
+
 
         vis.xSecond = d3.scaleBand()
             .rangeRound([0, vis.width])
-            .paddingInner(0.1);
+            .padding(1.2);
 
         vis.ySecond = d3.scaleLinear()
             .range([vis.height, 0]);
@@ -116,6 +118,7 @@ class BarVis {
 
         vis.otherSectorData = [];
         let filteredDataOtherSector = vis.data.filter(x => x["job_title_sim"] === jobTitle).filter(x => x["Sector"] === otherSector);
+        console.log(filteredDataOtherSector);
         vis.skills.forEach(d => {
             vis.otherSectorData.push({'Skill': d, 'Count': filteredDataOtherSector.filter(x => x[d] === 1).length});
         });
@@ -126,8 +129,8 @@ class BarVis {
         vis.otherSectorData = vis.otherSectorData.slice(0, 3);
 
         // console.log(jobTitle + ' ' + sector);
-        // console.log(vis.displayData);
-        // console.log(vis.otherSectorData);
+        console.log(vis.displayData);
+        console.log(vis.otherSectorData);
         vis.updateVis()
 
     }
@@ -144,56 +147,107 @@ class BarVis {
         // * TO-DO *
 
         document.getElementById(vis.parentElement).style.display = "block";
+        document.getElementById("close-icon").style.display = "block";
         vis.x.domain(vis.displayData.map(d => d.Skill));
         vis.y.domain([0, Math.max(d3.max(vis.displayData, d => d["Count"]), d3.max(vis.otherSectorData, d => d["Count"]))]);
-        vis.xSecond.domain(vis.displayData.map(d => d.Skill));
+        vis.xSecond.domain(vis.otherSectorData.map(d => d.Skill));
         vis.ySecond.domain([0, Math.max(d3.max(vis.displayData, d => d["Count"]), d3.max(vis.otherSectorData, d => d["Count"]))]);
+        vis.yAxisTicks = vis.y.ticks().filter(tick => Number.isInteger(tick));
+
+        console.log(vis.yAxisTicks);
+
+        vis.title.text(vis.sector);
+        vis.titleSecond.text(vis.otherSector);
 
         // console.log(d3.max(vis.displayData, d => d["Count"]));
 
-        let bar = vis.svg.selectAll(".bar")
+        let line = vis.svg.selectAll(".line")
             .data(vis.displayData);
 
-        bar.enter().append("rect")
-            .attr("class", "bar")
-            .merge(bar)
-            .attr("fill", function (d) {
-                return "steelblue";
+        line.enter().append("line")
+            .attr("class", "line")
+            .merge(line)
+            .attr("stroke", "grey")
+            .attr("x1", d => vis.x(d.Skill))
+            .attr("y1", d => vis.y(d.Count))
+            .attr("x2", d => vis.x(d.Skill))
+            .attr("y2", d => vis.y(0));
+
+        line.exit().remove();
+
+        let circle = vis.svg.selectAll(".circle")
+            .data(vis.displayData);
+
+        circle.enter()
+            .append("circle")
+            .attr("class", "circle")
+            .merge(circle)
+            .attr("cx", function (d) {
+                return vis.x(d.Skill);
             })
-            .attr("x", d => vis.x(d.Skill))
-            .attr("y", d => vis.y(d["Count"]))
-            .attr("width", vis.x.bandwidth())
-            .attr("height", d => vis.height - vis.y(d["Count"]));
+            .attr("cy", function (d) {
+                return vis.y(d.Count);
+            })
+            .attr("r", "4")
+            .style("fill", "#69b3a2")
+            .attr("stroke", "black");
 
+        circle.exit().remove();
 
-        bar.exit().remove();
-
-        let barSecond = vis.svgSecond.selectAll(".bar")
+        let lineSecond = vis.svgSecond.selectAll(".lineSecond")
             .data(vis.otherSectorData);
 
-        barSecond.enter().append("rect")
-            .attr("class", "bar")
-            .merge(barSecond)
-            .attr("fill", function (d) {
-                return "steelblue";
+        lineSecond.enter().append("line")
+            .attr("class", "lineSecond")
+            .merge(lineSecond)
+            .attr("stroke", "grey")
+            .attr("x1", d => vis.xSecond(d.Skill))
+            .attr("y1", d => vis.ySecond(d.Count))
+            .attr("x2", d => vis.xSecond(d.Skill))
+            .attr("y2", d => vis.ySecond(0));
+
+
+        lineSecond.exit().remove();
+
+        let circleSecond = vis.svgSecond.selectAll(".circleSecond")
+            .data(vis.otherSectorData);
+
+        circleSecond.enter()
+            .append("circle")
+            .attr("class", "circleSecond")
+            .merge(circleSecond)
+            .attr("cx", function (d) {
+                return vis.xSecond(d.Skill);
             })
-            .attr("x", d => vis.xSecond(d.Skill))
-            .attr("y", d => vis.ySecond(d["Count"]))
-            .attr("width", vis.xSecond.bandwidth())
-            .attr("height", d => vis.height - vis.ySecond(d["Count"]));
+            .attr("cy", function (d) {
+                return vis.ySecond(d.Count);
+            })
+            .attr("r", "4")
+            .style("fill", "#69b3a2")
+            .attr("stroke", "black")
 
+        circleSecond.exit().remove();
 
-        barSecond.exit().remove();
-
-        // vis.svg.select(".bar-title").enter().text(vis.sector);
-
-        // Update the x-axis
-        vis.svg.select(".x-axis").call(vis.xAxis);
+        vis.svg.select(".x-axis").call(vis.xAxis)
+            .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function (d) {
+                return "rotate(-45)"
+            });
 
         // Update the y-axis
-        vis.svg.select(".y-axis").call(vis.yAxis);
+        vis.svg.select(".y-axis").call(vis.yAxis.tickValues(vis.yAxisTicks).tickFormat(d3.format('d')));
 
-        vis.svgSecond.select(".x-axis").call(vis.xAxisSecond);
+        vis.svgSecond.select(".x-axis").call(vis.xAxisSecond)
+            .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function (d) {
+                return "rotate(-45)"
+            });
 
         // Update the y-axis
         vis.svgSecond.select(".y-axis").call(vis.yAxisSecond);
@@ -203,5 +257,8 @@ class BarVis {
     deleteVis() {
         let vis = this;
         document.getElementById(vis.parentElement).style.display = "none";
+        document.getElementById("close-icon").style.display = "none";
+
     }
+
 }

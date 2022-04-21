@@ -25,10 +25,21 @@
 }
 
 .bar-chart-container {
-    height: 25vh;
+    height: 40vh;
     width: 100%;
 }
 
 .small {
-    font: italic 43px sans-serif;
+    font-family: sans-serif;
+}
+
+.close-icon {
+    position: absolute;
+    top: 0;
+    right: 10%;
+    font-size: 36px;
+    color: red;
+    display: none;
+    /*margin-right: 10px;*/
+    /*margin-left: 50px;*/
 }

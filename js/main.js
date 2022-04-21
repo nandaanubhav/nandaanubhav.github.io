@@ -43,9 +43,8 @@ function loadData() {
 function boxPlotCategoryChange() {
     boxPlotVis.wrangleData();
 };
-// console.log(data);
-// function createVis(){
-//     let data = loadData();
-//     console.log(data);
-//
-// };
+
+function closeCilcularVis() {
+    circularVis.lollipopChart[0].deleteVis();
+    circularVis.wordCloud[0].deleteVis();
+}

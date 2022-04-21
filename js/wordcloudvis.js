@@ -23,8 +23,10 @@ class WordCloudVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 20, right: 20, bottom: 20, left: 60};
-        vis.width = (document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right) / 2.5;
+        vis.margin = {top: 0, right: 0, bottom: 20, left: 25};
+        vis.marginSecond = {top: 0, right: 25, bottom: 20, left: 0};
+        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 - vis.margin.left - vis.margin.right;
+        vis.widthSecond = document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 - vis.marginSecond.left - vis.marginSecond.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         // init drawing area
@@ -32,13 +34,14 @@ class WordCloudVis {
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append('g')
-            .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
+            .attr('transform', `translate (${vis.width / 2 + vis.margin.left}, ${vis.height / 3})`);
 
         vis.svgSecond = d3.select("#" + vis.parentElement).append("svg")
-            .attr("width", vis.width + vis.margin.left + vis.margin.right)
-            .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+            .attr("width", vis.width + vis.marginSecond.left + vis.marginSecond.right)
+            .attr("height", vis.height + vis.marginSecond.top + vis.marginSecond.bottom)
             .append('g')
-            .attr('transform', `translate (${vis.margin.left}, ${vis.margin.top})`);
+            .attr('transform', `translate (${vis.width / 2}, ${vis.height / 3})`);
+
 
         // // Overlay with path clipping
         // vis.svg.append("defs").append("clipPath")
@@ -48,10 +51,24 @@ class WordCloudVis {
         //     .attr("height", vis.height);
 
         vis.xScale = d3.scaleLinear()
-            .range([0, 30]);
+            .range([10, 30]);
 
         vis.xScaleSecond = d3.scaleLinear()
-            .range([0, 30]);
+            .range([10, 30]);
+
+        vis.colorScale = d3.scaleLinear()
+            .range([0, 1]);
+
+        vis.colorScaleSecond = d3.scaleLinear()
+            .range([0, 1]);
+
+        vis.svgSecond.append('line')
+            .style("stroke", "black")
+            .style("stroke-width", 1)
+            .attr("x1", -vis.width / 2)
+            .attr("y1", -vis.height / 3)
+            .attr("x2", -vis.width / 2)
+            .attr("y2", vis.height / 3);
 
         // Scales
         this.wrangleData(vis.jobTitle, vis.sector, vis.otherSector);
@@ -77,8 +94,8 @@ class WordCloudVis {
         vis.otherSectorData = vis.otherSectorData.filter(x => x["Count"] != 0);
 
         // console.log(jobTitle + ' ' + sector);
-        console.log(vis.displayData);
-        console.log(vis.otherSectorData);
+        // console.log(vis.displayData);
+        // console.log(vis.otherSectorData);
         vis.updateVis()
 
     }
@@ -95,14 +112,16 @@ class WordCloudVis {
         // * TO-DO *
 
         document.getElementById(vis.parentElement).style.display = "block";
-        vis.xScale.domain([5, d3.max(vis.displayData, function (d) {
+        vis.xScale.domain(d3.extent(vis.displayData, function (d) {
             return d.Count;
-        })]);
-        vis.xScaleSecond.domain([5, d3.max(vis.otherSectorData, function (d) {
+        }));
+        vis.xScaleSecond.domain(d3.extent(vis.otherSectorData, function (d) {
             return d.Count;
-        })]);
-
-        console.log(d3.max(vis.displayData, function (d) {
+        }));
+        vis.colorScale.domain(d3.extent(vis.displayData, function (d) {
+            return d.Count;
+        }));
+        vis.colorScaleSecond.domain(d3.extent(vis.otherSectorData, function (d) {
             return d.Count;
         }));
 
@@ -138,15 +157,15 @@ class WordCloudVis {
 
         function draw(words) {
 
-            console.log("Drawing")
             vis.words = vis.svg.selectAll("text")
                 .data(words);
 
             vis.words.enter().append("text")
                 .style("class", "small")
                 .style("font-family", "Impact")
-                .style("fill", function (d, i) {
-                    return "blue";
+                .style("fill", function (d) {
+                    // console.log(vis.colorScale(d.Count));
+                    return d3.interpolateBlues(vis.colorScale(d.Count));
                 })
                 .attr("text-anchor", "middle")
                 .merge(vis.words)
@@ -174,8 +193,8 @@ class WordCloudVis {
             vis.wordsSecond.enter().append("text")
                 .style("class", "small")
                 .style("font-family", "Impact")
-                .style("fill", function (d, i) {
-                    return "blue";
+                .style("fill", function (d) {
+                    return d3.interpolateBlues(vis.colorScaleSecond(d.Count));
                 })
                 .attr("text-anchor", "middle")
                 .merge(vis.wordsSecond)
