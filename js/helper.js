@@ -7,6 +7,7 @@ $header_top.find('a').on('click', function () {
 
 $('#fullpage').fullpage({
     sectionsColor: ['#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D', '#FFC14D'],
+
     sectionSelector: '.vertical-scrolling',
     navigation: true,
     slidesNavigation: true,

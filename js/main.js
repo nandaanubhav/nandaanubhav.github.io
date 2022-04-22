@@ -1,16 +1,30 @@
 
-let donutVis, boxPlotVis, barchart, miniBarChart, tileMap
+let donutVis, boxPlotVis, barchart, miniBarChart, tileMap,circularVis
 let parseDate = d3.timeParse("%m/%d/%Y");
 let selectedRange = [];
 let mainData;
+// $("#tip").delay(5000).fadeOut();
+
+function hideTip(){
+    var v=document.getElementById("tip");
+    v.style.display="none";
+}
+function hideTip2(){
+    var m=document.getElementById("tip2");
+    m.style.display="none";
+}
+
 //reading csv file
 loadData();
 function loadData() {
     d3.csv("data/Market_Divers.csv").then(csv => {
         csv.forEach(function (d) {
+            // d["Founded"] = 2022 - (+d["Founded"]);
+            d.Size=d.Calculated_Size;
+            d.Revenue=d.Calculated_Revenue;
             d.index = +d.index;
             d.Rating = +d.Rating;
-            d.Founded = +d.Founded;
+            d.Age = +(2022-d.Founded);
             d.Lower_Salary = +d.Lower_Salary;
             d.Upper_Salary = +d.Upper_Salary;
             d.Avg_Salary = +d.Avg_Salary;
@@ -35,6 +49,8 @@ function loadData() {
         boxPlotVis = new BoxPlotVis("boxplotvis", csv);
         barchart = new BarChart("barchart-div", csv);
         miniBarChart = new MiniBarChart("mini-barchart-div", csv);
+        circularVis = new CircularVis("circularvis", csv);
+        parallelChart = new ParallelVis("parallelvis", csv);
         selectedRange = [5, miniBarChart.height/3];
         mainData = csv;
         loadTileMap();
@@ -66,4 +82,8 @@ function brushed() {
         miniBarChart.selectionRange = selectionRange;
         miniBarChart.wrangleData()
     }
+}
+function closeCilcularVis() {
+    circularVis.lollipopChart[0].deleteVis();
+    circularVis.wordCloud[0].deleteVis();
 }

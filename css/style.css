@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+.body{
+    color:#000152;
+}
+
 .tooltip-text {
     font-size: 30px;
     font-weight: bolder;
@@ -6,6 +12,12 @@
 
 #donutvis {
     height: 90vh;
+}
+#parallelvis {
+    height: 80vh;
+}
+#circularvis{
+    height: 80vh;
 }
 
 .tooltip {
@@ -37,7 +49,7 @@
     border: 3px solid black;
     text-align: center;
     font-size: 16px;
-    padding-top: 15%;
+    padding-top: 10%;
 }
 
 /*.axis { font-size: 12pt}*/
@@ -64,21 +76,21 @@
     font-family: sans-serif;
     width: 220px;
     height: 220px;
-    background: #fff;
-    padding: 30px;
-    border-radius: 50%;
+    background: #393A71;
+    padding: 20px;
     box-shadow: 0 0 22px #3336;
     transition: .6s;
     margin: 0 25px;
+    border-radius: 10px;
 }
 .profile-card:hover{
-    border-radius: 10px;
     height: 260px;
 }
 .profile-card .img{
     position: relative;
     width: 100%;
     height: 100%;
+    border-radius: 10px;
     transition: .6s;
     z-index: 99;
 }
@@ -87,42 +99,38 @@
 }
 .img img{
     width: 100%;
-    border-radius: 50%;
+    border-radius: 10px;
     box-shadow: 0 0 22px #3336;
     transition: .6s;
-}
-.profile-card:hover img{
-    border-radius: 10px;
 }
 .caption{
     text-align: center;
     transform: translateY(-80px);
     opacity: 0;
     transition: .6s;
+    font-size: 12px;
+    color: white;
+    font-family: sans-serif;
+    margin: 2px 0 9px 0;
 }
 .profile-card:hover .caption{
     opacity: 1;
 }
 
-.caption p{
-    font-size: 12px;
-    color: #0c52a1;
-    font-family: sans-serif;
-    margin: 2px 0 9px 0;
+.caption .social-links a{
+    color: white;
+    margin-right: 15px;
+    font-size: 21px;
+    transition: .6s;
 }
-/*.caption .social-links a{*/
-/*    color: #333;*/
-/*    margin-right: 15px;*/
-/*    font-size: 21px;*/
-/*    transition: .6s;*/
-/*}*/
-/*.social-links a:hover{*/
-/*    color: #0c52a1;*/
-/*}*/
+.social-links a:hover{
+    color: black;
+}
 .aboutTeam{
     width: 100%;
     height: 100vh;
     display: flex;
+    padding-top:5% ;
     justify-content: center;
     align-items: center;
 }
@@ -212,4 +220,89 @@
 @media screen and (max-height: 450px) {
     .sidebar {padding-top: 15px;}
     .sidebar a {font-size: 18px;}
+}
+
+}
+
+.intro{
+    font-family: 'Josefin Sans', sans-serif;
+
+}
+
+.fillpadding{
+    padding: 5px 5px 5px 5px;
+}
+
+
+/*parallel styles*/
+svg {
+    font: 10px sans-serif;
+}
+
+.background path {
+    fill: none;
+    stroke: #ddd;
+    shape-rendering: crispEdges;
+}
+
+.foreground path {
+    fill: none;
+    stroke: steelblue;
+}
+
+.brush .extent {
+    fill-opacity: .3;
+    stroke: #fff;
+    shape-rendering: crispEdges;
+}
+
+
+.foreground path {
+    fill: none;
+    stroke-opacity: .5;
+    stroke-width: 1.5px;
+}
+
+.foreground path.fade {
+    stroke: #000;
+    stroke-opacity: .05;
+}
+
+/*tip styles*/
+.box{
+    width: 20%;
+    height: 20%;
+    position: absolute;
+    top: 10%;
+    left: 60%;
+    opacity: 0.8;  /* for demo purpose  */
+}
+.stack-top{
+    z-index: 9;
+    /*margin: 20px; !* for demo purpose  *!*/
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+}
+/*custom visual*/
+
+.small-divs {
+    height: 37.5vh;
+}
+
+.small {
+    font-family: sans-serif;
+}
+
+.close-icon {
+    position: absolute;
+    top: 0;
+    right: 10%;
+    font-size: 20px;
+    color: red;
+    visibility: hidden;
+    /*margin-right: 10px;*/
+    /*margin-left: 50px;*/
 }
