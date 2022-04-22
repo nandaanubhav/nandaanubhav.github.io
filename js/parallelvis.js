@@ -85,7 +85,7 @@ class ParallelVis {
             });
             // console.log(selected);
             if (selected.length != 0)
-                document.getElementById("salary").innerHTML = "Average Salary of selection :" + selected.reduce((r, c) => r + c.Avg_Salary, 0) / selected.length;
+                document.getElementById("salary").innerHTML = "Average Salary of selection : $" + Math.floor(selected.reduce((r, c) => r + c.Avg_Salary, 0) / selected.length)+",000";
             else
                 document.getElementById("salary").innerHTML = "  ";
 

@@ -133,7 +133,7 @@
 }
 .aboutTeam{
     width: 100%;
-    height: 100vh;
+    height: 30vh;
     display: flex;
     padding-top:5% ;
     justify-content: center;
@@ -308,4 +308,8 @@ button {
 
 .axis-title {
     text-transform: capitalize;
+}
+
+#salary{
+    font-weight: bolder;
 }
