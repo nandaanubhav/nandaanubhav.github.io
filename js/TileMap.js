@@ -13,7 +13,6 @@ class TileMap {
         this.highlight = "#ffa3d7";
         this.navBarSvg = new NavBarVis("miniBar-div", data);
         this.activeSquares = [];
-        // TODO Create Class for nav bar svg
         this.initVis()
     }
 
@@ -105,8 +104,6 @@ class TileMap {
             return [key, dict[key]];
         });
 
-        // vis.displayData = items
-
         let maxVal = d3.max(vis.displayData, function(d) {
             return d[1];
         });
@@ -158,15 +155,11 @@ class TileMap {
 
             if (vis.mydict2[square["_groups"][0][0]["__data__"].code]==0)
                 return;
-            // console.log(square["_groups"])
 
             vis.openNav(square["_groups"][0][0]["__data__"].state, square["_groups"][0][0]["__data__"].code);
 
             square.classed("active", !square.classed("active"));
             if (square.classed("active")) {
-                //check if square array is empty, if not empty and change active
-                //push to a square array
-
                 vis.activeSquares.forEach(sq => {
                     sq.style("fill", function (d) {
                         return vis.linearColor(vis.mydict2[d.code])
@@ -217,88 +210,6 @@ class TileMap {
             .style("font-size", "12pt")
             .text(function(d) { return d.code; });
 
-        // // vis.states = vis.gridMap.selectAll(".state")
-        // //     .data(vis.mapData, function(d) { return d.code; });
-        //
-        // // vis.states.transition()
-        // //         .duration(500)
-        // //         .attr("x", function(d) { return (+d.col - 1) * vis.cellSize; })
-        // //         .attr("y", function(d) { return (+d.row - 1) * vis.cellSize; })
-        // //         .style("opacity", function(d) {
-        // //             if (d3.select(this).classed("active")) { return 1; } else {return 0.2; }
-        // //         });
-        // //
-        // //     // enter extra states
-        //     vis.states.enter()
-        //         .append("rect")
-        //         .attr("class", function(d) { return "state " + d.code; })
-        //         .attr("x", function(d) { return (+d.col - 1) * vis.cellSize; })
-        //         .attr("y", function(d) { return (+d.row - 1) * vis.cellSize; })
-        //         .attr("width", vis.cellSize)
-        //         .attr("height", vis.cellSize)
-        //         .style("fill", "red")
-        //         // .on("click", function(d) {
-        //         //     var square = d3.select(this);
-        //         //     square.classed("active", !square.classed("active"));
-        //         //     if (square.classed("active")) {
-        //         //         square.style("opacity", 1);
-        //         //         colIndex++;
-        //         //         switch(colIndex%5) {
-        //         //             case 0:
-        //         //                 square.style("fill", highlight[0])
-        //         //                 break;
-        //         //             case 1:
-        //         //                 square.style("fill", highlight[1])
-        //         //                 break;
-        //         //             case 2:
-        //         //                 square.style("fill", highlight[2])
-        //         //                 break;
-        //         //             case 3:
-        //         //                 square.style("fill", highlight[3])
-        //         //                 break;
-        //         //             case 4:
-        //         //                 square.style("fill", highlight[4])
-        //         //                 break;
-        //         //         }
-        //         //     } else {
-        //         //         square.style("fill", "#c0c0c0").style("opacity", 0.2);
-        //         //     }
-        //         // });
-        // //
-        // //     // hide extra state by setting opacity to zero
-        //     vis.states.exit()
-        //         .style("opacity", 0);
-        // //
-        // //     // update labels
-        //     vis.labels = vis.gridMap.selectAll(".label")
-        //         .data(vis.mapData, function(d) { return d.code; });
-        // //
-        //     vis.labels.transition()
-        //         .duration(500)
-        //         .attr("x", function(d) {
-        //             return ((d.col - 1) * vis.cellSize) + (vis.cellSize / 2);
-        //         })
-        //         .attr("y", function(d) {
-        //             return ((d.row - 1) * vis.cellSize) + (vis.cellSize /2 + 5);
-        //         })
-        //         .style("opacity", 1);
-        // //
-        //     vis.labels.enter()
-        //         .append("text")
-        //         .attr("class", function(d) { return "label " + d.code; })
-        //         .attr("x", function(d) {
-        //             return ((d.col - 1) * vis.cellSize) + (vis.cellSize / 2);
-        //         })
-        //         .attr("y", function(d) {
-        //             return ((d.row - 1) * vis.cellSize) + (vis.cellSize /2 + 5);
-        //         })
-        //         .style("text-anchor", "middle")
-        //         .text(function(d) { return d.code; });
-        // //
-        //     vis.labels.exit()
-        //         .style("opacity", 0);
-        // }
-
         var defs = vis.svg.append("defs");
 
         //Append a linearGradient element to the defs and give it a unique id
@@ -315,7 +226,7 @@ class TileMap {
             .attr("offset", "100%")
             .attr("stop-color", d3.interpolateBlues(1)); //dark blue
 
-        //Draw the rectangle and fill with gradient
+        // Draw the rectangle and fill with gradient
         vis.svg.append("rect")
             .attr("width", vis.width/6)
             .attr("x", function(d) {
@@ -326,6 +237,19 @@ class TileMap {
             .attr("height", 15)
             .style("fill", "url(#linear-gradient)")
             .style("opacity", 1);
+
+        //Draw the rectangle and fill with gradient
+        vis.svg.append("text")
+            // .attr("width", vis.width/6)
+            .attr("x", function(d) {
+                // return document.getElementById(vis.parentElement).getBoundingClientRect().right - (vis.width/6)
+                return 0.8*vis.width
+            })
+            .attr("y",(5*vis.height/6) -10)
+            .attr("height", 15)
+            .text("LEGEND")
+            .style("font-weight", "bold");
+
         //group the axis for legend
         vis.axisGroup = vis.svg.append("g")
             .attr('transform', `translate(${vis.width *0.8}, ${5*vis.height/6+15})`)

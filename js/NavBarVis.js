@@ -44,9 +44,9 @@ class NavBarVis {
 
 
 // tooltip
-        vis.tooltip = d3.select("#" + vis.parentElement).append('div')
+        vis.tooltip = d3.select("body").append('div')
             .attr('class', "tooltip")
-            .attr('id', 'barTooltip1')
+            .attr('id', 'treeTooltip')
         this.wrangleData();
     }
 
@@ -89,6 +89,7 @@ class NavBarVis {
 
         letstry = []
         letstry.push({name: 'Origin', parent: '', value: ''})
+
         temp.forEach(row => {
             letstry.push(row)
         })
@@ -140,6 +141,7 @@ class NavBarVis {
                 return d.y0;
             })
             .attr('width', function (d) {
+
                 return d.x1 - d.x0;
             })
             .attr('height', function (d) {
@@ -161,35 +163,40 @@ class NavBarVis {
             .attr("class", vis.parentElement + "text1")
             .merge(rect)
             .attr("x", function (d) {
-                return d.x0 + 10
-            })    // +10 to adjust position (more right)
-            .attr("y", function (d) {
-                return d.y0 + 20
-            })    // +20 to adjust position (lower)
-            .text(function (d) {
-                return d.data.name
+                return d.x0 + 5
             })
-            .call(wrap, 10); // wrap the text in <= 30 pixels
+            .attr("y", function (d) {
+                return d.y0 + 10
+            })
+            .text(function (d) {
+                if (d.data.name.length > 10) {
+                    if (d.x1 - d.x0 >= 95)
+                        return d.data.name
+                } else
+                    return d.data.name
+                return ""
+            })
+            .call(wrap, 5); // wrap the text in <= 30 pixels
         // .attr("font-size", "15px")
         // .attr("fill", "white")
 
-        let labelTwo = vis.svg
-            .selectAll(vis.parentElement + "text2")
-            .data(vis.root.leaves())
-
-        labelTwo.enter()
-            .append("text")
-            .attr("class", vis.parentElement + "text2")
-            .merge(labelTwo)
-            .attr("x", function (d) {
-                return d.x0 + 10
-            })    // +10 to adjust position (more right)
-            .attr("y", function (d) {
-                return d.y0 + 40
-            })    // +20 to adjust position (lower)
-            .text(function (d) {
-                return d.data.value
-            })
+        // let labelTwo = vis.svg
+        //     .selectAll(vis.parentElement + "text2")
+        //     .data(vis.root.leaves())
+        //
+        // labelTwo.enter()
+        //     .append("text")
+        //     .attr("class", vis.parentElement + "text2")
+        //     .merge(labelTwo)
+        //     .attr("x", function (d) {
+        //         return d.x0 + 10
+        //     })    // +10 to adjust position (more right)
+        //     .attr("y", function (d) {
+        //         return d.y0 + 60
+        //     })    // +20 to adjust position (lower)
+        //     .text(function (d) {
+        //         return d.data.value + "Opportunities"
+        //     })
 
         // add hover functionality for tooltip
         vis.svg.selectAll("." + vis.parentElement + "Rect").on('mouseover', function (event, d) {
@@ -210,6 +217,7 @@ class NavBarVis {
                 d3.select(this)
                     .transition()
                     .style('fill', function (d) {
+                        console.log("casdkj")
                         return vis.linearColor(d[1]);
                     })
                 vis.tooltip
@@ -222,39 +230,6 @@ class NavBarVis {
 
         rect.exit().remove();
         labelOne.exit().remove();
-        labelTwo.exit().remove();
+        // labelTwo.exit().remove();
     }
-}
-
-function wrap(text, width) {
-    text.each(function () {
-        var text = d3.select(this),
-            words = text.text().split(/\s+/).reverse(),
-            word,
-            line = [],
-            lineNumber = 0,
-            lineHeight = 1.1, // ems
-            x = text.attr("x"),
-            y = text.attr("y"),
-            dy = 0, //parseFloat(text.attr("dy")),
-            tspan = text.text(null)
-                .append("tspan")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("dy", dy + "em");
-        while (word = words.pop()) {
-            line.push(word);
-            tspan.text(line.join(" "));
-            if (tspan.node().getComputedTextLength() > width) {
-                line.pop();
-                tspan.text(line.join(" "));
-                line = [word];
-                tspan = text.append("tspan")
-                    .attr("x", x)
-                    .attr("y", y)
-                    .attr("dy", ++lineNumber * lineHeight + dy + "em")
-                    .text(word);
-            }
-        }
-    });
 }
