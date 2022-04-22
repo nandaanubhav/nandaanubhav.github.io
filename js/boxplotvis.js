@@ -19,11 +19,11 @@ class BoxPlotVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 20, right: 20, bottom: 170, left: 70};
+        vis.margin = {top: 20, right: 20, bottom: 170, left: 100};
         vis.barWidth = 20;
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = 500 - vis.margin.top - vis.margin.bottom;
+        vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -35,7 +35,7 @@ class BoxPlotVis {
         // tooltip
         vis.tooltip = d3.select("body").append('div')
             .attr('class', "tooltip")
-            .attr('id', 'barTooltip');
+            .attr('id', 'boxPlotTooltip');
 
         // Compute an ordinal xScale for the keys in boxPlotData
         vis.x = d3.scalePoint()
@@ -52,16 +52,20 @@ class BoxPlotVis {
         vis.xAxis = d3.axisBottom(vis.x);
         vis.yAxis = d3.axisLeft(vis.y);
 
-        vis.colorScale = d3.scaleOrdinal(d3.schemeBlues[7]);
+        // vis.colorScale = d3.scaleOrdinal(d3.schemeBlues[7]);
 
         // vis.xAxisGroup = vis.svg.append("g").attr("transform", "translate(35,"+vis.height+")");
         vis.svg.append("g")
             .attr("class", "x-axis axis")
             .attr("transform", "translate(0," + vis.height + ")");
 
-        vis.yAxisGroup = vis.svg.append("g").attr("transform", "translate(0,0)");
-        ;
-
+        vis.yAxisGroup = vis.svg.append("g")
+            .attr("class", "y-axis axis")
+            .attr("text-anchor", "middle")
+            .append("text")
+            .attr("x", 20)
+            .attr("y", -10)
+            .attr("transform", "translate(0,0)");
 
         // (Filter, aggregate, modify data)
         vis.wrangleData();
@@ -111,7 +115,7 @@ class BoxPlotVis {
             record["counts"] = groupCount;
             record["quartile"] = vis.boxQuartiles(groupCount);
             record["whiskers"] = [localMin, localMax];
-            record["color"] = vis.colorScale(key);
+            // record["color"] = vis.colorScale(key);
 
             boxPlotData.push(record);
         }
@@ -142,7 +146,7 @@ class BoxPlotVis {
 
 
         // Setup a color scale for filling each box
-        vis.colorScale.domain(vis.displayData.map(d => d.key));
+        // vis.colorScale.domain(vis.displayData.map(d => d.key));
         vis.x.domain(vis.displayData.map(d => d.key));
 
         // Draw the box plot vertical lines
@@ -155,7 +159,7 @@ class BoxPlotVis {
             .attr("class", "verticalLines")
             .merge(verticalLines)
             .attr("x1", function (datum) {
-                return vis.x(datum.key);
+                    return vis.x(datum.key);
                 }
             )
             .attr("y1", function (datum) {
@@ -164,7 +168,7 @@ class BoxPlotVis {
                 }
             )
             .attr("x2", function (datum) {
-                return vis.x(datum.key);
+                    return vis.x(datum.key);
                 }
             )
             .attr("y2", function (datum) {
@@ -200,10 +204,7 @@ class BoxPlotVis {
             .attr("y", function (datum) {
                 return vis.y(datum.quartile[2]);
             })
-            .attr("fill", function (datum) {
-                    return datum.color;
-                }
-            )
+            .attr("fill", d3.interpolateBlues(0.7))
             .attr("stroke", "#000")
             .attr("stroke-width", 1)
             .on('mouseover', function (event, d) {
@@ -347,9 +348,13 @@ class BoxPlotVis {
             });
 
         // Setup a series axis on the top
+        vis.svg.select(".y-axis")
+            .call(vis.yAxis)
+        vis.yAxisGroup.merge(vis.yAxisGroup).text("Avg Salary (in K)");
 
-        vis.yAxisGroup.append("g")
-            .call(vis.yAxis);
+
+        // vis.yAxisGroup.text("Te");
+
 
     }
 

@@ -1,3 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+.body{
+    color:#000152;
+}
+
+.tooltip-text {
+    font-size: 30px;
+    font-weight: bolder;
+    fill: #0F52BA;
+}
+
+#donutvis {
+    height: 90vh;
+}
+#parallelvis {
+    height: 80vh;
+}
+#circularvis{
+    height: 80vh;
+}
+
 .tooltip {
     position: absolute;
     text-align: center;
@@ -10,23 +32,169 @@
     /*  pointer-events: none;	This line needs to be removed */
 }
 
-.tooltip h3, h4 {
-    text-align: left;
+.axis {
+    font: 10px sans-serif;
+    fill: #333;
 }
 
-.tooltip h4 {
-    font: 14px sans-serif;
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #333;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
 }
 
-.box {
-    inline-size: 150px;
-    overflow-wrap: break-word;
-    hyphens: manual;
+.text-style {
+    border: 3px solid black;
+    text-align: center;
+    font-size: 16px;
+    padding-top: 10%;
 }
 
-.bar-chart-container {
-    height: 40vh;
+/*.axis { font-size: 12pt}*/
+
+.bar-title {
+    font-size: 18pt;
+    font-family: "American Typewriter";
+}
+
+/*.vertical-scrolling {*/
+/*    border: 5pt solid green;*/
+/*    border-right: 30pt solid green;*/
+/*}*/
+
+
+/*for about team*/
+.profile-card{
+    position: relative;
+    font-family: sans-serif;
+    width: 220px;
+    height: 220px;
+    background: #393A71;
+    padding: 20px;
+    box-shadow: 0 0 22px #3336;
+    transition: .6s;
+    margin: 0 25px;
+    border-radius: 10px;
+}
+.profile-card:hover{
+    height: 260px;
+}
+.profile-card .img{
+    position: relative;
     width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    transition: .6s;
+    z-index: 99;
+}
+.profile-card:hover .img{
+    transform: translateY(-60px);
+}
+.img img{
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 22px #3336;
+    transition: .6s;
+}
+.caption{
+    text-align: center;
+    transform: translateY(-80px);
+    opacity: 0;
+    transition: .6s;
+    font-size: 12px;
+    color: white;
+    font-family: sans-serif;
+    margin: 2px 0 9px 0;
+}
+.profile-card:hover .caption{
+    opacity: 1;
+}
+
+.caption .social-links a{
+    color: white;
+    margin-right: 15px;
+    font-size: 21px;
+    transition: .6s;
+}
+.social-links a:hover{
+    color: black;
+}
+.aboutTeam{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    padding-top:5% ;
+    justify-content: center;
+}
+
+.intro{
+    font-family: 'Josefin Sans', sans-serif;
+
+}
+
+.fillpadding{
+    padding: 5px 5px 5px 5px;
+}
+
+
+/*parallel styles*/
+svg {
+    font: 10px sans-serif;
+}
+
+.background path {
+    fill: none;
+    stroke: #ddd;
+    shape-rendering: crispEdges;
+}
+
+.foreground path {
+    fill: none;
+    stroke: steelblue;
+}
+
+.brush .extent {
+    fill-opacity: .3;
+    stroke: #fff;
+    shape-rendering: crispEdges;
+}
+
+
+.foreground path {
+    fill: none;
+    stroke-opacity: .5;
+    stroke-width: 1.5px;
+}
+
+.foreground path.fade {
+    stroke: #000;
+    stroke-opacity: .05;
+}
+
+/*tip styles*/
+.box{
+    width: 20%;
+    height: 20%;
+    position: absolute;
+    top: 10%;
+    left: 60%;
+    opacity: 0.8;  /* for demo purpose  */
+}
+.stack-top{
+    z-index: 9;
+    /*margin: 20px; !* for demo purpose  *!*/
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+}
+/*custom visual*/
+
+.small-divs {
+    height: 40vh;
 }
 
 .small {
@@ -37,9 +205,11 @@
     position: absolute;
     top: 0;
     right: 10%;
-    font-size: 36px;
+    font-size: 20px;
     color: red;
-    display: none;
+    visibility: hidden;
     /*margin-right: 10px;*/
     /*margin-left: 50px;*/
 }
+
+

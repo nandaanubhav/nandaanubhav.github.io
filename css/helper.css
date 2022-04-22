@@ -1,12 +1,8 @@
-/** Code By Webdevtrick ( https://webdevtrick.com ) **/
-@import url(https://fonts.googleapis.com/css?family=Alegreya+Sans:300,400,700);
 
 * {
-    margin: 0;
-    padding: 0;
-    font-family: 'Alegreya Sans', Arial, sans-serif;
-    text-transform: uppercase;
+    text-align: center;
 }
+
 
 html {
     font-size: 62.5%;
@@ -19,7 +15,6 @@ body {
 
 a {
     text-decoration: none;
-    color: white;
 }
 
 ul, li {
@@ -77,8 +72,6 @@ h1 a {
     display: block;
     padding: 0 10px;
 }
-
-
 nav {
     height: 0;
     opacity: 0;

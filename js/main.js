@@ -1,13 +1,29 @@
-let boxPlotVis, circularVis;
-loadData();
 
+let donutVis, boxPlotVis, barchart, miniBarChart,circularVis;
+let parseDate = d3.timeParse("%m/%d/%Y");
+let selectedRange = [];
+
+// $("#tip").delay(5000).fadeOut();
+
+function hideTip(){
+    var v=document.getElementById("tip");
+    v.style.display="none";
+}
+function hideTip2(){
+    var m=document.getElementById("tip2");
+    m.style.display="none";
+}
 //reading csv file
+loadData();
 function loadData() {
     d3.csv("data/Market_Divers.csv").then(csv => {
         csv.forEach(function (d) {
+            // d["Founded"] = 2022 - (+d["Founded"]);
+            d.Size=d.Calculated_Size;
+            d.Revenue=d.Calculated_Revenue;
             d.index = +d.index;
             d.Rating = +d.Rating;
-            d.Founded = +d.Founded;
+            d.Age = +(2022-d.Founded);
             d.Lower_Salary = +d.Lower_Salary;
             d.Upper_Salary = +d.Upper_Salary;
             d.Avg_Salary = +d.Avg_Salary;
@@ -28,22 +44,35 @@ function loadData() {
             d.mongo = +d.mongo;
             d.google_an = +d.google_an;
         });
-
-        // console.log(csv);
-
-        // let donutVis = new DonutVis("donutvis", csv);
+        donutVis = new DonutVis("donutvis", csv);
         boxPlotVis = new BoxPlotVis("boxplotvis", csv);
+        barchart = new BarChart("barchart-div", csv);
+        miniBarChart = new MiniBarChart("mini-barchart-div", csv);
         circularVis = new CircularVis("circularvis", csv);
-        // let barVis = new BarVis("bar-chart", csv , "Data Scientist", "Business Services", "Health Care");
-        // let wordCloudVis = new WordCloudVis("word-cloud", csv , "Data Scientist", "Business Services", "Health Care");
-
+        parallelChart = new ParallelVis("parallelvis", csv);
+        selectedRange = [5, miniBarChart.height/3];
     });
 };
+
+function switchView() {
+    donutVis.wrangleData();
+}
 
 function boxPlotCategoryChange() {
     boxPlotVis.wrangleData();
 };
 
+// React to 'brushed' event and update all bar charts
+function brushed() {
+    let selectionRange = d3.brushSelection(d3.select(".brush").node());
+    selectedRange = selectionRange;
+    barchart.selectionRange = selectionRange;
+    barchart.wrangleData()
+    if ((selectedRange[0] != 5)&&(selectedRange[1] != miniBarChart.height/3)) {
+        miniBarChart.selectionRange = selectionRange;
+        miniBarChart.wrangleData()
+    }
+}
 function closeCilcularVis() {
     circularVis.lollipopChart[0].deleteVis();
     circularVis.wordCloud[0].deleteVis();

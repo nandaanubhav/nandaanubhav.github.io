@@ -118,7 +118,7 @@ class LollipopVis {
 
         vis.otherSectorData = [];
         let filteredDataOtherSector = vis.data.filter(x => x["job_title_sim"] === jobTitle).filter(x => x["Sector"] === otherSector);
-        console.log(filteredDataOtherSector);
+
         vis.skills.forEach(d => {
             vis.otherSectorData.push({'Skill': d, 'Count': filteredDataOtherSector.filter(x => x[d] === 1).length});
         });
@@ -128,17 +128,13 @@ class LollipopVis {
         vis.displayData = vis.displayData.slice(0, 3);
         vis.otherSectorData = vis.otherSectorData.slice(0, 3);
 
-        // console.log(jobTitle + ' ' + sector);
-        console.log(vis.displayData);
-        console.log(vis.otherSectorData);
+
         vis.updateVis()
 
     }
 
     updateVis() {
         let vis = this;
-
-        // console.log('here');
 
         // (1) Update domains
         // (2) Draw rectangles
@@ -147,14 +143,14 @@ class LollipopVis {
         // * TO-DO *
 
         document.getElementById(vis.parentElement).style.display = "block";
-        document.getElementById("close-icon").style.display = "block";
+        document.getElementById("close-icon").style.visibility = "visible";
         vis.x.domain(vis.displayData.map(d => d.Skill));
         vis.y.domain([0, Math.max(d3.max(vis.displayData, d => d["Count"]), d3.max(vis.otherSectorData, d => d["Count"]))]);
         vis.xSecond.domain(vis.otherSectorData.map(d => d.Skill));
         vis.ySecond.domain([0, Math.max(d3.max(vis.displayData, d => d["Count"]), d3.max(vis.otherSectorData, d => d["Count"]))]);
         vis.yAxisTicks = vis.y.ticks().filter(tick => Number.isInteger(tick));
 
-        console.log(vis.yAxisTicks);
+
 
         vis.title.text(vis.sector);
         vis.titleSecond.text(vis.otherSector);
@@ -257,7 +253,7 @@ class LollipopVis {
     deleteVis() {
         let vis = this;
         document.getElementById(vis.parentElement).style.display = "none";
-        document.getElementById("close-icon").style.display = "none";
+        document.getElementById("close-icon").style.visibility = "hidden";
 
     }
 
