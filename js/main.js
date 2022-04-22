@@ -1,8 +1,8 @@
 
-let donutVis, boxPlotVis, barchart, miniBarChart,circularVis;
+let donutVis, boxPlotVis, barchart, miniBarChart, tileMap,circularVis
 let parseDate = d3.timeParse("%m/%d/%Y");
 let selectedRange = [];
-
+let mainData;
 // $("#tip").delay(5000).fadeOut();
 
 function hideTip(){
@@ -13,6 +13,11 @@ function hideTip2(){
     var m=document.getElementById("tip2");
     m.style.display="none";
 }
+function hideTip3(){
+    var m=document.getElementById("tip3");
+    m.style.display="none";
+}
+
 //reading csv file
 loadData();
 function loadData() {
@@ -51,8 +56,17 @@ function loadData() {
         circularVis = new CircularVis("circularvis", csv);
         parallelChart = new ParallelVis("parallelvis", csv);
         selectedRange = [5, miniBarChart.height/3];
+        mainData = csv;
+        loadTileMap();
     });
 };
+
+function loadTileMap() {
+    d3.csv("data/publication-grids.csv").then(csv => {
+        tileMap = new TileMap("tilemap-div", mainData, csv);
+    })
+}
+
 
 function switchView() {
     donutVis.wrangleData();
