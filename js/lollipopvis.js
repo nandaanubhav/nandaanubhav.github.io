@@ -142,7 +142,7 @@ class LollipopVis {
 
         // * TO-DO *
 
-        document.getElementById(vis.parentElement).style.display = "block";
+        document.getElementById(vis.parentElement).style.visibility = "visible";
         document.getElementById("close-icon").style.visibility = "visible";
         vis.x.domain(vis.displayData.map(d => d.Skill));
         vis.y.domain([0, Math.max(d3.max(vis.displayData, d => d["Count"]), d3.max(vis.otherSectorData, d => d["Count"]))]);
@@ -252,7 +252,7 @@ class LollipopVis {
 
     deleteVis() {
         let vis = this;
-        document.getElementById(vis.parentElement).style.display = "none";
+        document.getElementById(vis.parentElement).style.visibility = "hidden";
         document.getElementById("close-icon").style.visibility = "hidden";
 
     }

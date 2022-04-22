@@ -111,7 +111,7 @@ class WordCloudVis {
 
         // * TO-DO *
 
-        document.getElementById(vis.parentElement).style.display = "block";
+        document.getElementById(vis.parentElement).style.visibility = "visible";
         vis.xScale.domain(d3.extent(vis.displayData, function (d) {
             return d.Count;
         }));
@@ -217,6 +217,6 @@ class WordCloudVis {
 
     deleteVis() {
         let vis = this;
-        document.getElementById(vis.parentElement).style.display = "none";
+        document.getElementById(vis.parentElement).style.visibility = "hidden";
     }
 }
