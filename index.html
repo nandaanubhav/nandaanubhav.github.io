@@ -70,6 +70,49 @@
         </div>
     </section>
     <section class="vertical-scrolling">
+        <div class="container-fluid" style="height: 100vh; ">
+            <div class="row d-flex justify-content-center">
+                <div class="align-self-center">
+                    <h1>Job Distribution by State</h1>
+                    <h4>Click on a state to find more information</h4>
+                </div>
+            </div>
+            <div class="row" style="height: 100%; width: 100%; ">
+                <div style="width: 0pt"  >
+                    <div id="mySidebar" class="sidebar">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                        <h3 id="selectedCountry">Country</h3>
+                        <h4 id="totalOpportunities-text">Total Opportunities: 1928</h4>
+                        <br>
+                        Major Sectors
+                        <div style="height: 50%; width: 100%" id="miniBar-div"></div>
+                        <h4 style="margin-top: 20pt">Salary Range</h4>
+                        <h5 id="salaryRange-text">$XXXX to $ XXXXXX</h5>
+                        <h4 style="margin-top: 20pt">Average Salary</h4>
+                        <h5 id="salaryAvg-text">$XXXX</h5>
+                    </div>
+                </div>
+                <div class="col-3" style="padding-left: 20pt; margin-top: 50pt" id="blabla">
+                    <div id="main" style="border: 1pt black solid">
+<!--                        <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>-->
+                        <h4 style="font-weight: bold;">
+                            - Discovering available opportunities is a primary step in finding a job.<br><br>
+                            - To make this step easier, we have consolidated all available jobs within this map. <br><br>
+                            - Take time and explore the jobs available.<br><br>
+                            - Try to see if a state has more opportunities in the sector you are interested in.
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <!--                    <p style="background-image: url('https://media.gettyimages.com/vectors/states-map-drawing-vector-id1257379470?s=612x612');">-->
+                    <!--                    <div id="tilemap-div" style="height: 90%; width: 90%; background-image: url('https://www.citypng.com/public/uploads/preview/united-states-blank-map-transparent-background-11640008922v6t95uzkvu.png'); background-repeat: no-repeat; background-size: contain;"></div>-->
+                    <div id="tilemap-div" style="height: 90%; width: 90%;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="vertical-scrolling">
+    
         <h1>WHAT SKILLS ARE EMPLOYERS LOOKING FOR?</h1>
         <div class="container">
             <div class="row">
@@ -166,6 +209,7 @@
                 </div>
             </div>
             <div class="row">
+
                 <div class="col-md-4 text-style">
                     (This provides prospective salary information.)
                     Here’s the list of the data science job titles and sectors you can find in the jobs breakdown.
@@ -277,6 +321,10 @@
 <script src="js/circularvis.js"></script>
 <script src="js/BarChart.js"></script>
 <script src="js/MiniBarChart.js"></script>
+
+<script src="js/TileMap.js"></script>
+<script src="js/NavBarVis.js"></script>
+
 <script src="js/main.js"></script>
 
 
