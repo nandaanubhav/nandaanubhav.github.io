@@ -23,7 +23,7 @@ class BoxPlotVis {
         vis.barWidth = 20;
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
-        vis.height = 500 - vis.margin.top - vis.margin.bottom;
+        vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
         // SVG drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")

@@ -6,6 +6,8 @@
     <!-- CSS libraries -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.6/jquery.fullPage.css'>
     <link rel="stylesheet" href="css/helper.css">
     <link rel="stylesheet" href="css/style.css">
@@ -15,9 +17,8 @@
     <section class="vertical-scrolling">
         <div class="container">
             <div class="row intro">
-<!--                <div id="parallelvis"></div>-->
                 <div style="padding:0px;background-image: url('./img/dsbackground.jpeg');height:100vh;background-repeat: no-repeat;background-size: 100%;">
-                    <div class="fillpadding" style="margin-top:50vh;background: linear-gradient(to top, rgba(255, 193, 77, 0.6),rgba(255, 193, 77, 1));height: 250px">
+                    <div class="fillpadding" style="margin-top:50vh;background: linear-gradient(to top, rgba(255, 193, 77, 0.6),rgba(255, 193, 77, 1));height: 45vh">
                         <div class="fillpadding">
                             <h3>Hey Job Seekers, we know job hunting is stressful. Data science aspirants have excellent job prospects, with a wealth of different avenues that a data scientist can take. However, it can be difficult to find the right opportunity.
                                 <br><br>
@@ -50,7 +51,20 @@
                     <input type="radio" id="job_title_donut" name="donutCheck" checked="checked" value="job_title_sim"
                            onclick="switchView()">
                     <label for="job_title_donut">By Job Title</label><br>
-                    <div id="donutvis"></div>
+
+                    <div class="box stack-top" id="tip" style="background: white;">
+                        <div style="display: block;margin: 10px"><p  style="float: left"><strong>Tip</strong></p>
+                                <button id="closeTip" style="float: right" onclick="hideTip()">X</button>
+                        </div>
+                        <div style="padding-top: 5px">
+                            <br>
+                            <hr>
+                            to know more about this, clikc on bla bla and bla bla
+                    </div>
+                    </div>
+                        <div id="donutvis"></div>
+
+
                 </div>
             </div>
         </div>
@@ -76,12 +90,22 @@
                     </div>
                     <div class="col-md-9">
                         <div class="row">
-                            <div class="col-md-9" style="height: 80vh; padding: 0;">
+                            <div class="col-md-9" style="height: 80vh;">
+                                <div class="box stack-top" id="tip2" style="background: white;">
+                                    <div style="display: block;margin: 10px"><p  style="float: left"><strong>Tip</strong></p>
+                                        <button id="closeTip2" style="float: right" onclick="hideTip2()">X</button>
+                                    </div>
+                                    <div style="padding-top: 5px">
+                                        <br>
+                                        <hr>
+                                        to know more about this, clikc on bla bla and bla bla
+                                    </div>
+                                </div>
                                 <div id="barchart-div"
                                      style="height: 100%; width:100%;">
                                 </div>
                             </div>
-                            <div class="col-md-3" style="height: 80vh; padding: 0;">
+                            <div class="col-md-3" style="height: 80vh;">
                                 <div id="mini-barchart-div"
                                      style="height: 100%; width:100%;">
                                 </div>
@@ -116,17 +140,12 @@
         </div>
     </section>
     <section class="vertical-scrolling" >
-        <h1 style="background-color: white">HOW MUCH CAN I EARN?</h1>
+        <h1>HOW MUCH CAN I EARN?</h1>
         <div class="container">
-<!--            <div class="row d-flex justify-content-center">-->
-<!--                <div class="align-self-center intro">-->
-<!--                    <h1>HOW MUCH CAN I EARN?</h1>-->
-<!--                </div>-->
-<!--            </div>-->
             <div class="row">
                 <div class="col-md-10">
                 </div>
-                <div class="col">
+                <div class="col" style="height: 20px">
                     <input type="radio" id="job_title" name="boxPlotCategorySelector" checked="checked"
                            value="job_title_sim" onclick="boxPlotCategoryChange()"> Job Title
                     <input type="radio" id="sector" name="boxPlotCategorySelector" value="Sector"
@@ -142,7 +161,7 @@
 
                 </div>
                 <div class="col-md-8">
-                    <div id="boxplotvis"></div>
+                    <div id="boxplotvis" style="height: 80vh"></div>
                 </div>
             </div>
         </div>
@@ -164,7 +183,7 @@
                     <div id="parallelvis"></div>
 
                 </div>
-                <div id="salary"><br></div>
+                <div id="salary" style="height: 20px"></div>
             </div>
         </div>
     </section>
@@ -185,11 +204,11 @@
                     <img src="img/Ali.jpg">
                 </div>
                 <div class="caption">
-                    <p>Ali Nuaman</p>
-<!--                    <a href="https://www.linkedin.com/in/ali-nuaman/">Ali Nuaman</a>-->
-                    <br>
+                    <h4>Ali Nuaman</h4>
                     <p>Masters in Computer Science</p>
-
+                    <div class="social-links">
+                    <a href="https://www.linkedin.com/in/ali-nuaman/"><i class="fa fa-linkedin"></i></a>
+                    </div>
                 </div>
             </div>
             <div class="profile-card">
@@ -197,10 +216,11 @@
                     <img src="img/Anshika.jpg">
                 </div>
                 <div class="caption">
-                    <a href="https://www.linkedin.com/in/anshikatyagi/"><h4>Anshika Tyagi</h4></a>
-                    <br>
+                    <h4>Anshika Tyagi</h4>
                     <p>Masters in Computer Science</p>
-
+                    <div class="social-links">
+                    <a href="https://www.linkedin.com/in/anshikatyagi/"><i class="fa fa-linkedin"></i></a>
+                    </div>
                 </div>
             </div>
             <div class="profile-card">
@@ -208,9 +228,11 @@
                     <img src="img/Anubhav.jpg">
                 </div>
                 <div class="caption">
-                    <a href="https://www.linkedin.com/in/anubhavnanda/"><h4>Anubhav Nanda</h4></a>
-                    <br>
+                    <h4>Anubhav Nanda</h4>
                     <p>Masters in Computer Science</p>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/anubhavnanda/"><i class="fa fa-linkedin"></i></a>
+                    </div>
 
                 </div>
             </div>

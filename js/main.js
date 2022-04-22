@@ -2,6 +2,17 @@
 let donutVis, boxPlotVis, barchart, miniBarChart
 let parseDate = d3.timeParse("%m/%d/%Y");
 let selectedRange = [];
+
+// $("#tip").delay(5000).fadeOut();
+
+function hideTip(){
+    var v=document.getElementById("tip");
+    v.style.display="none";
+}
+function hideTip2(){
+    var m=document.getElementById("tip2");
+    m.style.display="none";
+}
 //reading csv file
 loadData();
 function loadData() {

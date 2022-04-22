@@ -52,7 +52,7 @@ class ParallelVis {
             return +d["Avg_Salary"];
         })).range([vis.height, 0]);
 
-        vis.brush=function () {
+        vis.brush=function (event,d) {
 
             var actives = [];
             //filter brushed extents
@@ -66,6 +66,10 @@ class ParallelVis {
                         extent: d3.brushSelection(this)
                     });
                 });
+            if (!event.selection && actives.length > 0) {
+                console.log("inside");
+                actives = actives.filter(active => active.dimension != d)
+            }
 
 
             // console.log(csv);
@@ -159,6 +163,10 @@ class ParallelVis {
             .attr('x', -8)
             .attr('width', 16);
 
+        vis.svg.selectAll(".brush").selectAll(".overlay")
+            .on("mousedown", vis.brush);
+
+
 
         function position(d) {
             var v = vis.dragging[d];
@@ -166,54 +174,12 @@ class ParallelVis {
         }
 
 
-// Returns the path for a given data point.
+    // Returns the path for a given data point.
         function path(d) {
             return vis.line(vis.dimensions.map(function (p) {
                 return [position(p), vis.y[p](d[p])];
             }));
         }
-
-
-        // vis.brush=function() {
-        //     function brush(){
-        //     var actives = [];
-        //     //filter brushed extents
-        //     vis.svg.selectAll(".brush")
-        //         .filter(function (d) {
-        //             return d3.brushSelection(this);
-        //         })
-        //         .each(function (d) {
-        //             actives.push({
-        //                 dimension: d,
-        //                 extent: d3.brushSelection(this)
-        //             });
-        //         });
-        //
-        //
-        //     // console.log(csv);
-        //     var selected = vis.data.filter(function (d) {
-        //         if (actives.every(function (active) {
-        //             var dim = active.dimension;
-        //             // test if point is within extents for each active brush
-        //             return active.extent[0] <= vis.y[dim](d[dim]) && vis.y[dim](d[dim]) <= active.extent[1];
-        //         })) {
-        //             return true;
-        //         }
-        //     });
-        //     if(selected!=null)
-        //         document.getElementById("salary").innerHTML = "Average Salary of selection :"+selected.reduce((r, c) => r + c.Avg_Salary, 0) / selected.length;
-        //
-        //     //set un-brushed foreground line disappear
-        //     vis.foreground.classed("fade", function (d, i) {
-        //
-        //         return !actives.every(function (active) {
-        //             var dim = active.dimension;
-        //             // console.log(y[dim](d[dim]));
-        //             return active.extent[0] <= vis.y[dim](d[dim]) && vis.y[dim](d[dim]) <= active.extent[1];
-        //         });
-        //     });
-        //
-        // }
     }
 
 
