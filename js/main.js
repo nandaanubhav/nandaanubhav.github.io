@@ -88,6 +88,6 @@ function brushed() {
     }
 }
 function closeCilcularVis() {
-    circularVis.lollipopChart[0].deleteVis();
-    circularVis.wordCloud[0].deleteVis();
+    document.getElementById("circular-vis-text").style.display = "block";
+    document.getElementById("circular-vis-sidebar").style.display = "none";
 }
