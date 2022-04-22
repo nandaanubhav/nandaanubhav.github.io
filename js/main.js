@@ -1,5 +1,5 @@
 
-let donutVis, boxPlotVis, barchart, miniBarChart
+let donutVis, boxPlotVis, barchart, miniBarChart,circularVis;
 let parseDate = d3.timeParse("%m/%d/%Y");
 let selectedRange = [];
 
@@ -23,7 +23,7 @@ function loadData() {
             d.Revenue=d.Calculated_Revenue;
             d.index = +d.index;
             d.Rating = +d.Rating;
-            d.Founded = +(2022-d.Founded);
+            d.Age = +(2022-d.Founded);
             d.Lower_Salary = +d.Lower_Salary;
             d.Upper_Salary = +d.Upper_Salary;
             d.Avg_Salary = +d.Avg_Salary;
@@ -48,6 +48,7 @@ function loadData() {
         boxPlotVis = new BoxPlotVis("boxplotvis", csv);
         barchart = new BarChart("barchart-div", csv);
         miniBarChart = new MiniBarChart("mini-barchart-div", csv);
+        circularVis = new CircularVis("circularvis", csv);
         parallelChart = new ParallelVis("parallelvis", csv);
         selectedRange = [5, miniBarChart.height/3];
     });
@@ -71,4 +72,8 @@ function brushed() {
         miniBarChart.selectionRange = selectionRange;
         miniBarChart.wrangleData()
     }
+}
+function closeCilcularVis() {
+    circularVis.lollipopChart[0].deleteVis();
+    circularVis.wordCloud[0].deleteVis();
 }

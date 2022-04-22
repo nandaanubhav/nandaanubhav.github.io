@@ -40,13 +40,13 @@ class ParallelVis {
 
         let vis = this;
 
-        vis.dimensions = ["Size", "Founded", "Revenue", "Avg_Salary"]
+        vis.dimensions = ["Size", "Age", "Revenue", "Avg_Salary"]
 
         // For each dimension, I build a linear scale. I store all in a y object
         vis.y["Size"] = d3.scalePoint().domain(vis.data.map(d => d["Size"])).rangeRound([vis.height, 0]);
         vis.y["Revenue"] = d3.scalePoint().domain(vis.data.map(d => d["Revenue"])).rangeRound([vis.height, 0]);
-        vis.y["Founded"] = d3.scaleLinear().domain(d3.extent(vis.data, function (d) {
-            return +d["Founded"];
+        vis.y["Age"] = d3.scaleLinear().domain(d3.extent(vis.data, function (d) {
+            return +d["Age"];
         })).range([vis.height, 0]);
         vis.y["Avg_Salary"] = d3.scaleLinear().domain(d3.extent(vis.data, function (d) {
             return +d["Avg_Salary"];
@@ -62,7 +62,7 @@ class ParallelVis {
 
             for (var i = 0; i < vis.dimensions.length; ++i) {
                 if (event.target == vis.y[vis.dimensions[i]].brush) {
-                    if (i == 0 || i == 2) {
+                    if (vis.dimensions[i] == "Size" || vis.dimensions[i]== "Revenue") {
                         var selected = vis.y[vis.dimensions[i]].domain().filter(function (d) {
                             var s = event.selection;
                             return (s[0] <= vis.y[vis.dimensions[i]](d)) && (vis.y[vis.dimensions[i]](d) <= s[1])

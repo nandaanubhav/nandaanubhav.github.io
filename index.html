@@ -129,13 +129,26 @@
         </div>
     </section>
     <section class="vertical-scrolling">
-        <div class="row">
-            <div class="col-md-4">
-                some text
-            </div>
-            <div class="col-md-8">
-                This shows the most job count by Job type and for each job type shows the industry with highest job
-                count, skills required for those and the the states to apply for that role type.
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 text-style">
+                    <p>
+                        Data-driven decision-making is the need of the hour for every business these days. Let’s have a look at the most hired job roles.
+                        Data Scientists, blabla, bla are the mo
+                        To ace your chances of getting a job for a particular role, consider honing your .. skills and apply to .. states.
+
+                    </p>
+
+                </div>
+                <div class="col-md-4">
+                    <div id="circularvis"></div>
+                </div>
+                <div class="col-md-4">
+                    <div style="height: 20vh"><a href="javascript:void(0)" class="close-icon" id="close-icon"
+                       onclick="closeCilcularVis()">&times;</a></div>
+                    <div id="bar-chart" class="small-divs"></div>
+                    <div id="word-cloud" class="small-divs"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -253,14 +266,19 @@
         crossorigin="anonymous"></script>
 <!-- d3 -->
 <script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-cloud/1.2.5/d3.layout.cloud.js"></script>
 <!-- OWN JS -->
 <script src="js/helper.js"></script>
 <script src="js/donutvis.js"></script>
 <script src="js/parallelvis.js"></script>
 <script src="js/boxplotvis.js"></script>
-<script src="js/main.js"></script>
+<script src="js/lollipopvis.js"></script>
+<script src="js/wordcloudvis.js"></script>
+<script src="js/circularvis.js"></script>
 <script src="js/BarChart.js"></script>
 <script src="js/MiniBarChart.js"></script>
+<script src="js/main.js"></script>
+
 
 </body>
 </html>

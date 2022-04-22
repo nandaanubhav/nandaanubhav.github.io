@@ -16,6 +16,9 @@
 #parallelvis {
     height: 80vh;
 }
+#circularvis{
+    height: 80vh;
+}
 
 .tooltip {
     position: absolute;
@@ -187,6 +190,26 @@ svg {
 button {
     all: unset;
     cursor: pointer;
+}
+/*custom visual*/
+
+.small-divs {
+    height: 40vh;
+}
+
+.small {
+    font-family: sans-serif;
+}
+
+.close-icon {
+    position: absolute;
+    top: 0;
+    right: 10%;
+    font-size: 20px;
+    color: red;
+    visibility: hidden;
+    /*margin-right: 10px;*/
+    /*margin-left: 50px;*/
 }
 
 
