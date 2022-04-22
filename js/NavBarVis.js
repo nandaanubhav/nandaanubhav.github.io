@@ -155,13 +155,13 @@ class NavBarVis {
 
 
         let labelOne = vis.svg
-            .selectAll(vis.parentElement + "text1")
+            .selectAll("." + vis.parentElement + "text1")
             .data(vis.root.leaves())
 
         labelOne.enter()
             .append("text")
             .attr("class", vis.parentElement + "text1")
-            .merge(rect)
+            .merge(labelOne)
             .attr("x", function (d) {
                 return d.x0 + 5
             })

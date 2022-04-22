@@ -233,7 +233,7 @@ class TileMap {
                 // return document.getElementById(vis.parentElement).getBoundingClientRect().right - (vis.width/6)
                 return 0.8*vis.width
             })
-            .attr("y",5*vis.height/6)
+            .attr("y",5*vis.height/7)
             .attr("height", 15)
             .style("fill", "url(#linear-gradient)")
             .style("opacity", 1);
@@ -245,14 +245,14 @@ class TileMap {
                 // return document.getElementById(vis.parentElement).getBoundingClientRect().right - (vis.width/6)
                 return 0.8*vis.width
             })
-            .attr("y",(5*vis.height/6) -10)
+            .attr("y",(5*vis.height/7) -10)
             .attr("height", 15)
             .text("LEGEND")
             .style("font-weight", "bold");
 
         //group the axis for legend
         vis.axisGroup = vis.svg.append("g")
-            .attr('transform', `translate(${vis.width *0.8}, ${5*vis.height/6+15})`)
+            .attr('transform', `translate(${vis.width *0.8}, ${5*vis.height/7+15})`)
             .attr('class',"x-axis");
 
         vis.svg.select(".x-axis").call(vis.xAxis);
