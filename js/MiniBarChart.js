@@ -10,7 +10,7 @@ class MiniBarChart {
         let vis = this;
 
         // set width and height
-        vis.margin = {top: 60, right: 30, bottom: 30, left: 20};
+        vis.margin = {top: 60, right: 10, bottom: 30, left: 10};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 

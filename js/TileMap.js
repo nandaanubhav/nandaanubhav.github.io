@@ -11,22 +11,28 @@ class TileMap {
         this.mapData = mapData;
         this.displayData = [];
         this.highlight = "#ffa3d7";
-        this.navBarSvg = new NavBarVis("miniBar-div", data);
+        // this.navBarSvg = new NavBarVis("miniBar-div", data);
         this.activeSquares = [];
-        this.initVis()
+        this.initVis();
+        this.navBarSvg=null;
     }
 
     openNav(stateName, state) {
-        document.getElementById("mySidebar").style.width = (document.getElementById(this.parentElement).getBoundingClientRect().left - (document.getElementById("mySidebar").getBoundingClientRect().left)) + "px";
-        document.getElementById("main").style.display = "none"
+
+        // document.getElementById("mySidebar").style.width = (document.getElementById(this.parentElement).getBoundingClientRect().left - (document.getElementById("mySidebar").getBoundingClientRect().left)) + "px";
+        document.getElementById("mySidebar").style.display="block";
+        document.getElementById("text-map").style.display = "none";
+        if(this.navBarSvg==null)
+            this.navBarSvg = new NavBarVis("miniBar-div", this.data);
         this.navBarSvg.updateCountry(stateName, state)
         this.navBarSvg.wrangleData();
     }
 
     closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
+        // document.getElementById("mySidebar").style.width = "0";
         // document.getElementById("main").style.marginLeft = "0";
-        document.getElementById("main").style.display = "block"
+        document.getElementById("mySidebar").style.display="none";
+        document.getElementById("text-map").style.display = "block"
     }
 
     initVis() {

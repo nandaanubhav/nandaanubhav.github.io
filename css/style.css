@@ -159,7 +159,7 @@
 /* The sidebar menu */
 .sidebar {
     height: 100%; /* 100% Full-height */
-    width: 0; /* 0 width - change this with JavaScript */
+    /*width: 0; !* 0 width - change this with JavaScript *!*/
     /*position: fixed; !* Stay in place *!*/
     z-index: 1; /* Stay on top */
     top: 0;
@@ -222,7 +222,6 @@
     .sidebar a {font-size: 18px;}
 }
 
-}
 
 .intro{
     font-family: 'Josefin Sans', sans-serif;
@@ -271,10 +270,10 @@ svg {
 /*tip styles*/
 .box{
     width: 20%;
-    height: 20%;
+    height: 15%;
     position: absolute;
-    top: 10%;
-    left: 60%;
+    top: 3%;
+    left: 75%;
     opacity: 0.8;  /* for demo purpose  */
 }
 .stack-top{

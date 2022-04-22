@@ -33,9 +33,9 @@ $('#fullpage').fullpage({
 });
 
 function closeNav() {
-    document.getElementById("mySidebar").style.width = "0";
+    document.getElementById("mySidebar").style.display = "none";
     // document.getElementById("main").style.marginLeft = "0";
-    document.getElementById("main").style.display = "block"
+    document.getElementById("text-map").style.display = "block"
 }
 
 

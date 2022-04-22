@@ -52,16 +52,7 @@
                            onclick="switchView()">
                     <label for="job_title_donut">By Job Title</label><br>
 
-                    <div class="box stack-top" id="tip" style="background: white;">
-                        <div style="display: block;margin: 10px"><p  style="float: left"><strong>Tip</strong></p>
-                                <button id="closeTip" style="float: right" onclick="hideTip()">X</button>
-                        </div>
-                        <div style="padding-top: 5px">
-                            <br>
-                            <hr>
-                            to know more about this, clikc on bla bla and bla bla
-                    </div>
-                    </div>
+
                         <div id="donutvis"></div>
 
 
@@ -70,43 +61,44 @@
         </div>
     </section>
     <section class="vertical-scrolling">
-        <div class="container-fluid" style="height: 100vh; ">
-            <div class="row d-flex justify-content-center">
-                <div class="align-self-center">
-                    <h1>Job Distribution by State</h1>
-                    <h4>Click on a state to find more information</h4>
-                </div>
-            </div>
-            <div class="row" style="height: 100%; width: 100%; ">
-                <div style="width: 0pt"  >
-                    <div id="mySidebar" class="sidebar">
+        <h1>Job Distribution by State</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" style="display:none" id="mySidebar">
+                    <div class="sidebar">
                         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                         <h3 id="selectedCountry">Country</h3>
                         <h4 id="totalOpportunities-text">Total Opportunities: 1928</h4>
                         <br>
                         Major Sectors
                         <div style="height: 50%; width: 100%" id="miniBar-div"></div>
-                        <h4 style="margin-top: 20pt">Salary Range</h4>
+                        <h4 style="margin-top: 5%">Salary Range</h4>
                         <h5 id="salaryRange-text">$XXXX to $ XXXXXX</h5>
-                        <h4 style="margin-top: 20pt">Average Salary</h4>
+                        <h4 style="margin-top: 5%">Average Salary</h4>
                         <h5 id="salaryAvg-text">$XXXX</h5>
                     </div>
                 </div>
-                <div class="col-3" style="padding-left: 20pt; margin-top: 50pt" id="blabla">
-                    <div id="main" style="border: 1pt black solid">
-<!--                        <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>-->
-                        <h4 style="font-weight: bold;">
-                            - Discovering available opportunities is a primary step in finding a job.<br><br>
-                            - To make this step easier, we have consolidated all available jobs within this map. <br><br>
-                            - Take time and explore the jobs available.<br><br>
-                            - Try to see if a state has more opportunities in the sector you are interested in.
-                        </h4>
-                    </div>
+
+                <div class="col-md-3 text-style" id="text-map">
+                    <p id="tile-map-text">- Discovering available opportunities is a primary step in finding a job.<br><br>
+                        - To make this step easier, we have consolidated all available jobs within this map. <br><br>
+                        - Take time and explore the jobs available.<br><br>
+                        - Try to see if a state has more opportunities in the sector you are interested in.
+                    </p>
                 </div>
-                <div class="col-8">
-                    <!--                    <p style="background-image: url('https://media.gettyimages.com/vectors/states-map-drawing-vector-id1257379470?s=612x612');">-->
-                    <!--                    <div id="tilemap-div" style="height: 90%; width: 90%; background-image: url('https://www.citypng.com/public/uploads/preview/united-states-blank-map-transparent-background-11640008922v6t95uzkvu.png'); background-repeat: no-repeat; background-size: contain;"></div>-->
-                    <div id="tilemap-div" style="height: 90%; width: 90%;"></div>
+
+                <div class="col-md-8">
+                    <div class="box stack-top" id="tip" style="background: white;">
+                        <div style="display: block;margin: 10px"><p  style="float: left"><strong>Tip</strong></p>
+                            <button id="closeTip" style="float: right" onclick="hideTip()">X</button>
+                        </div>
+                        <div style="padding-top: 5px">
+                            <br>
+                            <hr>
+                            Click on a state to find more insights about major sectors and opportunities.
+                        </div>
+                    </div>
+                    <div id="tilemap-div" style="height: 80vh"></div>
                 </div>
             </div>
         </div>
@@ -116,12 +108,6 @@
         <h1>WHAT SKILLS ARE EMPLOYERS LOOKING FOR?</h1>
         <div class="container">
             <div class="row">
-<!--                &lt;!&ndash; HEADING &ndash;&gt;-->
-<!--                <div class="row d-flex justify-content-center" >-->
-<!--                    <div class="align-self-center intro">-->
-<!--                        <h1>WHAT SKILLS ARE EMPLOYERS LOOKING FOR?</h1>-->
-<!--                    </div>-->
-<!--                </div>-->
 
                 <!-- CONTENT -->
                 <div class="row">
@@ -133,22 +119,13 @@
                     </div>
                     <div class="col-md-9">
                         <div class="row">
-                            <div class="col-md-9" style="height: 80vh;">
-                                <div class="box stack-top" id="tip2" style="background: white;">
-                                    <div style="display: block;margin: 10px"><p  style="float: left"><strong>Tip</strong></p>
-                                        <button id="closeTip2" style="float: right" onclick="hideTip2()">X</button>
-                                    </div>
-                                    <div style="padding-top: 5px">
-                                        <br>
-                                        <hr>
-                                        to know more about this, clikc on bla bla and bla bla
-                                    </div>
-                                </div>
+                            <div class="col-md-10" style="height: 80vh;">
+
                                 <div id="barchart-div"
                                      style="height: 100%; width:100%;">
                                 </div>
                             </div>
-                            <div class="col-md-3" style="height: 80vh;">
+                            <div class="col-md-2" style="height: 80vh;">
                                 <div id="mini-barchart-div"
                                      style="height: 100%; width:100%;">
                                 </div>
@@ -177,6 +154,18 @@
                     <div id="circularvis"></div>
                 </div>
                 <div class="col-md-4">
+
+                    <div class="box stack-top" id="tip2" style="background: white;">
+                        <div style="display: block;margin: 10px"><p  style="float: left"><strong>Tip</strong></p>
+                            <button id="closeTip2" style="float: right" onclick="hideTip2()">X</button>
+                        </div>
+                        <div style="padding-top: 5px">
+                            <br>
+                            <hr>
+                            Click on the circle to know what skills are most listed along with states to apply to.
+                        </div>
+                    </div>
+
                     <div style="height: 5vh"><a href="javascript:void(0)" class="close-icon" id="close-icon"
                        onclick="closeCilcularVis()">&times;</a></div>
                     <div id="bar-chart" class="small-divs"></div>
@@ -227,6 +216,16 @@
                     <p> Finding Correlation between different parameters of a company like size, revenue, age and average salar</p>
                 </div>
                 <div class="col-md-8">
+                    <div class="box stack-top" id="tip3" style="background: white;">
+                        <div style="display: block;margin: 10px"><p  style="float: left"><strong>Tip</strong></p>
+                            <button id="closeTip3" style="float: right" onclick="hideTip3()">X</button>
+                        </div>
+                        <div style="padding-top: 5px">
+                            <br>
+                            <hr>
+                            select one/multiple ranges from the 4 options and find interesting insights for yourself.
+                        </div>
+                    </div>
                     <div id="parallelvis"></div>
 
                 </div>

@@ -3,8 +3,8 @@ class NavBarVis {
         this.parentElement = parentElement;
         this.data = data;
         this.displayData = [];
-        this.state = "none"
-        this.initVis()
+        this.state = "none";
+        this.initVis();
     }
 
     updateCountry(countryText, state) {
@@ -30,7 +30,7 @@ class NavBarVis {
 
         // set width and height
         vis.margin = {top: 0, right: 5, bottom: 5, left: 5};
-        vis.width = (document.getElementById("blabla").getBoundingClientRect().width) - vis.margin.left - vis.margin.right;
+        vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
 
 

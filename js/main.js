@@ -13,6 +13,10 @@ function hideTip2(){
     var m=document.getElementById("tip2");
     m.style.display="none";
 }
+function hideTip3(){
+    var m=document.getElementById("tip3");
+    m.style.display="none";
+}
 
 //reading csv file
 loadData();
