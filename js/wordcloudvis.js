@@ -51,16 +51,16 @@ class WordCloudVis {
         //     .attr("height", vis.height);
 
         vis.xScale = d3.scaleLinear()
-            .range([10, 30]);
+            .range([15, 30]);
 
         vis.xScaleSecond = d3.scaleLinear()
-            .range([10, 30]);
+            .range([15, 30]);
 
         vis.colorScale = d3.scaleLinear()
-            .range([0, 1]);
+            .range([0.25, 1]);
 
         vis.colorScaleSecond = d3.scaleLinear()
-            .range([0, 1]);
+            .range([0.25, 1]);
 
         vis.svgSecond.append('line')
             .style("stroke", "black")
@@ -111,7 +111,6 @@ class WordCloudVis {
 
         // * TO-DO *
 
-        document.getElementById(vis.parentElement).style.visibility = "visible";
         vis.xScale.domain(d3.extent(vis.displayData, function (d) {
             return d.Count;
         }));
@@ -167,6 +166,7 @@ class WordCloudVis {
                     // console.log(vis.colorScale(d.Count));
                     return d3.interpolateBlues(vis.colorScale(d.Count));
                 })
+                .style("stroke", d3.interpolateBlues(1))
                 .attr("text-anchor", "middle")
                 .merge(vis.words)
                 .style("font-size", function (d) {
@@ -196,6 +196,7 @@ class WordCloudVis {
                 .style("fill", function (d) {
                     return d3.interpolateBlues(vis.colorScaleSecond(d.Count));
                 })
+                .style("stroke", d3.interpolateBlues(1))
                 .attr("text-anchor", "middle")
                 .merge(vis.wordsSecond)
                 .style("font-size", function (d) {
@@ -213,10 +214,5 @@ class WordCloudVis {
         }
 
         d3.layout.cloud().stop();
-    }
-
-    deleteVis() {
-        let vis = this;
-        document.getElementById(vis.parentElement).style.visibility = "hidden";
     }
 }
