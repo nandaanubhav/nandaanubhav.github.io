@@ -34,7 +34,7 @@ class BoxPlotVis {
 
         // tooltip
         vis.tooltip = d3.select("body").append('div')
-            .attr('class', "tooltip")
+            .attr('class', "box-plot-tooltip")
             .attr('id', 'boxPlotTooltip');
 
         // Compute an ordinal xScale for the keys in boxPlotData
