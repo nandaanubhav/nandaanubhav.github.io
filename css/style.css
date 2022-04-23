@@ -69,12 +69,6 @@
     font-family: "American Typewriter";
 }
 
-/*.vertical-scrolling {*/
-/*    border: 5pt solid green;*/
-/*    border-right: 30pt solid green;*/
-/*}*/
-
-
 /*for about team*/
 .profile-card {
     position: relative;
@@ -158,6 +152,9 @@
     cursor: pointer;
 }
 
+.stateText {
+    cursor: pointer;
+}
 /*#nav-container {*/
 /*    display: flex;*/
 /*    cursor: pointer;*/

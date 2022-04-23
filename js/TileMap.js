@@ -158,6 +158,7 @@ class TileMap {
         .on("click", function(d) {
             var square = d3.select(this);
             // console.log(square["_groups"][0][0]["__data__"])
+            console.log(this)
 
             if (vis.mydict2[square["_groups"][0][0]["__data__"].code]==0)
                 return;
@@ -205,7 +206,7 @@ class TileMap {
         // add state labels
         vis.labels.enter()
             .append("text")
-            .attr("class", function(d) { return "label " + d.code; })
+            .attr("class", function(d) { return "label stateText " + d.code; })
             .attr("x", function(d) {
                 return ((d.col - 1) * vis.cellSize) + (vis.cellSize / 2);
             })
@@ -215,48 +216,47 @@ class TileMap {
             .style("text-anchor", "middle")
             .style("font-size", "12pt")
             .text(function(d) { return d.code; })
-            // .on("click", function(d) {
-            //     var square = d3.select(this);
-            //     // console.log(square["_groups"][0][0]["__data__"])
-            //
-            //     if (vis.mydict2[square["_groups"][0][0]["__data__"].code]==0)
-            //         return;
-            //
-            //     vis.openNav(square["_groups"][0][0]["__data__"].state, square["_groups"][0][0]["__data__"].code);
-            //
-            //     square.classed("active", !square.classed("active"));
-            //     if (square.classed("active")) {
-            //         vis.activeSquares.forEach(sq => {
-            //             sq.style("fill", function (d) {
-            //                 return vis.linearColor(vis.mydict2[d.code])
-            //             }).style("opacity", function (d) {
-            //                 if (vis.mydict2[d.code]==0){
-            //                     return 0.2
-            //                 } else {
-            //                     return 1
-            //                 }
-            //             });
-            //             sq.classed("active", !sq.classed("active"));
-            //         })
-            //         vis.activeSquares = [];
-            //         square.style("opacity", 1);
-            //         square.style("fill", vis.highlight)
-            //         vis.activeSquares.push(square);
-            //     } else {
-            //         //remove from square array
-            //         vis.activeSquares = [];
-            //         vis.closeNav();
-            //         square.style("fill", function (d) {
-            //             return vis.linearColor(vis.mydict2[d.code])
-            //         }).style("opacity", function (d) {
-            //             if (vis.mydict2[d.code]==0){
-            //                 return 0.2
-            //             } else {
-            //                 return 1
-            //             }
-            //         });
-            //     }
-            // });
+            .on("click", function(d) {
+                var square = d3.select(this);
+                if (vis.mydict2[square["_groups"][0][0]["__data__"].code]==0)
+                    return;
+
+                square = d3.select("." + square["_groups"][0][0]["__data__"].code);
+                vis.openNav(square["_groups"][0][0]["__data__"].state, square["_groups"][0][0]["__data__"].code);
+
+                square.classed("active", !square.classed("active"));
+                if (square.classed("active")) {
+                    vis.activeSquares.forEach(sq => {
+                        sq.style("fill", function (d) {
+                            return vis.linearColor(vis.mydict2[d.code])
+                        }).style("opacity", function (d) {
+                            if (vis.mydict2[d.code]==0){
+                                return 0.2
+                            } else {
+                                return 1
+                            }
+                        });
+                        sq.classed("active", !sq.classed("active"));
+                    })
+                    vis.activeSquares = [];
+                    square.style("opacity", 1);
+                    square.style("fill", vis.highlight)
+                    vis.activeSquares.push(square);
+                } else {
+                    //remove from square array
+                    vis.activeSquares = [];
+                    vis.closeNav();
+                    square.style("fill", function (d) {
+                        return vis.linearColor(vis.mydict2[d.code])
+                    }).style("opacity", function (d) {
+                        if (vis.mydict2[d.code]==0){
+                            return 0.2
+                        } else {
+                            return 1
+                        }
+                    });
+                }
+            });
 
         var defs = vis.svg.append("defs");
 
