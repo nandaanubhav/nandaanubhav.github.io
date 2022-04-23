@@ -170,56 +170,41 @@ class NavBarVis {
             })
             .text(function (d) {
                 if (d.data.name.length > 10) {
-                    if (d.x1 - d.x0 >= 95)
+                    if (d.x1 - d.x0 >= 95) {
+
+                        if (d.data.name == "Biotech & Pharmaceuticals")
+                            return ""
+                        else
+                            return d.data.name
+                    }
+                } else
+                    return d.data.name
+                if (d.data.name.length > 8) {
+                    if (d.x1 - d.x0 >= 80)
                         return d.data.name
                 } else
                     return d.data.name
                 return ""
             })
-            .call(wrap, 5); // wrap the text in <= 30 pixels
-        // .attr("font-size", "15px")
-        // .attr("fill", "white")
-
-        // let labelTwo = vis.svg
-        //     .selectAll(vis.parentElement + "text2")
-        //     .data(vis.root.leaves())
-        //
-        // labelTwo.enter()
-        //     .append("text")
-        //     .attr("class", vis.parentElement + "text2")
-        //     .merge(labelTwo)
-        //     .attr("x", function (d) {
-        //         return d.x0 + 10
-        //     })    // +10 to adjust position (more right)
-        //     .attr("y", function (d) {
-        //         return d.y0 + 60
-        //     })    // +20 to adjust position (lower)
-        //     .text(function (d) {
-        //         return d.data.value + "Opportunities"
-        //     })
+            .call(wrap, 5);
 
         // add hover functionality for tooltip
         vis.svg.selectAll("." + vis.parentElement + "Rect").on('mouseover', function (event, d) {
             d3.select(this)
                 .transition()
-                .style('fill', '#800000');
             vis.tooltip
                 .style("opacity", 1)
                 .style("left", event.pageX + 5 + "px")
                 .style("top", event.pageY + "px")
                 .html(`
                          <div>
-                         asdcsdcasdcsdcacsdaascd
-                                             
+                         <h4> ${d.id}</h4>
+                         <h5> ${d.value} Opportunities</h5><br/>
                          </div>`);
         })
             .on('mouseout', function (event, d) {
                 d3.select(this)
                     .transition()
-                    .style('fill', function (d) {
-                        console.log("casdkj")
-                        return vis.linearColor(d[1]);
-                    })
                 vis.tooltip
                     .style("opacity", 0)
                     .style("left", 0)
@@ -230,6 +215,5 @@ class NavBarVis {
 
         rect.exit().remove();
         labelOne.exit().remove();
-        // labelTwo.exit().remove();
     }
 }
