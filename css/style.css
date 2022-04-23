@@ -124,7 +124,12 @@
 .profile-card:hover .caption{
     opacity: 1;
 }
-
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.2);
+    transition: 0.3s;
+    background-color: antiquewhite;
+}
 .caption .social-links a{
     color: white;
     margin-right: 15px;

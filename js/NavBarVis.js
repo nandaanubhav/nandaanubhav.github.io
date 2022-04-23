@@ -169,18 +169,17 @@ class NavBarVis {
                 return d.y0 + 10
             })
             .text(function (d) {
-                if (d.data.name.length > 10) {
-                    if (d.x1 - d.x0 >= 95) {
-
-                        if (d.data.name == "Biotech & Pharmaceuticals")
-                            return ""
-                        else
-                            return d.data.name
-                    }
-                } else
-                    return d.data.name
-                if (d.data.name.length > 8) {
-                    if (d.x1 - d.x0 >= 80)
+                if (d.data.name.length >= 10) {
+                    var len = d.x1 - d.x0;
+                    var hei = d.y1 - d.y0;
+                    if (len < 95)
+                        return ""
+                    else if (hei < 50)
+                        return ""
+                    return d.data.name;
+                } else if (d.data.name.length > 8) {
+                    console.log("here")
+                    if (d.x1 - d.x0 >= 65)
                         return d.data.name
                 } else
                     return d.data.name
