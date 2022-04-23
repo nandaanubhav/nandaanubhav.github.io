@@ -151,7 +151,7 @@ class NavBarVis {
             .style("fill", function (d) {
                 return vis.linearColor(d["value"]);
             })
-            .style("opacity", 0.8);
+            .style("opacity", 0.7);
 
 
         let labelOne = vis.svg
