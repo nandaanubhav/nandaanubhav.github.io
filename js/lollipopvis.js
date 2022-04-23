@@ -74,7 +74,6 @@ class LollipopVis {
 
         vis.yAxis = d3.axisLeft(vis.y);
 
-
         vis.xSecond = d3.scaleBand()
             .rangeRound([0, vis.width])
             .padding(1.2);
@@ -142,19 +141,14 @@ class LollipopVis {
 
         // * TO-DO *
 
-        document.getElementById(vis.parentElement).style.display = "block";
-        document.getElementById("close-icon").style.visibility = "visible";
         vis.x.domain(vis.displayData.map(d => d.Skill));
         vis.y.domain([0, Math.max(d3.max(vis.displayData, d => d["Count"]), d3.max(vis.otherSectorData, d => d["Count"]))]);
         vis.xSecond.domain(vis.otherSectorData.map(d => d.Skill));
         vis.ySecond.domain([0, Math.max(d3.max(vis.displayData, d => d["Count"]), d3.max(vis.otherSectorData, d => d["Count"]))]);
         vis.yAxisTicks = vis.y.ticks().filter(tick => Number.isInteger(tick));
 
-
-
         vis.title.text(vis.sector);
         vis.titleSecond.text(vis.otherSector);
-
         // console.log(d3.max(vis.displayData, d => d["Count"]));
 
         let line = vis.svg.selectAll(".line")
@@ -227,6 +221,7 @@ class LollipopVis {
         vis.svg.select(".x-axis").call(vis.xAxis)
             .selectAll("text")
             .style("text-anchor", "end")
+            .attr("class", "axis-title")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
             .attr("transform", function (d) {
@@ -239,6 +234,7 @@ class LollipopVis {
         vis.svgSecond.select(".x-axis").call(vis.xAxisSecond)
             .selectAll("text")
             .style("text-anchor", "end")
+            .attr("class", "axis-title")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
             .attr("transform", function (d) {
@@ -247,13 +243,6 @@ class LollipopVis {
 
         // Update the y-axis
         vis.svgSecond.select(".y-axis").call(vis.yAxisSecond);
-
-    }
-
-    deleteVis() {
-        let vis = this;
-        document.getElementById(vis.parentElement).style.display = "none";
-        document.getElementById("close-icon").style.visibility = "hidden";
 
     }
 

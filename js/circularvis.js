@@ -78,9 +78,9 @@ class CircularVis {
     updateVis() {
         let vis = this;
 
-        var r = vis.width / 1.75,
-            w = r * 3.1,
-            h = r * 3.1,
+        var r = vis.width / 2,
+            w = r * 3,
+            h = r * 3,
             rad = Math.PI / 180,
             interval = 360 / vis.displayData.length;
 
@@ -107,6 +107,10 @@ class CircularVis {
                 let topSector = Object.keys(overallSectorCount).sort(function (a, b) {
                     return overallSectorCount[b] - overallSectorCount[a]
                 });
+
+                document.getElementById("circular-vis-text").style.display = "none";
+                document.getElementById("circular-vis-sidebar").style.display = "block";
+
                 // console.log(overallSectorCount);
                 // console.log(i.key + ' ' + topSector[0] + ' ' + topSector[1]);
 

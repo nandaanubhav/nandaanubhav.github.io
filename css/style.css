@@ -64,6 +64,11 @@
     font-family: "American Typewriter";
 }
 
+.lollipop-title {
+    font-size: 6pt;
+    font-family: "American Typewriter";
+}
+
 /*.vertical-scrolling {*/
 /*    border: 5pt solid green;*/
 /*    border-right: 30pt solid green;*/
@@ -71,7 +76,7 @@
 
 
 /*for about team*/
-.profile-card{
+.profile-card {
     position: relative;
     font-family: sans-serif;
     width: 220px;
@@ -128,7 +133,7 @@
 }
 .aboutTeam{
     width: 100%;
-    height: 100vh;
+    height: 30vh;
     display: flex;
     padding-top:5% ;
     justify-content: center;
@@ -295,13 +300,16 @@ button {
     font-family: sans-serif;
 }
 
-.close-icon {
-    position: absolute;
-    top: 0;
-    right: 10%;
-    font-size: 20px;
+.sidebar .close-icon {
+    font-size: 36px;
     color: red;
-    visibility: hidden;
-    /*margin-right: 10px;*/
-    /*margin-left: 50px;*/
+    height: 5vh;
+}
+
+.axis-title {
+    text-transform: capitalize;
+}
+
+#salary{
+    font-weight: bolder;
 }

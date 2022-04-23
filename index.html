@@ -141,35 +141,39 @@
     <section class="vertical-scrolling">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 text-style">
+                <div class="col-md-3 text-style" id="circular-vis-text">
                     <p>
-                        Data-driven decision-making is the need of the hour for every business these days. Let’s have a look at the most hired job roles.
+                        Data-driven decision-making is the need of the hour for every business these days. Let’s have a
+                        look at the most hired job roles.
                         Data Scientists, blabla, bla are the mo
-                        To ace your chances of getting a job for a particular role, consider honing your .. skills and apply to .. states.
+                        To ace your chances of getting a job for a particular role, consider honing your .. skills and
+                        apply to .. states.
 
                     </p>
 
                 </div>
-                <div class="col-md-4">
-                    <div id="circularvis"></div>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-3 sidebar" id="circular-vis-sidebar" style="display: none">
 
+
+                    <a href="javascript:void(0)" class="close-icon" onclick="closeCilcularVis()">&times;</a>
+                    <!--                    <div style="height: 5vh"><a href="javascript:void(0)" class="close-icon" id="close-icon"-->
+                    <!--                                                onclick="closeCilcularVis()">&times;</a></div>-->
+                    <div id="bar-chart" class="small-divs"></div>
+                    <div id="word-cloud" class="small-divs"></div>
+                </div>
+
+                <div class="col-md-8">
                     <div class="box stack-top" id="tip2" style="background: white;">
-                        <div style="display: block;margin: 10px"><p  style="float: left"><strong>Tip</strong></p>
+                        <div style="display: block;margin: 10px"><p style="float: left"><strong>Tip</strong></p>
                             <button id="closeTip2" style="float: right" onclick="hideTip2()">X</button>
                         </div>
                         <div style="padding-top: 5px">
                             <br>
                             <hr>
-                            Click on the circle to know what skills are most listed along with states to apply to.
+                            select one/multiple ranges from the 4 options and find interesting insights for yourself.
                         </div>
                     </div>
-
-                    <div style="height: 5vh"><a href="javascript:void(0)" class="close-icon" id="close-icon"
-                       onclick="closeCilcularVis()">&times;</a></div>
-                    <div id="bar-chart" class="small-divs"></div>
-                    <div id="word-cloud" class="small-divs"></div>
+                    <div id="circularvis"></div>
                 </div>
             </div>
         </div>
@@ -229,7 +233,7 @@
                     <div id="parallelvis"></div>
 
                 </div>
-                <div id="salary" style="height: 20px"></div>
+                <div id="salary" style="height: 20px;padding-left: 40%"></div>
             </div>
         </div>
     </section>
