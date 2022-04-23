@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Market Divers</title>
@@ -61,7 +61,7 @@
         </div>
     </section>
     <section class="vertical-scrolling">
-        <h1>Job Distribution by State</h1>
+        <h1>JOB DISTRIBUTION BY STATE</h1>
         <div class="container">
             <div class="row">
                 <div class="col-md-3" style="display:none" id="mySidebar">
@@ -80,10 +80,10 @@
                 </div>
 
                 <div class="col-md-3 text-style" id="text-map">
-                    <p id="tile-map-text">- Discovering available opportunities is a primary step in finding a job.<br><br>
-                        - To make this step easier, we have consolidated all available jobs within this map. <br><br>
-                        - Take time and explore the jobs available.<br><br>
-                        - Try to see if a state has more opportunities in the sector you are interested in.
+                    <p id="tile-map-text">Discovering available opportunities is a primary step in finding a job.<br><br>
+                        To make this step easier, we present the available opportunities in each state.<br><br>
+                        Take time and explore the jobs available.<br><br>
+                        Can you find a state that has opportunities in the sector you are interested in?
                     </p>
                 </div>
 
@@ -112,10 +112,12 @@
                 <!-- CONTENT -->
                 <div class="row">
                     <div class="col-md-3 text-style">
-                            <p>Although some skills can be taken as niche or specializations, there are some skills that you need to have for virtually any data science-related job.
-                                <br><br>
-                                <strong>ITS TIME TO MASTER PYTHON, EXCEL AND SQL</strong>
-                            </p>
+                        <p>Although some skills are considered to be niche or specializations, there are some skills that you need to have for virtually any data science-related job.
+                        <br><br>
+                        Check what skills you already have and if they are in demand.
+                            <br><br>
+                            <strong> We recommend that you brush up on your Python and SQL skills.</strong>
+                        </p>
                     </div>
                     <div class="col-md-9">
                         <div class="row">
@@ -141,21 +143,23 @@
     <section class="vertical-scrolling">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 text-style" id="circular-vis-text">
+                <div class="col-md-4 text-style" id="circular-vis-text">
                     <p>
-                        Data-driven decision-making is the need of the hour for every business these days. Let’s have a
-                        look at the most hired job roles.
-                        Data Scientists, blabla, bla are the mo
-                        To ace your chances of getting a job for a particular role, consider honing your .. skills and
-                        apply to .. states.
+                        With the rise of big-data, organisations have transitioned to data-driven business models.
+                        <strong>Thus data science has become essential for businesses to stay relevant.</strong>
 
+                        <br><br>
+                        Let’s have a look at the most in-demand job roles.
+                        <br><br>
+                        To ace your chances of getting a role that interests you,
+                        we provide the skills you should have along with the states to apply to.
                     </p>
 
                 </div>
-                <div class="col-md-3 sidebar" id="circular-vis-sidebar" style="display: none">
+                <div class="col-md-4 sidebar" id="circular-vis-sidebar" style="display: none">
 
 
-                    <a href="javascript:void(0)" class="close-icon" onclick="closeCilcularVis()">&times;</a>
+                    <a href="javascript:void(0)" class="closebtn" style="height: 2%" onclick="closeCilcularVis()">&times;</a>
                     <!--                    <div style="height: 5vh"><a href="javascript:void(0)" class="close-icon" id="close-icon"-->
                     <!--                                                onclick="closeCilcularVis()">&times;</a></div>-->
                     <div id="bar-chart" class="small-divs"></div>
@@ -170,7 +174,7 @@
                         <div style="padding-top: 5px">
                             <br>
                             <hr>
-                            select one/multiple ranges from the 4 options and find interesting insights for yourself.
+                            Click on the circle to know what skills are most listed along with states to apply to.
                         </div>
                     </div>
                     <div id="circularvis"></div>
@@ -194,11 +198,16 @@
             <div class="row">
 
                 <div class="col-md-4 text-style">
-                    (This provides prospective salary information.)
-                    Here’s the list of the data science job titles and sectors you can find in the jobs breakdown.
-                    We show the average, min, and max annual salaries for each of them and we have ordered them in decreasing order of their averages. This will…
-                    you’ll be able to follow how your pay could rise if you take the typical path.
+                    <p>
 
+                    Here’s a list of Data Science job titles and sectors.
+                        <br><br>
+                    Look at the salary insights for each of them.
+                    <br><br>
+                    <strong>Notice how there is a deviation in the range of salaries for different job titles and sectors.</strong>
+                        <br><br>
+                        Data Scientists have the most potential for growth.
+                    </p>
                 </div>
                 <div class="col-md-8">
                     <div id="boxplotvis" style="height: 80vh"></div>
@@ -217,7 +226,18 @@
 <!--            </div>-->
             <div class="row">
                 <div class="col-md-4 text-style">
-                    <p> Finding Correlation between different parameters of a company like size, revenue, age and average salar</p>
+                    <p>
+                        If you’ve gone through different brushes,
+                        you might have noticed that there is no correlation between the scale of a company and the salary they offer.
+                        <br><br>
+                        <strong>You should choose the type of company based on your personal preference.</strong>
+                        <br><br>
+                        Enterprise level companies will be more mature with streamlined processes.
+                        <br><br>
+                        While small companies may require more hands-on approach with better growth opportunities.
+                        <br><br><br>
+                        <i><small>Do you see any other interesting correlations?</small></i>
+                    </p>
                 </div>
                 <div class="col-md-8">
                     <div class="box stack-top" id="tip3" style="background: white;">
@@ -227,7 +247,7 @@
                         <div style="padding-top: 5px">
                             <br>
                             <hr>
-                            select one/multiple ranges from the 4 options and find interesting insights for yourself.
+                            Use the brush to see if you can gain any meaningful insight based on any of the four features.
                         </div>
                     </div>
                     <div id="parallelvis"></div>
@@ -238,14 +258,20 @@
         </div>
     </section>
     <section class="vertical-scrolling">
-        <h1>THANK YOU!</h1>
-        <div class="text-style" style="padding-top: 0px;margin: 0 3% 0 3%;">
-        <p>We hope our project gives you a better understanding of what the job market looks like currently in the field of data science.
-        <br><br>
-            Our main insights encompass job-roles, skills, industry and the states.
+        <h2>THANK YOU!</h2>
+        <h3>We hope our story has gives you a better understanding of the Data Science job market.</h3>
+        <div class="text-style" style="margin-top:3%;padding: 2%">
+        <p>
+            Our recommendation
+            <br>
+            <i>Preferred State: </i><strong>California, Massachusetts, and New York</strong>
+            <br>
+            <i>Preferred Sector:</i> <strong>IT, BioTech & Pharmaceuticals, and Telecommunication</strong>
+            <br>
+            <i>Preferred Skills:</i> <strong>Must have Python, SQL. </strong>Cloud Technologies such as AWS also recommended
             <br><br>
-            Our dataset comes from: <a href="https://www.kaggle.com/datasets/nikhilbhathi/data-scientist-salary-us-glassdoor"> Kaggle</a>.
-            We did some basic preprocessing of data and you can find our final dataset <a href="https://drive.google.com/drive/u/0/folders/0AJ01GAwLOUfhUk9PVA">here</a>
+            Our dataset comes from: <a href="https://www.kaggle.com/datasets/nikhilbhathi/data-scientist-salary-us-glassdoor"> Kaggle</a>;
+            The processed version of our dataset is available <a href="https://docs.google.com/spreadsheets/d/1hlSPeyJLaGwsL1xiuEAFxIvCq2Y6ivdn/edit?usp=sharing&ouid=114574521642592778788&rtpof=true&sd=true">here</a>
         </p>
         </div>
         <div class="aboutTeam">
@@ -280,7 +306,7 @@
                 <div class="caption">
                     <h4>Anubhav Nanda</h4>
                     <p>Masters in Computer Science</p>
-                    <div class="social-links">
+                    <div class="social-links" >
                         <a href="https://www.linkedin.com/in/anubhavnanda/"><i class="fa fa-linkedin"></i></a>
                     </div>
 

@@ -172,7 +172,7 @@ class BarChart {
         vis.svg.selectAll("." + vis.parentElement + "Rect").on('mouseover', function (event, d) {
             d3.select(this)
                 .transition()
-                .style('fill', '#800000');
+                .style('fill', '#6AB89D');
             vis.tooltip
                 .style("opacity", 1)
                 .style("left", event.pageX + 5 + "px")

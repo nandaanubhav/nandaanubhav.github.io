@@ -31,7 +31,7 @@ class CircularVis {
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append("g")
-            .attr('transform', 'translate(' + vis.width / 1.5 + ',' + vis.height / 2 + ')');
+            .attr('transform', 'translate(' + vis.width / 1.75 + ',' + vis.height / 2 + ')');
 
         // console.log(vis.width);
         // (Filter, aggregate, modify data)
@@ -162,7 +162,7 @@ class CircularVis {
                 if (vis.width < 200) {
                     return "6px";
                 }
-                return "10px"
+                return "15px"
             })
             .style("opacity", "0")
             .transition()

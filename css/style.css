@@ -118,6 +118,9 @@
     font-family: sans-serif;
     margin: 2px 0 9px 0;
 }
+.caption p{
+    margin: 0px;
+}
 .profile-card:hover .caption{
     opacity: 1;
 }
@@ -293,7 +296,7 @@ button {
 /*custom visual*/
 
 .small-divs {
-    height: 37.5vh;
+    height: 35vh;
 }
 
 .small {

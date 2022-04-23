@@ -10,7 +10,7 @@ class TileMap {
         this.data = data;
         this.mapData = mapData;
         this.displayData = [];
-        this.highlight = "#ffa3d7";
+        this.highlight = "#6AB89D";
         // this.navBarSvg = new NavBarVis("miniBar-div", data);
         this.activeSquares = [];
         this.initVis();
@@ -287,16 +287,16 @@ class TileMap {
             .style("opacity", 1);
 
         //Draw the rectangle and fill with gradient
-        vis.svg.append("text")
-            // .attr("width", vis.width/6)
-            .attr("x", function(d) {
-                // return document.getElementById(vis.parentElement).getBoundingClientRect().right - (vis.width/6)
-                return 0.8*vis.width
-            })
-            .attr("y",(5*vis.height/7) -10)
-            .attr("height", 15)
-            .text("LEGEND")
-            .style("font-weight", "bold");
+        // vis.svg.append("text")
+        //     // .attr("width", vis.width/6)
+        //     .attr("x", function(d) {
+        //         // return document.getElementById(vis.parentElement).getBoundingClientRect().right - (vis.width/6)
+        //         return 0.8*vis.width
+        //     })
+        //     .attr("y",(5*vis.height/7) -10)
+        //     .attr("height", 15)
+        //     .text("No. of opportunities")
+        //     .style("font-weight", "bold");
 
         //group the axis for legend
         vis.axisGroup = vis.svg.append("g")

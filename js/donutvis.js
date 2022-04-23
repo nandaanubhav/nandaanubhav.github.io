@@ -47,7 +47,7 @@ class DonutVis {
             });
 
         vis.tooltip=vis.svg.append("text")
-            .attr("x",(vis.width+vis.margin.left+vis.margin.right)/2-vis.radius/9)
+            .attr("x",(vis.width+vis.margin.left-vis.margin.right)/2-vis.radius/10)
             .attr("y",(vis.height+vis.margin.top)/2-vis.radius/8)
             .attr("class", "tooltip-text");
 
@@ -111,7 +111,7 @@ class DonutVis {
             .attr("transform", "translate("+(vis.width+vis.margin.left+vis.margin.right)/2 +"," +(vis.height+vis.margin.top)/2 + ")")
             .on('mouseover', function (event, d) {
 
-                vis.tooltip.text(d.data[1]);
+                vis.tooltip.text(d.data[1]+" jobs");
                 vis.tooltipPercent.text((d.data[1]*100/732).toFixed(2)+"%");
 
             })

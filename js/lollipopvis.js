@@ -23,7 +23,7 @@ class LollipopVis {
         let vis = this;
 
         vis.margin = {top: 40, right: 0, bottom: 50, left: 25};
-        vis.marginSecond = {top: 40, right: 25, bottom: 50, left: 0};
+        vis.marginSecond = {top: 40, right: 15, bottom: 50, left: 0};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 - vis.margin.left - vis.margin.right;
         vis.widthSecond = document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 - vis.marginSecond.left - vis.marginSecond.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
