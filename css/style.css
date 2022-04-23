@@ -65,7 +65,7 @@
 }
 
 .lollipop-title {
-    font-size: 6pt;
+    font-size: 10pt;
     font-family: "American Typewriter";
 }
 
@@ -315,7 +315,27 @@ button {
     text-transform: capitalize;
 }
 
-#salary{
+#salary {
     font-weight: bolder;
     font-size: 12px;
+}
+
+.box-plot-tooltip {
+    position: absolute;
+    text-align: center;
+    width: 120px;
+    height: 90px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border-radius: 8px;
+    /*  pointer-events: none;	This line needs to be removed */
+}
+
+.job-title-circle {
+    cursor: pointer;
+}
+
+.job-title-circle:hover {
+    fill: #6AB89D;
 }

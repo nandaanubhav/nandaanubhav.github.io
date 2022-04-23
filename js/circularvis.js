@@ -94,6 +94,7 @@ class CircularVis {
             .data(vis.displayData)
             .enter()
             .append('circle')
+            .attr("class", "job-title-circle")
             .on('click', function (d, i) {
 
                 // console.log(i);
