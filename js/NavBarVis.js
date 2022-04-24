@@ -94,9 +94,9 @@ class NavBarVis {
             letstry.push(row)
         })
 
-        console.log(d3.max(letstry, function (d) {
-            return d["value"];
-        }))
+        // console.log(d3.max(letstry, function (d) {
+        //     return d["value"];
+        // }))
 
         vis.linearColor = d3.scaleSequential(d3.interpolateBlues).domain([0, d3.max(letstry, function (d) {
             return d["value"];
@@ -178,7 +178,6 @@ class NavBarVis {
                         return ""
                     return d.data.name;
                 } else if (d.data.name.length > 8) {
-                    console.log("here")
                     if (d.x1 - d.x0 >= 65)
                         return d.data.name
                 } else

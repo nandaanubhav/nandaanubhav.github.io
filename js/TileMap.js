@@ -158,7 +158,6 @@ class TileMap {
         .on("click", function(d) {
             var square = d3.select(this);
             // console.log(square["_groups"][0][0]["__data__"])
-            console.log(this)
 
             if (vis.mydict2[square["_groups"][0][0]["__data__"].code]==0)
                 return;
