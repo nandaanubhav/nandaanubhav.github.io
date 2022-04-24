@@ -1,34 +1,37 @@
-
-let donutVis, boxPlotVis, barchart, miniBarChart, tileMap,circularVis
+let donutVis, boxPlotVis, barchart, miniBarChart, tileMap, circularVis
 let parseDate = d3.timeParse("%m/%d/%Y");
 let selectedRange = [];
 let mainData;
+
 // $("#tip").delay(5000).fadeOut();
 
-function hideTip(){
-    var v=document.getElementById("tip");
-    v.style.display="none";
+function hideTip() {
+    var v = document.getElementById("tip");
+    v.style.display = "none";
 }
-function hideTip2(){
-    var m=document.getElementById("tip2");
-    m.style.display="none";
+
+function hideTip2() {
+    var m = document.getElementById("tip2");
+    m.style.display = "none";
 }
-function hideTip3(){
-    var m=document.getElementById("tip3");
-    m.style.display="none";
+
+function hideTip3() {
+    var m = document.getElementById("tip3");
+    m.style.display = "none";
 }
 
 //reading csv file
 loadData();
+
 function loadData() {
     d3.csv("data/Market_Divers.csv").then(csv => {
         csv.forEach(function (d) {
             // d["Founded"] = 2022 - (+d["Founded"]);
-            d.Size=d.Calculated_Size;
-            d.Revenue=d.Calculated_Revenue;
+            d.Size = d.Calculated_Size;
+            d.Revenue = d.Calculated_Revenue;
             d.index = +d.index;
             d.Rating = +d.Rating;
-            d.Age = +(2022-d.Founded);
+            d.Age = +(2022 - d.Founded);
             d.Lower_Salary = +d.Lower_Salary;
             d.Upper_Salary = +d.Upper_Salary;
             d.Avg_Salary = +d.Avg_Salary;
@@ -55,7 +58,7 @@ function loadData() {
         miniBarChart = new MiniBarChart("mini-barchart-div", csv);
         circularVis = new CircularVis("circularvis", csv);
         parallelChart = new ParallelVis("parallelvis", csv);
-        selectedRange = [5, miniBarChart.height/3];
+        selectedRange = [5, miniBarChart.height / 3];
         mainData = csv;
         loadTileMap();
     });
@@ -82,11 +85,12 @@ function brushed() {
     selectedRange = selectionRange;
     barchart.selectionRange = selectionRange;
     barchart.wrangleData()
-    if ((selectedRange[0] != 5)&&(selectedRange[1] != miniBarChart.height/3)) {
+    if ((selectedRange[0] != 5) && (selectedRange[1] != miniBarChart.height / 3)) {
         miniBarChart.selectionRange = selectionRange;
         miniBarChart.wrangleData()
     }
 }
+
 function closeCilcularVis() {
     document.getElementById("circular-vis-text").style.display = "block";
     document.getElementById("circular-vis-sidebar").style.display = "none";

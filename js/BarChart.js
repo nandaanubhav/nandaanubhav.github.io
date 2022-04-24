@@ -109,11 +109,11 @@ class BarChart {
             return d[0];
         }));
 
-        let maxVal = d3.max(vis.displayData, function(d) {
+        let maxVal = d3.max(vis.displayData, function (d) {
             return d[1];
         });
 
-        let minVal = d3.min(vis.displayData, function(d) {
+        let minVal = d3.min(vis.displayData, function (d) {
             return d[1];
         });
 
@@ -125,7 +125,7 @@ class BarChart {
             // console.log("--------------------")
 
 
-            if ((vis.y(d[0]) > vis.selectionRange[0])&&(vis.y(d[0]) < vis.selectionRange[1])) {
+            if ((vis.y(d[0]) > vis.selectionRange[0]) && (vis.y(d[0]) < vis.selectionRange[1])) {
                 vis.displayData.push(d);
             }
             // console.log("END--------------------")

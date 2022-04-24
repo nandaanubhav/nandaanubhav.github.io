@@ -47,7 +47,7 @@ class MiniBarChart {
         vis.svg.append("g")
             .attr("class", "brush")
             .call(vis.brush)
-            .call(vis.brush.move, [5, ((vis.height+vis.margin.top+vis.margin.bottom)/16-5)*6])
+            .call(vis.brush.move, [5, ((vis.height + vis.margin.top + vis.margin.bottom) / 16 - 5) * 6])
 
         vis.svg.append("defs").append("clipPath")
             .attr("id", "clip")
@@ -57,7 +57,6 @@ class MiniBarChart {
 
         this.wrangleData();
     }
-
 
 
     wrangleData() {
@@ -112,11 +111,11 @@ class MiniBarChart {
             return d[1];
         })])
 
-        let maxVal = d3.max(vis.displayData, function(d) {
+        let maxVal = d3.max(vis.displayData, function (d) {
             return d[1];
         });
 
-        let minVal = d3.min(vis.displayData, function(d) {
+        let minVal = d3.min(vis.displayData, function (d) {
             return d[1];
         });
 
@@ -138,7 +137,7 @@ class MiniBarChart {
             .merge(bars)
             // .transition(500)
             .style("fill", function (d) {
-                if ((vis.y(d[0])>selectedRange[0])&&(vis.y(d[0])<selectedRange[1]))
+                if ((vis.y(d[0]) > selectedRange[0]) && (vis.y(d[0]) < selectedRange[1]))
                     return vis.linearColor(d[1]);
 
                 return 'grey';

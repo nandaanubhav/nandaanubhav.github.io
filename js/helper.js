@@ -38,7 +38,7 @@ function closeNav() {
     document.getElementById("text-map").style.display = "block"
 }
 
-
+// From stack overflow
 function wrap(text, width) {
     text.each(function () {
         var text = d3.select(this),
@@ -70,4 +70,39 @@ function wrap(text, width) {
             }
         }
     });
+}
+
+
+// function that generates a nested array for square grid
+function makeGridData(ncol, nrow, cellsize) {
+    var gridData = [];
+    var xpos = 1;  // starting xpos and ypos at 1 so the stroke will show when we make the grid below
+    var ypos = 1;
+
+    // calculate width and height of the cell based on width and height of the canvas
+    var cellSize = cellsize;
+
+    // iterate for rows
+    for (var row = 0; row < nrow; row++) {
+        gridData.push([]);
+
+        // iterate for cells/columns inside each row
+        for (var col = 0; col < ncol; col++) {
+            gridData[row].push({
+                x: xpos,
+                y: ypos,
+                width: cellSize,
+                height: cellSize
+            });
+
+            // increment x position (moving over by 50)
+            xpos += cellSize;
+        }
+
+        // reset x position after a row is complete
+        xpos = 1;
+        // increment y position (moving down by 50)
+        ypos += cellSize;
+    }
+    return gridData;
 }
