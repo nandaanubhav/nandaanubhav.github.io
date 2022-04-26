@@ -12,14 +12,12 @@ class TileMap {
         this.mapData = mapData;
         this.displayData = [];
         this.highlight = "#6AB89D";
-        // this.navBarSvg = new NavBarVis("miniBar-div", data);
         this.activeSquares = [];
         this.initVis();
         this.navBarSvg = null;
     }
 
     openNav(stateName, state) {
-        // document.getElementById("mySidebar").style.width = (document.getElementById(this.parentElement).getBoundingClientRect().left - (document.getElementById("mySidebar").getBoundingClientRect().left)) + "px";
         document.getElementById("mySidebar").style.display = "block";
         document.getElementById("text-map").style.display = "none";
         if (this.navBarSvg == null)
@@ -28,9 +26,25 @@ class TileMap {
         this.navBarSvg.wrangleData();
     }
 
-    closeNav() {
-        // document.getElementById("mySidebar").style.width = "0";
-        // document.getElementById("main").style.marginLeft = "0";
+    closeNav(fromMain = false) {
+        var vis = this;
+
+        vis.activeSquares.forEach(sq => {
+            sq.style("fill", function (d) {
+                return vis.linearColor(vis.mydict2[d.code])
+            }).style("opacity", function (d) {
+                if (vis.mydict2[d.code] == 0) {
+                    return 0.2
+                } else {
+                    return 1
+                }
+            });
+            if (fromMain)
+                sq.classed("active", !sq.classed("active"));
+        })
+        vis.activeSquares = [];
+
+
         document.getElementById("mySidebar").style.display = "none";
         document.getElementById("text-map").style.display = "block"
     }
@@ -159,6 +173,13 @@ class TileMap {
                     return 1
                 }
             })
+            .style("cursor", function (d) {
+                if (vis.mydict2[d.code] == 0) {
+                    return "not-allowed"
+                } else {
+                    return "pointer"
+                }
+            })
             .on("click", function (d) {
                 var square = d3.select(this);
                 // console.log(square["_groups"][0][0]["__data__"])
@@ -188,17 +209,17 @@ class TileMap {
                     vis.activeSquares.push(square);
                 } else {
                     //remove from square array
-                    vis.activeSquares = [];
+                    // vis.activeSquares = [];
                     vis.closeNav();
-                    square.style("fill", function (d) {
-                        return vis.linearColor(vis.mydict2[d.code])
-                    }).style("opacity", function (d) {
-                        if (vis.mydict2[d.code] == 0) {
-                            return 0.2
-                        } else {
-                            return 1
-                        }
-                    });
+                    // square.style("fill", function (d) {
+                    //     return vis.linearColor(vis.mydict2[d.code])
+                    // }).style("opacity", function (d) {
+                    //     if (vis.mydict2[d.code] == 0) {
+                    //         return 0.2
+                    //     } else {
+                    //         return 1
+                    //     }
+                    // });
                 }
             })
         ;
@@ -224,6 +245,20 @@ class TileMap {
             .style("font-size", "12pt")
             .text(function (d) {
                 return d.code;
+            })
+            .style("opacity", function (d) {
+                if (vis.mydict2[d.code] == 0) {
+                    return 0.2
+                } else {
+                    return 1
+                }
+            })
+            .style("cursor", function (d) {
+                if (vis.mydict2[d.code] == 0) {
+                    return "not-allowed"
+                } else {
+                    return "pointer"
+                }
             })
             .on("click", function (d) {
                 var square = d3.select(this);
@@ -253,17 +288,17 @@ class TileMap {
                     vis.activeSquares.push(square);
                 } else {
                     //remove from square array
-                    vis.activeSquares = [];
+                    // vis.activeSquares = [];
                     vis.closeNav();
-                    square.style("fill", function (d) {
-                        return vis.linearColor(vis.mydict2[d.code])
-                    }).style("opacity", function (d) {
-                        if (vis.mydict2[d.code] == 0) {
-                            return 0.2
-                        } else {
-                            return 1
-                        }
-                    });
+                    // square.style("fill", function (d) {
+                    //     return vis.linearColor(vis.mydict2[d.code])
+                    // }).style("opacity", function (d) {
+                    //     if (vis.mydict2[d.code] == 0) {
+                    //         return 0.2
+                    //     } else {
+                    //         return 1
+                    //     }
+                    // });
                 }
             });
 
@@ -294,6 +329,14 @@ class TileMap {
             .attr("height", 15)
             .style("fill", "url(#linear-gradient)")
             .style("opacity", 1);
+
+        // Legend Text
+        vis.svg.append("text")
+            .attr("x", function (d) {
+                return 0.8 * vis.width + 2
+            })
+            .attr("y", (5 * vis.height / 7) - 4)
+            .text("no. of opportunities")
 
         //group the axis for legend
         vis.axisGroup = vis.svg.append("g")
