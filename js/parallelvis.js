@@ -144,7 +144,7 @@ class ParallelVis {
                     return "translate(" + vis.x(d) + ")";
                 });
             vis.g.append("g") // The Axis
-                .attr("class", "axis")
+                .attr("class", d => "axis axis-"+d)
                 .each(function (d) {
                     d3.select(this).call(vis.axis.scale(vis.y[d]));
                 });
@@ -169,6 +169,26 @@ class ParallelVis {
 
             vis.svg.selectAll(".brush").selectAll(".overlay")
                 .on("mousedown", vis.brush);
+
+            vis.g.select('.axis-Size')
+                .selectAll('.tick')
+                .on('click', function (event , d) {
+                    console.log(event);
+                    console.log(d);
+
+                    vis.foreground.style("display", function (d) {
+                        return d["Calculated_Size"]=='Medium'?null:"none";
+
+                    });
+
+                });
+
+            // vis.g.select('.axis-Revenue')
+            //     .selectAll('.tick')
+            //     .on('click', function (event , d) {
+            //         console.log(event);
+            //         console.log(d);
+            //     });
 
 
             function position(d) {
