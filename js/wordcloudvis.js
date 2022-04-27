@@ -34,13 +34,13 @@ class WordCloudVis {
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append('g')
-            .attr('transform', `translate (${vis.width / 2 + vis.margin.left}, ${vis.height / 3})`);
+            .attr('transform', `translate (${vis.width / 2 + vis.margin.left}, ${vis.height / 2})`);
 
         vis.svgSecond = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width + vis.marginSecond.left + vis.marginSecond.right)
             .attr("height", vis.height + vis.marginSecond.top + vis.marginSecond.bottom)
             .append('g')
-            .attr('transform', `translate (${vis.width / 2}, ${vis.height / 3})`);
+            .attr('transform', `translate (${vis.width / 2}, ${vis.height / 2})`);
 
 
         // // Overlay with path clipping

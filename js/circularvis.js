@@ -51,20 +51,6 @@ class CircularVis {
         jobCountbySector.sort(function (a, b) {
             return b["value"] - a["value"]
         });
-        // if(jobCountbySector.length>9)
-        // {
-        //     let otherCount=0;
-        //     jobCountbySector.slice(9).forEach(d=>
-        //     {
-        //         otherCount+=d.value;
-        //     })
-        //     jobCountbySector.splice(8);
-        //     // console.log(jobCount);
-        //     jobCountbySector.push({key:"Other",value: otherCount});
-        // }
-        //
-        // jobCountbySector.sort(function(a,b){return b["value"]-a["value"]});
-        // console.log(jobCountbySector);
         vis.displayData = jobCountbySector;
 
         // Here you want to aggregate the data by age, not by day (as it is given)!
@@ -139,10 +125,33 @@ class CircularVis {
                 return "translate(" + ((w / 2 - r) * Math.cos((interval * i) * Math.PI / 180)) + "," + ((w / 2 - r) * Math.sin((interval * i) * Math.PI / 180)) + ")";
             });
 
-        vis.svg.selectAll("text")
+        vis.svg.selectAll('g')
+            .data(vis.displayData)
+            .enter()
+            .append('text')
+            .text(d => (d.value*100/732).toFixed(2)+"%")
+            .attr("alignment-baseline","middle")
+            .attr("x",d => {
+                console.log(radiusScale(d.value));
+                if (radiusScale(d.value) >= 70)
+                    return -radiusScale(d.value)/4;
+                else if((radiusScale(d.value) >= 50) && (radiusScale(d.value) < 70))
+                    return -radiusScale(d.value)/3;
+                else if((radiusScale(d.value) >= 30) && (radiusScale(d.value) < 50))
+                    return -radiusScale(d.value)/2;
+                else
+                    return -radiusScale(d.value)/1.5;
+
+            })
+            .attr('transform', function (d, i) {
+                return "translate(" + ((w / 2 - r) * Math.cos((interval * i) * Math.PI / 180)) + "," + ((w / 2 - r) * Math.sin((interval * i) * Math.PI / 180)) + ")";
+            });
+
+        vis.svg.selectAll(".textLabel")
             .data(vis.displayData)
             .enter()
             .append("text")
+            .attr("class","textLabel")
             // Add your code below this line
             .attr("text-anchor", function (d, i) {
                 if ((w / 2 - r) * Math.cos((interval * i) * Math.PI / 180) > 0) return "start";

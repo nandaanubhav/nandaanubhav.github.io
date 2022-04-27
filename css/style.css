@@ -200,7 +200,7 @@
 .sidebar .closebtn {
     /*position: absolute;*/
     top: 0;
-    /*right: 25px;*/
+    /*margin-left: 80%;*/
     font-size: 36px;
     color: red;
     /*margin-left: 50px;*/
@@ -338,4 +338,8 @@ button {
 
 .job-title-circle:hover {
     fill: #6AB89D;
+}
+
+.text-center {
+    text-align: center;
 }

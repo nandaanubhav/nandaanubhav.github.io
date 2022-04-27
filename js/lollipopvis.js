@@ -22,7 +22,7 @@ class LollipopVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 40, right: 0, bottom: 50, left: 25};
+        vis.margin = {top: 40, right: 0, bottom: 50, left: 35};
         vis.marginSecond = {top: 40, right: 15, bottom: 50, left: 0};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 - vis.margin.left - vis.margin.right;
         vis.widthSecond = document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 - vis.marginSecond.left - vis.marginSecond.right;
@@ -87,6 +87,14 @@ class LollipopVis {
 
         vis.svg.append("g")
             .attr("class", "y-axis-bar y-axis axis");
+
+        vis.svg.append("text")
+            .attr("class", "y label")
+            .attr("text-anchor", "end")
+            .attr("y", -12)
+            .attr("dy", "-1.5em")
+            .attr("transform", "rotate(-90)")
+            .text("Occurance of Skill");
 
         vis.svg.append("g")
             .attr("class", "x-axis axis")
@@ -227,6 +235,8 @@ class LollipopVis {
             .attr("transform", function (d) {
                 return "rotate(-45)"
             });
+
+
 
         // Update the y-axis
         vis.svg.select(".y-axis").call(vis.yAxis.tickValues(vis.yAxisTicks).tickFormat(d3.format('d')));
