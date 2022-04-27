@@ -152,6 +152,10 @@
     cursor: pointer;
 }
 
+.y-axis {
+    text-transform: capitalize;
+}
+
 .stateText {
     cursor: pointer;
 }
@@ -264,7 +268,11 @@ svg {
     stroke: #fff;
     shape-rendering: crispEdges;
 }
+ .myText {
+     font-size: 10pt;
+     font-family: sans-serif;
 
+ }
 
 .foreground path {
     fill: none;

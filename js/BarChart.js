@@ -168,33 +168,50 @@ class BarChart {
             .attr("height", vis.y.bandwidth())
         ;
 
-        // add hover functionality for tooltip
-        vis.svg.selectAll("." + vis.parentElement + "Rect").on('mouseover', function (event, d) {
-            d3.select(this)
-                .transition()
-                .style('fill', '#6AB89D');
-            vis.tooltip
-                .style("opacity", 1)
-                .style("left", event.pageX + 5 + "px")
-                .style("top", event.pageY + "px")
-                .html(`
-                         <div>
-                             <h4> ${d[0]}</h4><br/>
-                             <h5> Total Listings: ${d[1].toLocaleString("en-US")}</h5>                          
-                         </div>`);
-        })
-            .on('mouseout', function (event, d) {
-                d3.select(this)
-                    .transition()
-                    .style('fill', function (d) {
-                        return vis.linearColor(d[1]);
-                    })
-                vis.tooltip
-                    .style("opacity", 0)
-                    .style("left", 0)
-                    .style("top", 0)
-                    .html(``);
+        let texts = vis.svg.selectAll("." + vis.parentElement + "text")
+            .data(vis.displayData);
+
+        texts.enter().append("text")
+            .attr("class", vis.parentElement + "text myText")
+            .merge(texts)
+            .transition()
+            .attr("x", function (d) {
+                return vis.x(d[1]) + 10;
             })
+            .attr("y", function (d) {
+                return vis.y(d[0]) + vis.y.bandwidth()/2;
+            })
+            .text(function (d) {return d[1].toLocaleString("en-US")})
+        ;
+
+        // add hover functionality for tooltip
+        // vis.svg.selectAll("." + vis.parentElement + "Rect")
+        //     .on('mouseover', function (event, d) {
+        //         d3.select(this)
+        //             .transition()
+        //             .style('fill', '#6AB89D');
+        //         vis.tooltip
+        //             .style("opacity", 1)
+        //             .style("left", event.pageX + 5 + "px")
+        //             .style("top", event.pageY + "px")
+        //             .html(`
+        //                  <div>
+        //                      <h4> ${d[0]}</h4><br/>
+        //                      <h5> Total Listings: ${d[1].toLocaleString("en-US")}</h5>
+        //                  </div>`);
+        //     })
+        //     .on('mouseout', function (event, d) {
+        //         d3.select(this)
+        //             .transition()
+        //             .style('fill', function (d) {
+        //                 return vis.linearColor(d[1]);
+        //             })
+        //         vis.tooltip
+        //             .style("opacity", 0)
+        //             .style("left", 0)
+        //             .style("top", 0)
+        //             .html(``);
+        //     })
 
         // update x and y axis
         vis.svg.select(".y-axis").transition().call(vis.yAxis);
@@ -202,5 +219,6 @@ class BarChart {
 
 
         bars.exit().remove();
+        texts.exit().remove();
     }
 }
