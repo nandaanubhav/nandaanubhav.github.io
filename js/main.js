@@ -20,6 +20,11 @@ function hideTip3() {
     m.style.display = "none";
 }
 
+function hideTip4() {
+    var m = document.getElementById("tip4");
+    m.style.display = "none";
+}
+
 //reading csv file
 loadData();
 

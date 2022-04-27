@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="col-md-8">
-                    <div class="box stack-top" id="tip" style="background: white;">
+                    <div class="box stack-top" id="tip">
                         <div style="display: block;margin: 10px"><p  style="float: left"><strong>Tip</strong></p>
                             <button id="closeTip" style="float: right" onclick="hideTip()">X</button>
                         </div>
@@ -99,7 +99,7 @@
                             <hr>
                             Click on a state to find more insights about major sectors and opportunities.
                             <br><br>
-                            (unclickable states do not have any opportunities)
+                            Disabled states do not have any opportunities.
                         </div>
                     </div>
                     <div id="tilemap-div" style="height: 80vh"></div>
@@ -124,6 +124,17 @@
                         </p>
                     </div>
                     <div class="col-md-9">
+                        <div class="box stack-top" id="tip4">
+                            <div style="display: block;margin: 10px"><p  style="float: left"><strong>Tip</strong></p>
+                                <button id="closeTip4" style="float: right" onclick="hideTip4()">X</button>
+                            </div>
+                            <div style="padding-top: 5px; padding-bottom: 5px">
+                                <br>
+                                <hr>
+                                <br>
+                                Drag or Expand the brush on the mini chart to get an expansive picture of skills requirement.
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-10" style="height: 80vh;">
 
@@ -177,14 +188,16 @@
                 </div>
 
                 <div class="col-md-8">
-                    <div class="box stack-top" id="tip2" style="background: white;">
+                    <div class="box stack-top" id="tip2" style="height: 150px;">
                         <div style="display: block;margin: 10px"><p style="float: left"><strong>Tip</strong></p>
                             <button id="closeTip2" style="float: right" onclick="hideTip2()">X</button>
                         </div>
                         <div style="padding-top: 5px">
                             <br>
                             <hr>
-                            Click on the circle to know what skills are most listed along with states to apply to.
+                            The size of the circle is proportional to the number of openings in a particular role.
+                            <br><br>
+                            Click on the circle to know what skills are most listed along with the states to apply to.
                         </div>
                     </div>
                     <div id="circularvis"></div>
@@ -207,16 +220,18 @@
             </div>
             <div class="row">
 
-                <div class="col-md-3 text-style card">
+                <div class="col-md-3 text-style card" style="padding-top: 7%">
                     <p>
 
                     Here’s a list of Data Science job titles and sectors.
                         <br><br>
                     Look at the salary insights for each of them.
                     <br><br>
-                    <strong>Notice how there is a deviation in the range of salaries for different job titles and sectors.</strong>
+                    Notice how there is a deviation in the range of salaries for different job titles and sectors.
                         <br><br>
-                        Data Scientists have the most potential for growth.
+                        <strong>Data Scientist role has the most potential for growth.
+                        <br><br>
+                            IT, Insurance, and Business Services sectors have the most potential for growth.</strong>
                     </p>
                 </div>
                 <div class="col-md-8">
@@ -235,10 +250,11 @@
 <!--                </div>-->
 <!--            </div>-->
             <div class="row">
-                <div class="col-md-4 text-style card">
+                <div class="col-md-4 text-style card" style="padding-top: 5%">
                     <p>
-                        If you’ve gone through different brushes,
-                        you might have noticed that there is no correlation between the scale of a company and the salary they offer.
+                        Does the Size, Age, or Revenue of the Company change the offered average Salaries?
+                        <br><br>
+                        Have you noticed that there is no correlation between the scale of a company and the salary they offer?
                         <br><br>
                         <strong>You should choose the type of company based on your personal preference.</strong>
                         <br><br>
@@ -250,14 +266,19 @@
                     </p>
                 </div>
                 <div class="col-md-8">
-                    <div class="box stack-top" id="tip3" style="background: white;">
+                    <div class="box stack-top" id="tip3" style="height: 220px">
                         <div style="display: block;margin: 10px"><p  style="float: left"><strong>Tip</strong></p>
                             <button id="closeTip3" style="float: right" onclick="hideTip3()">X</button>
                         </div>
                         <div style="padding-top: 5px">
                             <br>
                             <hr>
+                            Grouped values in Size and Revenue axis can be clicked to select the respective value,
+                            brush over Age and Avg_Salary to select a range of values.
+                            <br><br>
                             Use the brush to see if you can gain any meaningful insight based on any of the four features.
+                            <br><br>
+                            Unselect values by simply clicking on the title of the axis.
                         </div>
                     </div>
                     <div id="parallelvis"></div>

@@ -294,11 +294,12 @@ svg {
 /*tip styles*/
 .box{
     width: 20%;
-    height: 17%;
+    height: 120px;
     position: absolute;
     top: 3%;
-    left: 75%;
-    opacity: 0.8;  /* for demo purpose  */
+    left: 78%;
+    opacity: 1;
+    background: antiquewhite;
 }
 .stack-top{
     z-index: 9;
