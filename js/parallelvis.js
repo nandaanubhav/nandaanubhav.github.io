@@ -69,9 +69,6 @@ class ParallelVis {
                 if(vis.dimensionsOrdinal.includes(d))
                 {
                     vis.svg.selectAll(".brush").call(vis.y[d].brush.clear);
-                    // console.log(vis.y[d].brush[rect]);
-                    // vis.g.call(vis.y[d].brush.clear());
-                    // vis.y[d].brush.call(vis.y[d].brush,null);
                 }
                 extents[vis.dimensions.indexOf(d)] = [0, 0];
             }
@@ -80,24 +77,9 @@ class ParallelVis {
                     extents[vis.dimensions.indexOf(event.path[1].__data__)] = [0, 0];
                 }
             else {
-                //filter brushed extents
-
-                // if (event.path) {
-                //
-                //     extents[vis.dimensions.indexOf(event.path[1].__data__)] = [0, 0];
-                // }
 
                 for (var i = 0; i < vis.dimensions.length; ++i) {
                     if (event.target == vis.y[vis.dimensions[i]].brush && event.selection!=null) {
-
-                        // if (vis.dimensions[i] == "Size" || vis.dimensions[i]== "Revenue") {
-                        //     var selected = vis.y[vis.dimensions[i]].domain().filter(function (d) {
-                        //         var s = event.selection;
-                        //         return (s[0] <= vis.y[vis.dimensions[i]](d)) && (vis.y[vis.dimensions[i]](d) <= s[1])
-                        //     });
-                        //     var temp = selected.sort();
-                        //     extents[i] = [temp[temp.length - 1], temp[0]];
-                        // } else
 
                             extents[i] = event.selection.map(vis.y[vis.dimensions[i]].invert, vis.y[vis.dimensions[i]]);
 
