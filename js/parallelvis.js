@@ -22,25 +22,21 @@ class ParallelVis {
         vis.x = d3.scalePoint().range([0, vis.width]);
         vis.y = {};
         vis.dragging = {};
+        vis.dimensions = ["Size", "Age", "Revenue", "Avg_Salary"]
+        vis.dimensionsCategorical=["Size","Revenue"]
+        vis.dimensionsOrdinal=["Age","Avg_Salary"]
 
         vis.line = d3.line();
         vis.axis = d3.axisLeft();
         vis.background, vis.foreground, vis.csv;
+        vis.sizes=["Small","Medium","Large","Enterprise"];
+
 
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append("g")
             .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
-
-        vis.wrangleData();
-    }
-
-    wrangleData() {
-
-        let vis = this;
-
-        vis.dimensions = ["Size", "Age", "Revenue", "Avg_Salary"]
 
         // For each dimension, I build a linear scale. I store all in a y object
         vis.y["Size"] = d3.scalePoint().domain(vis.data.map(d => d["Size"])).rangeRound([vis.height, 0]);
@@ -51,29 +47,70 @@ class ParallelVis {
         vis.y["Avg_Salary"] = d3.scaleLinear().domain(d3.extent(vis.data, function (d) {
             return +d["Avg_Salary"];
         })).range([vis.height, 0]);
+        vis.x.domain(vis.dimensions);
+
+
+
+        vis.wrangleData();
+    }
+
+    wrangleData() {
+
+        let vis = this;
+
+
+
+
         var extents=[];
-        vis.brush = function (event) {
-            //filter brushed extents
-
-            if (event.path) {
-
-                extents[vis.dimensions.indexOf(event.path[1].__data__)] = [0, 0];
+        vis.brush = function (event,d) {
+            console.log(event);
+            // console.log(d);
+            if(vis.dimensions.includes(d) && event.type=='click') {
+                if(vis.dimensionsOrdinal.includes(d))
+                {
+                    vis.svg.selectAll(".brush").call(vis.y[d].brush.clear);
+                    // console.log(vis.y[d].brush[rect]);
+                    // vis.g.call(vis.y[d].brush.clear());
+                    // vis.y[d].brush.call(vis.y[d].brush,null);
+                }
+                extents[vis.dimensions.indexOf(d)] = [0, 0];
             }
+            else if(d.type=='overlay')
+                {
+                    extents[vis.dimensions.indexOf(event.path[1].__data__)] = [0, 0];
+                }
+            else {
+                //filter brushed extents
 
-            for (var i = 0; i < vis.dimensions.length; ++i) {
-                if (event.target == vis.y[vis.dimensions[i]].brush) {
-                    if (vis.dimensions[i] == "Size" || vis.dimensions[i]== "Revenue") {
-                        var selected = vis.y[vis.dimensions[i]].domain().filter(function (d) {
-                            var s = event.selection;
-                            return (s[0] <= vis.y[vis.dimensions[i]](d)) && (vis.y[vis.dimensions[i]](d) <= s[1])
-                        });
-                        var temp = selected.sort();
-                        extents[i] = [temp[temp.length - 1], temp[0]];
-                    } else {
-                        extents[i] = event.selection.map(vis.y[vis.dimensions[i]].invert, vis.y[vis.dimensions[i]]);
+                // if (event.path) {
+                //
+                //     extents[vis.dimensions.indexOf(event.path[1].__data__)] = [0, 0];
+                // }
+
+                for (var i = 0; i < vis.dimensions.length; ++i) {
+                    if (event.target == vis.y[vis.dimensions[i]].brush && event.selection!=null) {
+
+                        // if (vis.dimensions[i] == "Size" || vis.dimensions[i]== "Revenue") {
+                        //     var selected = vis.y[vis.dimensions[i]].domain().filter(function (d) {
+                        //         var s = event.selection;
+                        //         return (s[0] <= vis.y[vis.dimensions[i]](d)) && (vis.y[vis.dimensions[i]](d) <= s[1])
+                        //     });
+                        //     var temp = selected.sort();
+                        //     extents[i] = [temp[temp.length - 1], temp[0]];
+                        // } else
+
+                            extents[i] = event.selection.map(vis.y[vis.dimensions[i]].invert, vis.y[vis.dimensions[i]]);
+
+                    } else if (event.type == "click") {
+                        if (vis.sizes.includes(d))
+                            extents[0] = [d, d];
+                        else
+                            extents[2] = [d, d];
                     }
+
                 }
             }
+            console.log(extents);
 
             var selected = vis.data.filter(function (d) {
                 return vis.dimensions.every(function (p, i) {
@@ -83,15 +120,14 @@ class ParallelVis {
                     return extents[i][1] <= d[p] && d[p] <= extents[i][0];
                 }) ? true : false;
             });
-            // console.log(selected);
+
             if (selected.length != 0)
                 document.getElementById("salary").innerHTML = "Average Salary of selection : $" + Math.floor(selected.reduce((r, c) => r + c.Avg_Salary, 0) / selected.length)+",000";
             else
                 document.getElementById("salary").innerHTML = "  ";
 
-
-            // console.log(extents);
             vis.foreground.style("display", function (d) {
+                // console.log(d);
                 return vis.dimensions.every(function (p, i) {
                     if (!extents[i] || (extents[i][0] == 0 && extents[i][1] == 0)) {
                         return true;
@@ -100,13 +136,13 @@ class ParallelVis {
                 }) ? null : "none";
             });
         }
-            vis.dimensions.forEach(d => {
-                vis.y[d].brush = d3.brushY()
-                    .extent([[-8, vis.y[d].range()[1]], [8, vis.y[d].range()[0]]])
-                    .on('brush', vis.brush);
+            vis.dimensionsOrdinal.forEach(d => {
+                    vis.y[d].brush = d3.brushY()
+                        .extent([[-10, vis.y[d].range()[1]], [10, vis.y[d].range()[0]]])
+                        .on('brush', vis.brush);
             });
 
-            vis.x.domain(vis.dimensions);
+
             // Extract the list of dimensions and create a scale for each.
 
 
@@ -136,13 +172,14 @@ class ParallelVis {
 
             //// ==== Draw Axis START ==== ////
             vis.g = vis.svg.selectAll(".dimension")
-                .data(vis.dimensions).enter() // g's data is the dimensions
+                .data(vis.dimensionsOrdinal).enter() // g's data is the dimensions
                 .append("g")
                 .attr("class", "dimension")
                 // Give the axis it's propper x pos
                 .attr("transform", function (d) {
                     return "translate(" + vis.x(d) + ")";
                 });
+
             vis.g.append("g") // The Axis
                 .attr("class", d => "axis axis-"+d)
                 .each(function (d) {
@@ -156,39 +193,58 @@ class ParallelVis {
                 .text(function (d) {
                     return d;
                 });
+
+            vis.g1 = vis.svg.selectAll(".dimension1")
+                .data(vis.dimensionsCategorical).enter() // g's data is the dimensions
+                .append("g")
+                .attr("class", "dimension1")
+                // Give the axis it's proper x pos
+                .attr("transform", function (d) {
+                    return "translate(" + vis.x(d) + ")";
+                });
+            vis.g1.append("g") // The Axis
+                .attr("class", d => "axis axis-"+d)
+                .each(function (d) {
+                    d3.select(this).call(vis.axis.scale(vis.y[d]));
+                });
+
+            vis.g1.append("text") // Axis Label
+                .attr("class", "title")
+                .style("text-anchor", "middle")
+                .attr("y", -10)
+                .attr("font-size", 15)
+                .text(function (d) {
+                    return d;
+                });
             //// ==== Draw Axis END ==== ////
 
             vis.g.append('g')
                 .attr('class', 'brush')
                 .each(function (d) {
-                    d3.select(this).call(vis.y[d].brush);
+                        d3.select(this).call(vis.y[d].brush);
                 })
                 .selectAll('rect')
-                .attr('x', -8)
-                .attr('width', 16);
+                .attr('x', -10)
+                .attr('width', 20);
 
             vis.svg.selectAll(".brush").selectAll(".overlay")
                 .on("mousedown", vis.brush);
 
-            vis.g.select('.axis-Size')
+            vis.g1.select('.axis-Size,.axis-Revenue')
                 .selectAll('.tick')
-                .on('click', function (event , d) {
-                    console.log(event);
-                    console.log(d);
+                .attr("class","job-title-circle")
+                .on('click', vis.brush);
 
-                    vis.foreground.style("display", function (d) {
-                        return d["Calculated_Size"]=='Medium'?null:"none";
+            vis.g.selectAll('.title')
+                .attr("class","job-title-circle")
+                .on('click', vis.brush);
 
-                    });
+            vis.g1.selectAll('.title')
+                .attr("class","job-title-circle")
+                .on('click', vis.brush);
 
-                });
 
-            // vis.g.select('.axis-Revenue')
-            //     .selectAll('.tick')
-            //     .on('click', function (event , d) {
-            //         console.log(event);
-            //         console.log(d);
-            //     });
+
 
 
             function position(d) {

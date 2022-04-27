@@ -5,7 +5,12 @@
 }
 
 .tooltip-text {
-    font-size: 30px;
+    font-size: 20px;
+    font-weight: bolder;
+    fill: #0F52BA;
+}
+.tooltip-text-desc {
+    font-size: 15px;
     font-weight: bolder;
     fill: #0F52BA;
 }
@@ -34,6 +39,7 @@
 
 .axis {
     font: 10px sans-serif;
+    font-weight: bold;
     fill: #333;
 }
 
@@ -338,4 +344,14 @@ button {
 
 .job-title-circle:hover {
     fill: #6AB89D;
+}
+
+.r-labels{
+    font-weight: bold;
+    font-size: medium;
+}
+input[type=radio] {
+
+    width: 3%;
+    height: 1em;
 }

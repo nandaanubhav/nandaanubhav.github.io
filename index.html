@@ -46,11 +46,13 @@
                     </p>
                 </div>
                 <div class="col-md-8">
+                    <div class="r-labels">
                     <input type="radio" id="sector_donut" name="donutCheck" value="Sector" onclick="switchView()">
                     <label for="sector_donut">By Sector</label>&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="radio" id="job_title_donut" name="donutCheck" checked="checked" value="job_title_sim"
                            onclick="switchView()">
-                    <label for="job_title_donut">By Job Title</label><br>
+                    <label for="job_title_donut">By Job Title</label>
+                    </div><br>
 
 
                         <div id="donutvis"></div>
@@ -186,9 +188,9 @@
         <h1>HOW MUCH CAN I EARN?</h1>
         <div class="container">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-6">
                 </div>
-                <div class="col" style="height: 20px">
+                <div class="col r-labels" style="height: 20px">
                     <input type="radio" id="job_title" name="boxPlotCategorySelector" checked="checked"
                            value="job_title_sim" onclick="boxPlotCategoryChange()"> Job Title
                     <input type="radio" id="sector" name="boxPlotCategorySelector" value="Sector"
