@@ -47,15 +47,27 @@ class DonutVis {
             });
 
         vis.tooltip=vis.svg.append("text")
-            .attr("x",(vis.width+vis.margin.left-vis.margin.right)/2-vis.radius/10)
-            .attr("y",(vis.height+vis.margin.top)/2-vis.radius/8)
+            .attr("x",(vis.width/2)-10)
+            .attr("y",(vis.height/2))
+            // .attr("y",(vis.height+vis.margin.top)/2-vis.radius/8)
             .attr("class", "tooltip-text");
 
         vis.tooltipPercent=vis.svg.append("text")
-            .attr("x",(vis.width+vis.margin.left+vis.margin.right)/2-vis.radius/5)
-            .attr("y",(vis.height+vis.margin.top)/2+vis.radius/8)
+            .attr("x",(vis.width/2)-5)
+            .attr("y",(vis.height/2+25))
             .attr("class", "tooltip-text")
             .style("text-align","center");
+
+        vis.tooltipDescription=vis.svg.append("text")
+            .attr("x",vis.width/2-15)
+            .attr("y",(vis.height/2+25*2))
+            .attr("class", "tooltip-text-desc")
+            .style("text-align","center");
+
+        d3.select("svg")
+            .append("span")
+            .style("border", "1px black solid")
+            .text("hello world");
 
         vis.wrangleData();
     }
@@ -110,7 +122,8 @@ class DonutVis {
             })
             .attr("transform", "translate("+(vis.width+vis.margin.left+vis.margin.right)/2 +"," +(vis.height+vis.margin.top)/2 + ")")
             .on('mouseover', function (event, d) {
-
+                // console.log(d.data[0]);
+                vis.tooltipDescription.text(d.data[0]).call(wrap,200);
                 vis.tooltip.text(d.data[1]+" jobs");
                 vis.tooltipPercent.text((d.data[1]*100/732).toFixed(2)+"%");
 
@@ -118,6 +131,7 @@ class DonutVis {
             .on('mouseout', function (event, d) {
                 vis.tooltip.text("");
                 vis.tooltipPercent.text("");
+                vis.tooltipDescription.text("");
 
             });
 

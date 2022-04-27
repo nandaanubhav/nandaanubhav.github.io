@@ -46,11 +46,13 @@
                     </p>
                 </div>
                 <div class="col-md-8">
+                    <div class="r-labels">
                     <input type="radio" id="sector_donut" name="donutCheck" value="Sector" onclick="switchView()">
                     <label for="sector_donut">By Sector</label>&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="radio" id="job_title_donut" name="donutCheck" checked="checked" value="job_title_sim"
                            onclick="switchView()">
-                    <label for="job_title_donut">By Job Title</label><br>
+                    <label for="job_title_donut">By Job Title</label>
+                    </div><br>
 
 
                         <div id="donutvis"></div>
@@ -92,10 +94,12 @@
                         <div style="display: block;margin: 10px"><p  style="float: left"><strong>Tip</strong></p>
                             <button id="closeTip" style="float: right" onclick="hideTip()">X</button>
                         </div>
-                        <div style="padding-top: 5px">
+                        <div style="padding-top: 5px; padding-bottom: 5px">
                             <br>
                             <hr>
                             Click on a state to find more insights about major sectors and opportunities.
+                            <br><br>
+                            (unclickable states do not have any opportunities)
                         </div>
                     </div>
                     <div id="tilemap-div" style="height: 80vh"></div>
@@ -192,9 +196,9 @@
         <h1>HOW MUCH CAN I EARN?</h1>
         <div class="container">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-6">
                 </div>
-                <div class="col" style="height: 20px">
+                <div class="col r-labels" style="height: 20px">
                     <input type="radio" id="job_title" name="boxPlotCategorySelector" checked="checked"
                            value="job_title_sim" onclick="boxPlotCategoryChange()"> Job Title
                     <input type="radio" id="sector" name="boxPlotCategorySelector" value="Sector"

@@ -32,11 +32,6 @@ $('#fullpage').fullpage({
 
 });
 
-function closeNav() {
-    document.getElementById("mySidebar").style.display = "none";
-    // document.getElementById("main").style.marginLeft = "0";
-    document.getElementById("text-map").style.display = "block"
-}
 
 // From stack overflow
 function wrap(text, width) {

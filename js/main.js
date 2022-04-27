@@ -95,3 +95,8 @@ function closeCilcularVis() {
     document.getElementById("circular-vis-text").style.display = "block";
     document.getElementById("circular-vis-sidebar").style.display = "none";
 }
+
+
+function closeNav() {
+    tileMap.closeNav(true)
+}
