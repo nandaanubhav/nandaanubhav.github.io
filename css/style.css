@@ -354,6 +354,13 @@ button {
 .job-title-circle:hover {
     fill: #6AB89D;
 }
+.parallel-chart {
+    cursor: pointer;
+}
+
+.parallel-chart:hover {
+    fill: #6AB89D;
+}
 
 .r-labels{
     font-weight: bold;
