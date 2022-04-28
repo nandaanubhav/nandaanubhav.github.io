@@ -147,7 +147,7 @@ class BarChart {
         // console.log(vis.displayData)
         // select all bars
         let bars = vis.svg.selectAll("." + vis.parentElement + "Rect")
-            .data(vis.displayData);
+            .data(vis.displayData, d => d[0]);
 
         // enter, merge the bars
         bars.enter().append("rect")
@@ -169,11 +169,12 @@ class BarChart {
         ;
 
         let texts = vis.svg.selectAll("." + vis.parentElement + "text")
-            .data(vis.displayData);
+            .data(vis.displayData, d=>d[0]);
 
         texts.enter().append("text")
             .attr("class", vis.parentElement + "text myText")
             .merge(texts)
+            .style("opacity","0")
             .transition()
             .attr("x", function (d) {
                 return vis.x(d[1]) + 10;
@@ -182,6 +183,7 @@ class BarChart {
                 return vis.y(d[0]) + vis.y.bandwidth()/2;
             })
             .text(function (d) {return d[1].toLocaleString("en-US")})
+            .style("opacity","1")
         ;
 
         // add hover functionality for tooltip

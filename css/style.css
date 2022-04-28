@@ -313,7 +313,7 @@ button {
 /*custom visual*/
 
 .small-divs {
-    height: 35vh;
+    height: 34vh;
 }
 
 .small {
@@ -349,10 +349,6 @@ button {
 
 .job-title-circle {
     cursor: pointer;
-}
-
-.job-title-circle:hover {
-    fill: #6AB89D;
 }
 
 .r-labels{

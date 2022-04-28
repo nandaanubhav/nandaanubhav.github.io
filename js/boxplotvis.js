@@ -19,7 +19,7 @@ class BoxPlotVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 50, right: 20, bottom: 170, left: 120};
+        vis.margin = {top: 50, right: 0, bottom: 170, left: 120};
         vis.barWidth = 20;
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
