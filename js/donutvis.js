@@ -10,6 +10,8 @@ class DonutVis {
     constructor(_parentElement, _data) {
         this.parentElement = _parentElement;
         this.data = _data;
+        this.colors=["#1f77b4","#ff7f0e","#2ca02c","#d62728","#9467bd","#cab2d6","#fb9a99","#7f7f7f","#bcbd22","#17becf"]
+
         this.initVis();
 
     }
@@ -21,7 +23,7 @@ class DonutVis {
 
     initVis() {
         let vis = this;
-        vis.margin = { top: 40, right: 20, bottom: 180, left: 60 };
+        vis.margin = { top: 60, right: 5, bottom: 40, left: 120 };
 
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width - vis.margin.left - vis.margin.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height  - vis.margin.top - vis.margin.bottom;
@@ -32,42 +34,26 @@ class DonutVis {
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append("g");
 
-        vis.color = d3.scaleOrdinal(d3.schemeBlues[9]);
         vis.radius = Math.min(vis.width/2 , vis.height/2);
         // console.log(vis.radius);
         vis.donutWidth = vis.radius/3; //This is the size of the hole in the middle
 
+        // vis.arc = d3.arc()
+        //     .innerRadius(vis.radius - vis.donutWidth)
+        //     .outerRadius(vis.radius);
+
         vis.arc = d3.arc()
-            .innerRadius(vis.radius - vis.donutWidth)
-            .outerRadius(vis.radius);
+            .innerRadius(vis.radius * 0.5)         // This is the size of the donut hole
+            .outerRadius(vis.radius * 0.8)
+
+        vis.outerArc = d3.arc()
+            .innerRadius(vis.radius * 0.9)
+            .outerRadius(vis.radius * 0.9)
 
         vis.pie = d3.pie()
             .value(function (d) {
                 return d[1];
             });
-
-        vis.tooltip=vis.svg.append("text")
-            .attr("x",(vis.width/2)-10)
-            .attr("y",(vis.height/2))
-            // .attr("y",(vis.height+vis.margin.top)/2-vis.radius/8)
-            .attr("class", "tooltip-text");
-
-        vis.tooltipPercent=vis.svg.append("text")
-            .attr("x",(vis.width/2)-5)
-            .attr("y",(vis.height/2+25))
-            .attr("class", "tooltip-text")
-            .style("text-align","center");
-
-        vis.tooltipDescription=vis.svg.append("text")
-            .attr("x",vis.width/2-15)
-            .attr("y",(vis.height/2+25*2))
-            .attr("class", "tooltip-text-desc")
-            .style("text-align","center");
-
-        d3.select("svg")
-            .append("span")
-            .style("border", "1px black solid")
-            .text("hello world");
 
         vis.wrangleData();
     }
@@ -103,13 +89,12 @@ class DonutVis {
         // console.log(c);
         vis.displayData=jobCount;
         vis.updateVis();
+
     }
 
 
     updateVis() {
         let vis = this;
-
-        vis.color.domain(vis.displayData.reverse().map(d=>d.key));
 
         vis.path = vis.svg.selectAll('path')
             .data(vis.pie(vis.displayData.map(Object.values)));
@@ -118,62 +103,72 @@ class DonutVis {
             .merge(vis.path)
             .attr('d', vis.arc)
             .attr('fill', function (d, i) {
-                return vis.color(d.data[0]);
+                return vis.colors[i];
             })
-            .attr("transform", "translate("+(vis.width+vis.margin.left+vis.margin.right)/2 +"," +(vis.height+vis.margin.top)/2 + ")")
-            .on('mouseover', function (event, d) {
-                // console.log(d.data[0]);
-                vis.tooltipDescription.text(d.data[0]).call(wrap,200);
-                vis.tooltip.text(d.data[1]+" jobs");
-                vis.tooltipPercent.text((d.data[1]*100/732).toFixed(2)+"%");
+            .attr("transform", "translate("+(vis.width+vis.margin.left+vis.margin.right)/2 +"," +vis.height/2 + ")");
 
-            })
-            .on('mouseout', function (event, d) {
-                vis.tooltip.text("");
-                vis.tooltipPercent.text("");
-                vis.tooltipDescription.text("");
-
-            });
 
         vis.path.exit().remove();
-
-        vis.legendG = vis.svg.selectAll(".legend")
-            .data(vis.pie(vis.displayData.reverse().map(Object.values)));
-
-
-        vis.legendG.enter().append("text")
-            .merge(vis.legendG)
-            .text(function(d){
-                return d.data[0];
-            })
-            .attr("transform", function(d,i){
-                return "translate(" + (vis.width+vis.margin.left+vis.margin.right-vis.radius/2)/2 + "," + (i * 15 + (vis.height+vis.margin.top+vis.donutWidth)/2+vis.radius) + ")"; // place each legend on the right and bump each one down 15 pixels
-            })
-            .attr("class", "legend")
-            .style("font-size", 12)
-            .attr("y", 10)
-            .attr("x", 15);
-
-
-
-        vis.legendRect = vis.svg.selectAll(".legend-rect")
+        vis.lines=vis.svg
+            .selectAll('allPolylines')
             .data(vis.pie(vis.displayData.map(Object.values)));
-        vis.legendRect.enter()
-            .append("rect") // make a matching color rect
-            .merge(vis.legendRect)
-                .attr("class", "legend-rect")
-            .attr("width", 10)
-            .attr("height", 10)
-            .attr("fill", function(d, i) {
-                return vis.color(d.data[0]);
+
+
+        vis.lines
+            .join('polyline')
+            .attr("stroke", "black")
+            .style("fill", "none")
+            .attr("stroke-width", 1)
+            .attr('points', function(d) {
+                const posA = vis.arc.centroid(d); // line insertion in the slice
+                const posB = vis.outerArc.centroid(d) ;// line break: we use the other arc generator that has been built only for that
+                const posC = vis.outerArc.centroid(d); // Label position = almost the same as posB
+                const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
+                posC[0] = vis.radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+                console.log(posB)
+                if(d.data[0]=="Director")
+                    posC[0] = vis.radius * 0.8 * 1;
+                if(d.data[0]=="Machine Learning Engineer")
+                {
+                    posB[1]=posB[1]*0.95;
+                    posC[1]=posC[1]*0.95;
+                }
+
+                    return [posA, posB, posC]
             })
-            .attr("transform", function(d,i){
-                return "translate(" + (vis.width+vis.margin.left+vis.margin.right-vis.radius/2)/2 + "," + (i * 15 + (vis.height+vis.margin.top+vis.donutWidth)/2+vis.radius) + ")"; // place each legend on the right and bump each one down 15 pixels
-            });
+            .attr("transform", "translate("+(vis.width+vis.margin.left+vis.margin.right)/2 +"," +vis.height/2 + ")")
 
 
-        vis.legendG.exit().remove();
-        vis.legendRect.exit().remove();
+        vis.labels=vis.svg
+            .selectAll('allLabels')
+            .data(vis.pie(vis.displayData.map(Object.values)));
+
+        vis.labels
+            .enter()
+            .append('text')
+            .text( function(d) { return d.data[0]+" "+(d.data[1]*100/732).toFixed(2)+"%"} )
+            // .attr("transform", "translate("+(vis.width+vis.margin.left+vis.margin.right)/2 +"," +(vis.height+vis.margin.top)/2 + ")")
+            .attr('transform', function(d) {
+                console.log(d);
+                var pos = vis.outerArc.centroid(d);
+                var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
+                if(d.data[0]=="Director")
+                    pos[0]=vis.radius * 0.99 *1;
+                else
+                pos[0] = vis.radius * 0.99 * (midangle < Math.PI ? 1 : -1);
+                if(d.data[0]=="Machine Learning Engineer")
+                    pos[1]=pos[1]*0.95;
+                pos[0]+=vis.width+vis.margin.left+vis.margin.right/2-1.33*vis.radius;
+                pos[1]+=vis.height/2;
+                return 'translate(' + pos + ')';
+            })
+
+            .style('text-anchor', function(d) {
+                var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
+                return (midangle < Math.PI ? 'start' : 'end')
+            })
+        vis.lines.exit().remove();
+        vis.labels.exit().remove();
     }
 
 }
