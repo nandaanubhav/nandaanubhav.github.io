@@ -97,8 +97,7 @@ function brushed() {
 }
 
 function closeCilcularVis() {
-    document.getElementById("circular-vis-text").style.display = "block";
-    document.getElementById("circular-vis-sidebar").style.display = "none";
+    circularVis.closeNav();
 }
 
 

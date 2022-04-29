@@ -135,7 +135,7 @@ class WordCloudVis {
             .rotate(function () {
                 return ~~(Math.random() * 2) * 90;
             })
-            .font("Impact")
+            .font("Kanit")
             .on("end", draw)
             .start();
 
@@ -150,7 +150,7 @@ class WordCloudVis {
             .rotate(function () {
                 return ~~(Math.random() * 2) * 90;
             })
-            .font("Impact")
+            .font("Kanit")
             .on("end", drawSecond)
             .start();
 
@@ -161,12 +161,12 @@ class WordCloudVis {
 
             vis.words.enter().append("text")
                 .style("class", "small")
-                .style("font-family", "Impact")
+                .style("font-family", "Kanit")
                 .style("fill", function (d) {
                     // console.log(vis.colorScale(d.Count));
                     return d3.interpolateBlues(vis.colorScale(d.Count));
                 })
-                .style("stroke", d3.interpolateBlues(1))
+                .style("stroke", "black")
                 .attr("text-anchor", "middle")
                 .merge(vis.words)
                 .style("font-size", function (d) {
@@ -192,11 +192,11 @@ class WordCloudVis {
 
             vis.wordsSecond.enter().append("text")
                 .style("class", "small")
-                .style("font-family", "Impact")
+                .style("font-family", "Kanit")
                 .style("fill", function (d) {
                     return d3.interpolateBlues(vis.colorScaleSecond(d.Count));
                 })
-                .style("stroke", d3.interpolateBlues(1))
+                .style("stroke", "black")
                 .attr("text-anchor", "middle")
                 .merge(vis.wordsSecond)
                 .style("font-size", function (d) {
