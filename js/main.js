@@ -1,4 +1,4 @@
-let donutVis, boxPlotVis, barchart, miniBarChart, tileMap, circularVis
+let donutVis, boxPlotVis, barchart, miniBarChart, tileMap, circularVis,parallelChart;
 let parseDate = d3.timeParse("%m/%d/%Y");
 let selectedRange = [];
 let mainData;
@@ -104,3 +104,5 @@ function closeCilcularVis() {
 function closeNav() {
     tileMap.closeNav(true)
 }
+
+var parallelChartAnimation = setInterval(function(){parallelChart.generateClick();},3000);

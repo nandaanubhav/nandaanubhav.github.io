@@ -316,7 +316,7 @@ button {
 /*custom visual*/
 
 .small-divs {
-    height: 34vh;
+    height: 35vh;
 }
 
 .small {
@@ -354,6 +354,14 @@ button {
     cursor: pointer;
 }
 
+.parallel-chart {
+    cursor: pointer;
+}
+
+.parallel-chart:hover {
+    fill: #6AB89D;
+}
+
 .r-labels{
     font-weight: bold;
     font-size: medium;
@@ -362,4 +370,7 @@ input[type=radio] {
 
     width: 3%;
     height: 1em;
+}
+.allLabels{
+    font-weight: bold;
 }
