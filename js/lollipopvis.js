@@ -187,7 +187,7 @@ class LollipopVis {
                 return vis.y(d.Count);
             })
             .attr("r", "4")
-            .style("fill", "#69b3a2")
+            .style("fill", d3.interpolateBlues(.8))
             .attr("stroke", "black");
 
         circle.exit().remove();
@@ -221,7 +221,7 @@ class LollipopVis {
                 return vis.ySecond(d.Count);
             })
             .attr("r", "4")
-            .style("fill", "#69b3a2")
+            .style("fill", d3.interpolateBlues(.8))
             .attr("stroke", "black")
 
         circleSecond.exit().remove();

@@ -11,6 +11,8 @@ class CircularVis {
         this.data = _data;
         this.lollipopChart = [];
         this.wordCloud = [];
+        this.selected = [];
+        this.colors = ["#1f77b4","#ff7f0e","#2ca02c","#d62728","#9467bd","#cab2d6","#fb9a99","#7f7f7f","#bcbd22","#17becf"];
         this.initVis();
 
     }
@@ -83,7 +85,33 @@ class CircularVis {
             .attr("class", "job-title-circle")
             .on('click', function (d, i) {
 
-                // console.log(i);
+                // console.log(vis.selected);
+
+
+                if(vis.selected.length > 0) {
+                    vis.selected[0]
+                        .attr('fill', function (d) { return vis.colors[vis.displayData.indexOf(d)]})
+                        .attr("stroke", "black")
+                        .attr("stroke-width","0px");
+
+                    vis.svg.select(vis.selected[1])
+                        .style("font-weight" , "normal");
+
+                    vis.selected = [];
+
+                }
+
+                vis.selected.push(d3.select(this));
+                vis.selected.push(".text-"+i.key.replaceAll(" ","-"));
+
+                // console.log(vis.selected);
+
+                d3.select(this)
+                    .attr("stroke", "black")
+                    .attr("stroke-width", "3px");
+
+                vis.svg.select(vis.selected[1])
+                    .style("font-weight" , "bold");
 
                 let overallSectorCount = vis.data.filter(x => x["job_title_sim"] === i.key).reduce(function (r, a) {
                     r[a.Sector] = (r[a.Sector] || 0) + 1;
@@ -112,7 +140,9 @@ class CircularVis {
                     vis.wordCloud.push(new WordCloudVis("word-cloud", vis.data, i.key, topSector[0], topSector[1]));
                 }
             })
-            .attr('fill', 'steelblue')
+            .attr('fill', function (d, i) {
+                return vis.colors[i];
+            })
             .transition()
             .delay(function (d, i) {
                 return i * 400;
@@ -129,9 +159,14 @@ class CircularVis {
             .data(vis.displayData)
             .enter()
             .append('text')
+            .transition()
+            .delay(function (d, i) {
+                return i * 400;
+            })
             .text(d => (d.value*100/732).toFixed(2)+"%")
             .attr("alignment-baseline","middle")
             .attr("x",d => {
+                // console.log(radiusScale(d.value));
                 if (radiusScale(d.value) >= 70)
                     return -radiusScale(d.value)/4;
                 else if((radiusScale(d.value) >= 50) && (radiusScale(d.value) < 70))
@@ -150,7 +185,7 @@ class CircularVis {
             .data(vis.displayData)
             .enter()
             .append("text")
-            .attr("class","textLabel")
+            .attr("class", d => {return "textLabel text-"+d.key.replaceAll(" ","-")})
             // Add your code below this line
             .attr("text-anchor", function (d, i) {
                 if ((w / 2 - r) * Math.cos((interval * i) * Math.PI / 180) > 0) return "start";
@@ -183,37 +218,21 @@ class CircularVis {
                 return "translate(" + ((w / 2 - r) * Math.cos((interval * i) * Math.PI / 180)) + "," + ((w / 2 - r) * Math.sin((interval * i) * Math.PI / 180)) + ")";
             });
     }
-}
 
-// function wrap(text, width) {
-//     text.each(function () {
-//         var text = d3.select(this),
-//             words = text.text().split(/\s+/).reverse(),
-//             word,
-//             line = [],
-//             lineNumber = 0,
-//             lineHeight = 1.1, // ems
-//             x = text.attr("x"),
-//             y = text.attr("y"),
-//             dy = 0, //parseFloat(text.attr("dy")),
-//             tspan = text.text(null)
-//                 .append("tspan")
-//                 .attr("x", x)
-//                 .attr("y", y)
-//                 .attr("dy", dy + "em");
-//         while (word = words.pop()) {
-//             line.push(word);
-//             tspan.text(line.join(" "));
-//             if (tspan.node().getComputedTextLength() > width) {
-//                 line.pop();
-//                 tspan.text(line.join(" "));
-//                 line = [word];
-//                 tspan = text.append("tspan")
-//                     .attr("x", x)
-//                     .attr("y", y)
-//                     .attr("dy", ++lineNumber * lineHeight + dy + "em")
-//                     .text(word);
-//             }
-//         }
-//     });
-// }
+    closeNav() {
+        let vis = this;
+        document.getElementById("circular-vis-text").style.display = "block";
+        document.getElementById("circular-vis-sidebar").style.display = "none";
+
+        vis.selected[0]
+            .attr('fill', function (d) { return vis.colors[vis.displayData.indexOf(d)]})
+            .attr("stroke", "black")
+            .attr("stroke-width","0px");
+
+        vis.svg.select(vis.selected[1])
+            .style("font-weight" , "normal");
+
+        vis.selected = [];
+
+    }
+}
