@@ -371,3 +371,6 @@ input[type=radio] {
     width: 3%;
     height: 1em;
 }
+.allLabels{
+    font-weight: bold;
+}

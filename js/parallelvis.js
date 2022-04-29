@@ -248,7 +248,6 @@ class ParallelVis {
         let vis = this;
 
         var extents=[];
-        console.log(vis.sizes[vis.count%4]);
         extents[0] = [vis.sizes[vis.count%4] , vis.sizes[vis.count%4]];
         vis.foreground.style("display", function (d) {
             return vis.dimensions.every(function (p, i) {

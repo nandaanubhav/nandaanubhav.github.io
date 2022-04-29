@@ -50,6 +50,8 @@ function wrap(text, width) {
                 .attr("x", x)
                 .attr("y", y)
                 .attr("dy", dy + "em");
+
+
         while (word = words.pop()) {
             line.push(word);
             tspan.text(line.join(" "));
@@ -65,6 +67,16 @@ function wrap(text, width) {
             }
         }
     });
+}
+
+function wrapText(text, width) {
+    text.each(function () {
+            var text = d3.select(this);
+            if (text.text() == "Biotech & Pharmaceuticals" || text.text() == "Information Technology") {
+                wrap(text, 100);
+            }
+            ;
+        })
 }
 
 
