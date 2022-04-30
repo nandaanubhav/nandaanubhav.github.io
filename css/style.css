@@ -300,7 +300,8 @@ svg {
     height: 120px;
     position: absolute;
     top: 3%;
-    left: 78%;
+    /*left: 78%;*/
+    right : 20px;
     opacity: 1;
     background: antiquewhite;
 }
