@@ -82,14 +82,12 @@ class CircularVis {
             .data(vis.displayData)
             .enter()
             .append('circle')
-            .attr("class", "job-title-circle")
+            .attr("class", d => {return "job-title-circle circle-"+d.key.replaceAll(" ","-")})
             .on('click', function (d, i) {
 
                 // console.log(vis.selected);
-
-
                 if(vis.selected.length > 0) {
-                    vis.selected[0]
+                    vis.svg.select(vis.selected[0])
                         .attr('fill', function (d) { return vis.colors[vis.displayData.indexOf(d)]})
                         .attr("stroke", "black")
                         .attr("stroke-width","0px");
@@ -101,12 +99,12 @@ class CircularVis {
 
                 }
 
-                vis.selected.push(d3.select(this));
+                vis.selected.push(".circle-"+i.key.replaceAll(" ","-"));
                 vis.selected.push(".text-"+i.key.replaceAll(" ","-"));
 
                 // console.log(vis.selected);
 
-                d3.select(this)
+                vis.svg.select(vis.selected[0])
                     .attr("stroke", "black")
                     .attr("stroke-width", "3px");
 
@@ -159,6 +157,62 @@ class CircularVis {
             .data(vis.displayData)
             .enter()
             .append('text')
+            .attr("class", "job-title-circle")
+            .on('click', function (d, i) {
+
+                // console.log(vis.selected);
+                if(vis.selected.length > 0) {
+                    vis.svg.select(vis.selected[0])
+                        .attr('fill', function (d) { return vis.colors[vis.displayData.indexOf(d)]})
+                        .attr("stroke", "black")
+                        .attr("stroke-width","0px");
+
+                    vis.svg.select(vis.selected[1])
+                        .style("font-weight" , "normal");
+
+                    vis.selected = [];
+
+                }
+
+                vis.selected.push(".circle-"+i.key.replaceAll(" ","-"));
+                vis.selected.push(".text-"+i.key.replaceAll(" ","-"));
+
+                // console.log(vis.selected);
+
+                vis.svg.select(vis.selected[0])
+                    .attr("stroke", "black")
+                    .attr("stroke-width", "3px");
+
+                vis.svg.select(vis.selected[1])
+                    .style("font-weight" , "bold");
+
+                let overallSectorCount = vis.data.filter(x => x["job_title_sim"] === i.key).reduce(function (r, a) {
+                    r[a.Sector] = (r[a.Sector] || 0) + 1;
+                    return r;
+                }, {});
+
+                // console.log(overallSectorCount);
+                let topSector = Object.keys(overallSectorCount).sort(function (a, b) {
+                    return overallSectorCount[b] - overallSectorCount[a]
+                });
+
+                document.getElementById("circular-vis-text").style.display = "none";
+                document.getElementById("circular-vis-sidebar").style.display = "block";
+
+                // console.log(overallSectorCount);
+                // console.log(i.key + ' ' + topSector[0] + ' ' + topSector[1]);
+
+                if (vis.lollipopChart.length != 0) {
+                    vis.lollipopChart[0].wrangleData(i.key, topSector[0], topSector[1]);
+                } else {
+                    vis.lollipopChart.push(new LollipopVis("bar-chart", vis.data, i.key, topSector[0], topSector[1]));
+                }
+                if (vis.wordCloud.length != 0) {
+                    vis.wordCloud[0].wrangleData(i.key, topSector[0], topSector[1]);
+                } else {
+                    vis.wordCloud.push(new WordCloudVis("word-cloud", vis.data, i.key, topSector[0], topSector[1]));
+                }
+            })
             .transition()
             .delay(function (d, i) {
                 return i * 400;
@@ -224,7 +278,7 @@ class CircularVis {
         document.getElementById("circular-vis-text").style.display = "block";
         document.getElementById("circular-vis-sidebar").style.display = "none";
 
-        vis.selected[0]
+        vis.svg.select(vis.selected[0])
             .attr('fill', function (d) { return vis.colors[vis.displayData.indexOf(d)]})
             .attr("stroke", "black")
             .attr("stroke-width","0px");
