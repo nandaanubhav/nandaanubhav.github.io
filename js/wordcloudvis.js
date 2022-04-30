@@ -23,24 +23,26 @@ class WordCloudVis {
     initVis() {
         let vis = this;
 
-        vis.margin = {top: 0, right: 0, bottom: 20, left: 25};
-        vis.marginSecond = {top: 0, right: 15, bottom: 20, left: 0};
+        vis.margin = {top: 20, right: 0, bottom: 0, left: 25};
+        vis.marginSecond = {top: 20, right: 15, bottom: 0, left: 0};
         vis.width = document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 - vis.margin.left - vis.margin.right;
         vis.widthSecond = document.getElementById(vis.parentElement).getBoundingClientRect().width / 2 - vis.marginSecond.left - vis.marginSecond.right;
         vis.height = document.getElementById(vis.parentElement).getBoundingClientRect().height - vis.margin.top - vis.margin.bottom;
+
+        console.log(vis.height);
 
         // init drawing area
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width + vis.margin.left + vis.margin.right)
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .append('g')
-            .attr('transform', `translate (${vis.width / 2 + vis.margin.left}, ${vis.height / 2})`);
+            .attr('transform', `translate (${vis.width / 2 + vis.margin.left}, ${vis.height / 1.5})`);
 
         vis.svgSecond = d3.select("#" + vis.parentElement).append("svg")
             .attr("width", vis.width + vis.marginSecond.left + vis.marginSecond.right)
             .attr("height", vis.height + vis.marginSecond.top + vis.marginSecond.bottom)
             .append('g')
-            .attr('transform', `translate (${vis.width / 2}, ${vis.height / 2})`);
+            .attr('transform', `translate (${vis.width / 2}, ${vis.height / 1.5})`);
 
 
         // // Overlay with path clipping
@@ -51,10 +53,10 @@ class WordCloudVis {
         //     .attr("height", vis.height);
 
         vis.xScale = d3.scaleLinear()
-            .range([15, 30]);
+            .range([20, 40]);
 
         vis.xScaleSecond = d3.scaleLinear()
-            .range([15, 30]);
+            .range([20, 40]);
 
         vis.colorScale = d3.scaleLinear()
             .range([0.25, 1]);
@@ -66,9 +68,9 @@ class WordCloudVis {
             .style("stroke", "black")
             .style("stroke-width", 1)
             .attr("x1", -vis.width / 2)
-            .attr("y1", -vis.height / 3)
+            .attr("y1", -vis.height / 2)
             .attr("x2", -vis.width / 2)
-            .attr("y2", vis.height / 3);
+            .attr("y2", vis.height / 2.6);
 
         // Scales
         this.wrangleData(vis.jobTitle, vis.sector, vis.otherSector);
@@ -124,6 +126,10 @@ class WordCloudVis {
             return d.Count;
         }));
 
+        vis.xScale.domain(d3.extent(vis.displayData, function (d) {
+            return d.Count;
+        }));
+
         d3.layout.cloud().size([vis.width, vis.height])
             .words(vis.displayData)
             .fontSize(function (d) {
@@ -132,14 +138,14 @@ class WordCloudVis {
             .text(function (d) {
                 return d.State;
             })
-            .rotate(function () {
-                return ~~(Math.random() * 2) * 90;
-            })
+            .rotate(0)
+            .padding(3)
+            .spiral("archimedean")
             .font("Kanit")
             .on("end", draw)
             .start();
 
-        d3.layout.cloud().size([vis.width, vis.height])
+        d3.layout.cloud().size([vis.widthSecond, vis.height])
             .words(vis.otherSectorData)
             .fontSize(function (d) {
                 return vis.xScaleSecond(+d.Count);
@@ -147,9 +153,9 @@ class WordCloudVis {
             .text(function (d) {
                 return d.State;
             })
-            .rotate(function () {
-                return ~~(Math.random() * 2) * 90;
-            })
+            .rotate(0)
+            .padding(3)
+            .spiral("archimedean")
             .font("Kanit")
             .on("end", drawSecond)
             .start();
@@ -160,10 +166,11 @@ class WordCloudVis {
                 .data(words);
 
             vis.words.enter().append("text")
+                .attr("width", vis.width)
+                .attr("height", vis.height)
                 .style("class", "small")
                 .style("font-family", "Kanit")
                 .style("fill", function (d) {
-                    // console.log(vis.colorScale(d.Count));
                     return d3.interpolateBlues(vis.colorScale(d.Count));
                 })
                 .style("stroke", "black")
@@ -173,15 +180,13 @@ class WordCloudVis {
                     return vis.xScale(d.Count) + "px";
                 })
                 .attr("transform", function (d) {
-                    // console.log(d.x + "" + d.y);
-                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                    return "translate(" + [d.x, d.y] + ")";
                 })
                 .text(function (d) {
                     return d.State;
                 });
 
             vis.words.exit().remove();
-
 
         }
 
@@ -191,6 +196,8 @@ class WordCloudVis {
                 .data(words);
 
             vis.wordsSecond.enter().append("text")
+                .attr("width", vis.widthSecond)
+                .attr("height", vis.height)
                 .style("class", "small")
                 .style("font-family", "Kanit")
                 .style("fill", function (d) {
@@ -204,7 +211,7 @@ class WordCloudVis {
                 })
                 .attr("transform", function (d) {
                     // console.log(d.x + "" + d.y);
-                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                    return "translate(" + [d.x, d.y] + ")";
                 })
                 .text(function (d) {
                     return d.State;
