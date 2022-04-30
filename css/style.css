@@ -39,7 +39,10 @@
     border-radius: 8px;
     /*  pointer-events: none;	This line needs to be removed */
 }
-
+.meme {
+    /*background: red url('../img/t.png')  no-repeat;*/
+    background: red url('https://www.pngkey.com/png/full/21-212344_blue-lines-png-blue-big-line-png.png')  no-repeat;
+}
 .axis {
     font: 10px sans-serif;
     font-weight: bold;
