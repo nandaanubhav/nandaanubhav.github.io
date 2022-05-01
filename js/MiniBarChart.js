@@ -43,7 +43,9 @@ class MiniBarChart {
         vis.brush = d3.brushY()
             .extent([[0, 0], [vis.width, vis.height]])
             .on("brush", brushed)
-            .on('end', brushed)
+            // .on('end', brushed)
+            // .on('start',brushed)
+            // .on('brushstart',brushed)
 
         vis.svg.append("g")
             .attr("class", "brush")

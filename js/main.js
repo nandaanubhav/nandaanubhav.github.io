@@ -83,14 +83,16 @@ function switchView() {
 function boxPlotCategoryChange() {
     boxPlotVis.wrangleData();
 };
-
+var check = 0;
 // React to 'brushed' event and update all bar charts
 function brushed() {
     let selectionRange = d3.brushSelection(d3.select(".brush").node());
     selectedRange = selectionRange;
     barchart.selectionRange = selectionRange;
     barchart.wrangleData()
-    if ((selectedRange[0] != 5) && (selectedRange[1] != miniBarChart.height / 3)) {
+    check++;
+    if ((check>1) || (selectedRange[0] != 5)) {
+        check =1;
         miniBarChart.selectionRange = selectionRange;
         miniBarChart.wrangleData()
     }
