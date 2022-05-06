@@ -95,12 +95,22 @@ class ParallelVis {
                         extents[i] = event.selection.map(vis.y[vis.dimensions[i]].invert, vis.y[vis.dimensions[i]]);
 
                     } else if (event.type == "click") {
+
+                        if (vis.sizes.includes(d)) {
+                            vis.svg.select('.axis-Size')
+                                .selectAll('.parallel-chart')
+                                .style("font-size" , "10px");
+                            extents[0] = [d, d];
+                        }
+                        else {
+                            vis.svg.select('.axis-Revenue')
+                                .selectAll('.parallel-chart')
+                                .style("font-size" , "10px")
+                            extents[2] = [d, d];
+                        }
+
                         vis.svg.select(".text-"+d.replaceAll(/[\W_]+/g,"-")).style("font-size" , "14px");
 
-                        if (vis.sizes.includes(d))
-                            extents[0] = [d, d];
-                        else
-                            extents[2] = [d, d];
                     }
 
                 }
