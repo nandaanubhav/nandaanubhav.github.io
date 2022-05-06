@@ -76,6 +76,12 @@ class ParallelVis {
                 {
                     vis.svg.selectAll(".brush").call(vis.y[d].brush.clear);
                 }
+                else {
+                    console.log('.axis-'+d);
+                    vis.svg.select('.axis-'+d)
+                        .selectAll('.parallel-chart')
+                        .style("font-weight" , "bold");
+                }
                 extents[vis.dimensions.indexOf(d)] = [0, 0];
             }
             else if(d.type=='overlay')
@@ -90,6 +96,8 @@ class ParallelVis {
                         extents[i] = event.selection.map(vis.y[vis.dimensions[i]].invert, vis.y[vis.dimensions[i]]);
 
                     } else if (event.type == "click") {
+                        vis.svg.select(".text-"+d.replaceAll(/[\W_]+/g,"-")).style("font-weight" , "bolder");
+
                         if (vis.sizes.includes(d))
                             extents[0] = [d, d];
                         else
@@ -220,7 +228,7 @@ class ParallelVis {
 
         vis.g1.select('.axis-Size,.axis-Revenue')
             .selectAll('.tick')
-            .attr("class", d=> { return "parallel-chart text-"+d})
+            .attr("class", d=> { return "parallel-chart text-"+d.replaceAll(/[\W_]+/g,"-")})
             .on('click', vis.brush);
 
         vis.g.selectAll('.title')
