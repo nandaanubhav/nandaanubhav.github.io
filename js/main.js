@@ -102,7 +102,6 @@ function closeCilcularVis() {
     circularVis.closeNav();
 }
 
-
 function closeNav() {
     tileMap.closeNav(true)
 }
