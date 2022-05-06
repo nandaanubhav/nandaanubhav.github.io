@@ -107,4 +107,4 @@ function closeNav() {
     tileMap.closeNav(true)
 }
 
-var parallelChartAnimation = setInterval(function(){parallelChart.generateClick();},3000);
+var parallelChartAnimation = setInterval(function(){parallelChart.generateClick();},2000);

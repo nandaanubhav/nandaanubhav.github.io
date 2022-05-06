@@ -93,8 +93,9 @@ class LollipopVis {
             .attr("text-anchor", "end")
             .attr("y", -12)
             .attr("dy", "-1.5em")
+            .attr("x","-15")
             .attr("transform", "rotate(-90)")
-            .text("Occurance of Skill");
+            .text("Count of Job Posting(s)");
 
         vis.svg.append("g")
             .attr("class", "x-axis axis")
@@ -153,7 +154,7 @@ class LollipopVis {
         vis.y.domain([0, Math.max(d3.max(vis.displayData, d => d["Count"]), d3.max(vis.otherSectorData, d => d["Count"]))]);
         vis.xSecond.domain(vis.otherSectorData.map(d => d.Skill));
         vis.ySecond.domain([0, Math.max(d3.max(vis.displayData, d => d["Count"]), d3.max(vis.otherSectorData, d => d["Count"]))]);
-        vis.yAxisTicks = vis.y.ticks().filter(tick => Number.isInteger(tick));
+        vis.yAxisTicks = vis.y.ticks(5).filter(tick => Number.isInteger(tick));
 
         vis.title.text(vis.sector);
         vis.titleSecond.text(vis.otherSector);

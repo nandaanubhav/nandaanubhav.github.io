@@ -5,7 +5,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 .slide1{
     font-family: 'Rubik', sans-serif;
-    color: #114e90;
+    /*color: #114e90;*/
+    color:#000152;
+
 }
 
 .body{

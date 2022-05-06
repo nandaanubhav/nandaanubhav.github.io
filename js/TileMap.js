@@ -336,7 +336,7 @@ class TileMap {
                 return 0.8 * vis.width + 2
             })
             .attr("y", (5 * vis.height / 7) - 4)
-            .text("no. of opportunities")
+            .text("No. of Opportunities")
 
         //group the axis for legend
         vis.axisGroup = vis.svg.append("g")
