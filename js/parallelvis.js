@@ -79,7 +79,7 @@ class ParallelVis {
                 else {
                     vis.svg.select('.axis-'+d)
                         .selectAll('.parallel-chart')
-                        .style("font-weight" , "bold");
+                        .style("font-size" , "10px");
                 }
                 extents[vis.dimensions.indexOf(d)] = [0, 0];
             }
@@ -95,7 +95,7 @@ class ParallelVis {
                         extents[i] = event.selection.map(vis.y[vis.dimensions[i]].invert, vis.y[vis.dimensions[i]]);
 
                     } else if (event.type == "click") {
-                        vis.svg.select(".text-"+d.replaceAll(/[\W_]+/g,"-")).style("font-weight" , "bolder");
+                        vis.svg.select(".text-"+d.replaceAll(/[\W_]+/g,"-")).style("font-size" , "14px");
 
                         if (vis.sizes.includes(d))
                             extents[0] = [d, d];
