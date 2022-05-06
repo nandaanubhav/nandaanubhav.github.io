@@ -77,7 +77,6 @@ class ParallelVis {
                     vis.svg.selectAll(".brush").call(vis.y[d].brush.clear);
                 }
                 else {
-                    console.log('.axis-'+d);
                     vis.svg.select('.axis-'+d)
                         .selectAll('.parallel-chart')
                         .style("font-weight" , "bold");
