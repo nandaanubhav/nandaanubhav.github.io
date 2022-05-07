@@ -15,21 +15,27 @@ complete page scrollable, and D3 cloud layout library for Word Cloud.
 We have also used Bootstrap for easier formatting, jQuery which was required for 
 FullPage and D3 library.
 
-The third visualization, highlights the most in-demand skills, is an Overview + Detail type
+Explanation of Complex Visualizations:
+
+The Third Visualization (BarChart.js), highlights the most in-demand skills, is an Overview + Detail type
 of visualization where we provide an overview using the mini-bar chart on the right
 side, while user can choose to focus and view details of specific region by brush.
 
-The fourth visualization tries to help future data scientists by pushing them to learn
+The Fourth Visualization (circularvis.js) tries to help future data scientists by pushing them to learn
 in-demand skills for the job roles they want, and also guides them to apply for those
 roles in specific states.
 
-The sixth visualization, parallel chart has an animation where we continue highlighting
+The Sixth Visualization (parallelvis.js), parallel chart has an animation where we continue highlighting
 some lines based on company size, and user can click on any labels or axis title to 
 stop the animation. User can also choose to select a categorical data by clicking 
 on the axis label, while linear data like Age & Salary can be highlighted using axis 
 brush. Clicking on the axis label will reset the selection for that particular axis.
 
 
-Project URL : https://nandaanubhav.github.io/
+Final Project Video: https://www.youtube.com/watch?v=dYxRvnYCJdI
 
-Screencast URL : https://www.youtube.com/watch?v=dYxRvnYCJdI
+Website: https://nandaanubhav.github.io/
+
+Github Repository: https://github.com/nandaanubhav/nandaanubhav.github.io
+
+Processed Data: https://docs.google.com/spreadsheets/d/1hlSPeyJLaGwsL1xiuEAFxIvCq2Y6ivdn/edit?usp=sharing&ouid=114574521642592778788&rtpof=true&sd=true
